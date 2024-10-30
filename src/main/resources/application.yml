@@ -1,14 +1,14 @@
 Server:
-  port: 9000
+  port: 8081
 
 spring:
   application:
     name: mentoring-service
 
   DataSource:
-    url: jdbc:mysql://localhost:3308/mentoring_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/mento
     username: root
-    password: jh8937
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
