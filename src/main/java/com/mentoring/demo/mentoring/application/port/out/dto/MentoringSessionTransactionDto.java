@@ -22,7 +22,6 @@ public class MentoringSessionTransactionDto {
 
     private String uuid;
 
-    //private MentoringEntity mentoringEntity;
     private Long mentoringId;
 
     private LocalDate startDate;

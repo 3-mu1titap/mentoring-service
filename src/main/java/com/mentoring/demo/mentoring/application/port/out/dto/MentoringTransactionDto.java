@@ -31,6 +31,7 @@ public class MentoringTransactionDto {
                 .mentorUuid(this.mentorUuid)
                 .thumbnailUrl(this.thumbnailUrl)
                 .isReusable(this.isReusable)
+                .isDeleted(this.isDeleted)
                 .build();
     }
 

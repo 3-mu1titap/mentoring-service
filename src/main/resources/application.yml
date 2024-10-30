@@ -1,8 +1,5 @@
 Server:
-  port: 0
-  # 경로
-  servlet:
-    context-path: /
+  port: 9000
 
 spring:
   application:

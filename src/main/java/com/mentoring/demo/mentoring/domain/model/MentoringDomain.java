@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.domain.model;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,9 +41,9 @@ public class MentoringDomain {
         this.updatedAt = updatedAt;
     }
 
-    public static MentoringDomain createMentoring(MentoringAddRequestDto mentoringAddRequestDto) {
+    public static MentoringDomain createMentoring(MentoringAddRequestDto mentoringAddRequestDto, String uuid) {
         return MentoringDomain.builder()
-                .uuid(UUID.randomUUID().toString()) // 멘토링 UUID 생성
+                .uuid(uuid) // 멘토링 UUID 생성
                 .name(mentoringAddRequestDto.getName())
                 .detail(mentoringAddRequestDto.getDetail())
                 .mentorUuid(mentoringAddRequestDto.getMentorUuid())
@@ -51,5 +52,16 @@ public class MentoringDomain {
                 .isDeleted(false)
                 .build();
     }
+
+    public static MentoringDomain updateMentoring(MentoringEditRequestDto mentoringEditRequestDto) {
+        return MentoringDomain.builder()
+                .uuid(mentoringEditRequestDto.getUuid())
+                .name(mentoringEditRequestDto.getName())
+                .detail(mentoringEditRequestDto.getDetail())
+                .thumbnailUrl(mentoringEditRequestDto.getThumbnailUrl())
+                .isReusable(mentoringEditRequestDto.getIsReusable())
+                .build();
+    }
+    // 서비스에서 포트에서 조회한 값을 받고, 프론트에서 받은 DTO를 도메인에서 작성
 
 }
