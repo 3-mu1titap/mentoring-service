@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class MentoringEditRequestVo {
-    @Schema(description = "멘토링 UUID")
+    @Schema(description = "변경할 멘토링 UUID", example = "멘토링 UUID")
     private String uuid;
     @Schema(description = "변경할 멘토링 이름", example = "변경된 멘토링 이름")
     private String name;

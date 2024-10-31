@@ -8,29 +8,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MentoringEditTransactionDto {
+    private String id;
     private String uuid;
     private String name;
     private String detail;
-
+    private String mentorUuid;
     private Boolean isReusable;
+    private Boolean isDeleted;
     private String thumbnailUrl;
 
     @Builder
-    public MentoringEditTransactionDto(String uuid, String name, String detail, Boolean isReusable, String thumbnailUrl) {
+    public MentoringEditTransactionDto(String id, String uuid, String name, String detail, String mentorUuid,
+                                       Boolean isReusable, Boolean isDeleted, String thumbnailUrl) {
+        this.id = id;
         this.uuid = uuid;
         this.name = name;
         this.detail = detail;
+        this.mentorUuid = mentorUuid;
         this.isReusable = isReusable;
+        this.isDeleted = isDeleted;
         this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public MentoringEntity toEntity() {
-        return MentoringEntity.builder()
-                .mentoringUuid(this.uuid)
-                .name(this.name)
-                .detail(this.detail)
-                .thumbnailUrl(this.thumbnailUrl)
-                .isReusable(this.isReusable)
-                .build();
     }
 }

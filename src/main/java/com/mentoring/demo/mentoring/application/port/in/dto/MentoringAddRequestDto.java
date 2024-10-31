@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MentoringAddRequestDto {
+public class MentoringAddRequestDto{
     private String name;
     private String detail;
     private String mentorUuid;

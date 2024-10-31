@@ -18,7 +18,7 @@ public class MentoringTimeVo {
     private LocalTime startTime;
     @Schema(description = "멘토링 세션 종료시간", example = "11:20:00")
     private LocalTime endTime;
-    @Schema(description = "멘토링 세션 예약 마감 날짜시간 ", example = "2024-10-01T09:00:00")
+    @Schema(description = "멘토링 세션 예약 마감 날짜시간", example = "2024-10-01T09:00:00")
     private LocalDateTime deadline_datetime;
 
     @Schema(description = "멘토링 세션 최소인원", example = "1")

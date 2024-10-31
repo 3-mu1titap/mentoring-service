@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @ToString
-public class MentoringTransactionDto {
+public class MentoringAddTransactionDto {
     private String mentoringUuid;
     private String name;
     private String detail;
@@ -58,7 +58,7 @@ public class MentoringTransactionDto {
     }
 
     @Builder
-    public MentoringTransactionDto(String mentoringUuid, String name, String detail, String mentorUuid,
+    public MentoringAddTransactionDto(String mentoringUuid, String name, String detail, String mentorUuid,
                                    String thumbnailUrl, Boolean isReusable, Boolean isDeleted) {
         this.mentoringUuid = mentoringUuid;
         this.name = name;
@@ -70,7 +70,7 @@ public class MentoringTransactionDto {
     }
 
     @Builder
-    public MentoringTransactionDto(List<MentoringSessionTransactionDto> sessionList) {
+    public MentoringAddTransactionDto(List<MentoringSessionTransactionDto> sessionList) {
         this.sessionList = sessionList;
     }
 }

@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'com.mysql:mysql-connector-j'
-
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'// 쿼리 파라미터 로그
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	// kafka

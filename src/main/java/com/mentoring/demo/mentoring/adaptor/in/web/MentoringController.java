@@ -5,6 +5,7 @@ import com.mentoring.demo.mentoring.adaptor.in.web.mapper.MentoringVoMapper;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringEditRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.common.entity.BaseResponse;
@@ -29,9 +30,9 @@ public class MentoringController {
     public BaseResponse<Void> createMentoring(@RequestBody MentoringAddRequestVo request) {
         MentoringAddRequestDto createMentoringDto = MentoringVoMapper.toCreateMentoringDto(request);
         // 멘토링 생성
-        mentoringUseCase.createMentoring(createMentoringDto);
+        MentoringAddAfterDto mentoringAddAfterDto = mentoringUseCase.createMentoring(createMentoringDto);
         // 멘토링 생성 이벤트 발생
-        kafkaProducer.sendCreateMentoring("create-mentoring", createMentoringDto);
+        kafkaProducer.sendCreateMentoring("create-mentoring", mentoringAddAfterDto);
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
@@ -40,13 +41,13 @@ public class MentoringController {
     @PutMapping("")
     public BaseResponse<Void> updateMentoring(@RequestBody MentoringEditRequestVo request) {
         MentoringEditRequestDto mentoringEditRequestDto = MentoringVoMapper.toUpdateMentoringDto(request);
-
         mentoringUseCase.updateMentoring(mentoringEditRequestDto);
 
-        //kafkaProducer.sendCreateMentoring("create-mentoring", createMentoringDto);
+        //kafkaProducer.sendUpdateMentoring("update-mentoring", mentoringEditRequestDto);
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     // todo : 멘토링 삭제
+
 }

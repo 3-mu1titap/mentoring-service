@@ -23,6 +23,7 @@ public class MentoringVoMapper {
                                         .endDate(timeVo.getEndDate())
                                         .startTime(timeVo.getStartTime())
                                         .endTime(timeVo.getEndTime())
+                                        .deadline_datetime(timeVo.getDeadline_datetime())
                                         .minHeadCount(timeVo.getMinHeadCount())
                                         .maxHeadCount(timeVo.getMaxHeadCount())
                                         .price(timeVo.getPrice())

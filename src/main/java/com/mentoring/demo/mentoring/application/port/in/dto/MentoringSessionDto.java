@@ -4,13 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
-public class MentoringSessionDto {
+public class MentoringSessionDto{
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
