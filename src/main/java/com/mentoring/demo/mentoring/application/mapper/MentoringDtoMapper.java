@@ -35,6 +35,10 @@ public class MentoringDtoMapper {
         return sessionDomain.stream()
                 .map(session -> MentoringSessionTransactionDto.builder()
                         .uuid(session.getUuid())
+
+                        .mentoringId(session.getMentoringId())
+                        .mentoringUuid(session.getMentoringUuid())
+
                         .startDate(session.getStartDate())
                         .endDate(session.getEndDate())
                         .startTime(session.getStartTime())
@@ -72,26 +76,26 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(outDto.getThumbnailUrl())
                 .isReusable(outDto.getIsReusable())
                 .isDeleted(outDto.getIsDeleted())
-                .mentoringSessionAddAfterDtoList(
-                        outDto.getMentoringSessionAddAfterOutDtoList().stream()
-                                .map(session -> MentoringSessionAddAfterDto.builder()
-                                                    .sessionId(session.getSessionId())
-                                                    .sessionUuid(session.getSessionUuid())
-                                                    // 멘토링 생성 후 id 할당
-                                                    .mentoringId(session.getMentoringId())
-                                                    .mentoringUuid(session.getMentoringUuid())
-                                                    .startDate(session.getStartDate())
-                                                    .endDate(session.getEndDate())
-                                                    .startTime(session.getStartTime())
-                                                    .endTime(session.getEndTime())
-                                                    .deadlineDatetime(session.getDeadlineDatetime())
-                                                    .minHeadCount(session.getMinHeadCount())
-                                                    .maxHeadCount(session.getMaxHeadCount())
-                                                    .price(session.getPrice())
-                                                    .isClosed(session.getIsClosed())
-                                                    .build())
-                                .toList()
-                )
+//                .mentoringSessionAddAfterDtoList(
+//                        outDto.getMentoringSessionAddAfterOutDtoList().stream()
+//                                .map(session -> MentoringSessionAddAfterDto.builder()
+//                                                    .sessionId(session.getSessionId())
+//                                                    .sessionUuid(session.getSessionUuid())
+//                                                    // 멘토링 생성 후 id 할당
+//                                                    .mentoringId(session.getMentoringId())
+//                                                    .mentoringUuid(session.getMentoringUuid())
+//                                                    .startDate(session.getStartDate())
+//                                                    .endDate(session.getEndDate())
+//                                                    .startTime(session.getStartTime())
+//                                                    .endTime(session.getEndTime())
+//                                                    .deadlineDatetime(session.getDeadlineDatetime())
+//                                                    .minHeadCount(session.getMinHeadCount())
+//                                                    .maxHeadCount(session.getMaxHeadCount())
+//                                                    .price(session.getPrice())
+//                                                    .isClosed(session.getIsClosed())
+//                                                    .build())
+//                                .toList()
+//                )
                 .build();
     }
 

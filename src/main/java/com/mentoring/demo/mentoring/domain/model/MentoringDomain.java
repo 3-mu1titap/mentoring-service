@@ -6,6 +6,7 @@ import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOu
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class MentoringDomain {
     private String id;
     private String uuid;

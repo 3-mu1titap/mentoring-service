@@ -30,9 +30,10 @@ public class MentoringController {
     public BaseResponse<Void> createMentoring(@RequestBody MentoringAddRequestVo request) {
         MentoringAddRequestDto createMentoringDto = MentoringVoMapper.toCreateMentoringDto(request);
         // 멘토링 생성
-        MentoringAddAfterDto mentoringAddAfterDto = mentoringUseCase.createMentoring(createMentoringDto);
+        mentoringUseCase.createMentoring(createMentoringDto);
+
         // 멘토링 생성 이벤트 발생
-        kafkaProducer.sendCreateMentoring("create-mentoring", mentoringAddAfterDto);
+        //kafkaProducer.sendCreateMentoring("create-mentoring", mentoringAddAfterDto);
 
 
         //todo kafka send가 서비스 쪽으로 들어가면 된다

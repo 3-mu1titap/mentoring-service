@@ -12,18 +12,26 @@ import java.util.List;
 
 @Component
 public class mentoringEntityMapper {
-public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
-    return MentoringEntity.builder()
-            .id(Long.valueOf(dto.getId()))
-            .mentoringUuid(dto.getUuid())
-            .mentorUuid(dto.getMentorUuid())
-            .name(dto.getName())
-            .detail(dto.getDetail())
-            .thumbnailUrl(dto.getThumbnailUrl())
-            .isReusable(dto.getIsReusable())
-            .isDeleted(dto.getIsDeleted())
-            .build();
-}
+    /**
+     * out port dto -> JPA entity 변환
+     */
+
+    // MentoringEditTransactionDto -> MentoringEntity
+    public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
+        return MentoringEntity.builder()
+                .id(Long.valueOf(dto.getId()))
+                .mentoringUuid(dto.getUuid())
+                .mentorUuid(dto.getMentorUuid())
+                .name(dto.getName())
+                .detail(dto.getDetail())
+                .thumbnailUrl(dto.getThumbnailUrl())
+                .isReusable(dto.getIsReusable())
+                .isDeleted(dto.getIsDeleted())
+                .build();
+    }
+    //
+
+
 
     public static MentoringResponseOutDto toMentoringResponseOutDto(MentoringEntity entity) {
         return MentoringResponseOutDto.builder()
@@ -39,7 +47,8 @@ public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
     }
 
     public static MentoringAddAfterOutDto toMentoringAddAfterOutDto(
-            MentoringEntity entity, List<MentoringSessionEntity> mentoringSessionEntities ) {
+            //MentoringEntity entity, List<MentoringSessionEntity> mentoringSessionEntities ) {
+            MentoringEntity entity) {
         return MentoringAddAfterOutDto.builder()
                 .mentoringId(entity.getId().toString())
                 .mentoringUuid(entity.getMentoringUuid())
@@ -49,26 +58,26 @@ public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
                 .thumbnailUrl(entity.getThumbnailUrl())
                 .isReusable(entity.getIsReusable())
                 .isDeleted(entity.getIsDeleted())
-                .mentoringSessionAddAfterOutDtoList(
-                        mentoringSessionEntities
-                                .stream()
-                                .map(mentoringSessionEntity -> MentoringSessionAddAfterOutDto.builder()
-                                        .sessionId(mentoringSessionEntity.getId().toString())
-                                        .sessionUuid(mentoringSessionEntity.getUuid())
-                                        .mentoringId(mentoringSessionEntity.getMentoringEntity().getId().toString())
-                                        .mentoringUuid(mentoringSessionEntity.getMentoringEntity().getMentoringUuid())
-                                        .startDate(mentoringSessionEntity.getStartDate())
-                                        .endDate(mentoringSessionEntity.getEndDate())
-                                        .startTime(mentoringSessionEntity.getStartTime())
-                                        .endTime(mentoringSessionEntity.getEndTime())
-                                        .deadlineDatetime(mentoringSessionEntity.getDeadlineDatetime())
-                                        .minHeadCount(mentoringSessionEntity.getMinHeadCount())
-                                        .maxHeadCount(mentoringSessionEntity.getMaxHeadCount())
-                                        .price(mentoringSessionEntity.getPrice())
-                                        .isClosed(mentoringSessionEntity.getIsClosed())
-                                        .build())
-                                .toList()
-                )
+//                .mentoringSessionAddAfterOutDtoList(
+//                        mentoringSessionEntities
+//                                .stream()
+//                                .map(mentoringSessionEntity -> MentoringSessionAddAfterOutDto.builder()
+//                                        .sessionId(mentoringSessionEntity.getId().toString())
+//                                        .sessionUuid(mentoringSessionEntity.getUuid())
+//                                        .mentoringId(mentoringSessionEntity.getMentoringEntity().getId().toString())
+//                                        .mentoringUuid(mentoringSessionEntity.getMentoringEntity().getMentoringUuid())
+//                                        .startDate(mentoringSessionEntity.getStartDate())
+//                                        .endDate(mentoringSessionEntity.getEndDate())
+//                                        .startTime(mentoringSessionEntity.getStartTime())
+//                                        .endTime(mentoringSessionEntity.getEndTime())
+//                                        .deadlineDatetime(mentoringSessionEntity.getDeadlineDatetime())
+//                                        .minHeadCount(mentoringSessionEntity.getMinHeadCount())
+//                                        .maxHeadCount(mentoringSessionEntity.getMaxHeadCount())
+//                                        .price(mentoringSessionEntity.getPrice())
+//                                        .isClosed(mentoringSessionEntity.getIsClosed())
+//                                        .build())
+//                                .toList()
+//                )
                 .build();
     }
 }

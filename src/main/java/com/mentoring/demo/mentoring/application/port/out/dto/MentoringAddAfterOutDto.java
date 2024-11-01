@@ -1,9 +1,6 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class MentoringAddAfterOutDto {
     private String mentoringId;
 
@@ -28,5 +26,5 @@ public class MentoringAddAfterOutDto {
 
     private Boolean isDeleted;
 
-    private List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterOutDtoList;
+    //private List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterOutDtoList;
 }

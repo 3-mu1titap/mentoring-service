@@ -9,7 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = "mentoringSessionAddAfterDtoList")
+//@ToString(exclude = "mentoringSessionAddAfterDtoList")
+@ToString
 public class MentoringAddAfterDto {
     private String mentoringId;
 
@@ -27,6 +28,6 @@ public class MentoringAddAfterDto {
 
     private Boolean isDeleted;
 
-    private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtoList;
+    //private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtoList;
 
 }
