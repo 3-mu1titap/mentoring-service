@@ -32,13 +32,12 @@ public class MentoringService implements MentoringUseCase {
                 MentoringDomain.createMentoring(mentoringAddRequestDto, UUID.randomUUID().toString());
         // 멘토링 도메인 -> 멘토링 트랜잭션 DTO 변환
         MentoringAddTransactionDto mentoringAddTransactionDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
-
         // 멘토링 세션
         List<MentoringSessionDomain> sessionDomain =
                 MentoringSessionDomain.createMentoringSession(mentoringAddRequestDto);
 
         List<MentoringSessionTransactionDto> sessionTransactionDto =
-                MentoringDtoMapper.toSessionTransactionDto(mentoring, sessionDomain);
+                                MentoringDtoMapper.toSessionTransactionDto(sessionDomain);
         mentoringAddTransactionDto.setSessionList(sessionTransactionDto);
 
         return MentoringDtoMapper
@@ -52,7 +51,7 @@ public class MentoringService implements MentoringUseCase {
         log.info("mentoringResponseOutDto: {}", mentoringResponseOutDto);
 
         MentoringDomain mentoringDomain =
-                MentoringDomain.updateMentoring2(mentoringEditRequestDto, mentoringResponseOutDto);
+                MentoringDomain.updateMentoring(mentoringEditRequestDto, mentoringResponseOutDto);
         MentoringEditTransactionDto mentoringEditTransactionDto =
                 MentoringDtoMapper.toMentoringEditTransactionDto(mentoringDomain);
         mentoringRepositoryOutPort.updateMentoring(mentoringEditTransactionDto);

@@ -34,6 +34,9 @@ public class MentoringController {
         // 멘토링 생성 이벤트 발생
         kafkaProducer.sendCreateMentoring("create-mentoring", mentoringAddAfterDto);
 
+
+        //todo kafka send가 서비스 쪽으로 들어가면 된다
+
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
@@ -43,7 +46,7 @@ public class MentoringController {
         MentoringEditRequestDto mentoringEditRequestDto = MentoringVoMapper.toUpdateMentoringDto(request);
         mentoringUseCase.updateMentoring(mentoringEditRequestDto);
 
-        //kafkaProducer.sendUpdateMentoring("update-mentoring", mentoringEditRequestDto);
+        kafkaProducer.sendUpdateMentoring("update-mentoring", mentoringEditRequestDto);
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }

@@ -9,8 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
-public class MentoringAddAfterDto implements Serializable {
+@ToString(exclude = "mentoringSessionAddAfterDtoList")
+public class MentoringAddAfterDto {
     private String mentoringId;
 
     private String mentoringUuid;
@@ -28,6 +28,5 @@ public class MentoringAddAfterDto implements Serializable {
     private Boolean isDeleted;
 
     private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtoList;
-
 
 }

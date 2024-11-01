@@ -56,18 +56,8 @@ public class MentoringDomain {
                 .build();
     }
 
-    public static MentoringDomain updateMentoring(MentoringEditRequestDto mentoringEditRequestDto) {
-        return MentoringDomain.builder()
-                .uuid(mentoringEditRequestDto.getUuid())
-                .name(mentoringEditRequestDto.getName())
-                .detail(mentoringEditRequestDto.getDetail())
-                .thumbnailUrl(mentoringEditRequestDto.getThumbnailUrl())
-                .isReusable(mentoringEditRequestDto.getIsReusable())
-                .build();
-    }
-
     // 서비스에서 포트에서 조회한 값을 받고, 프론트에서 받은 DTO를 도메인에서 작성
-    public static MentoringDomain updateMentoring2(
+    public static MentoringDomain updateMentoring(
             MentoringEditRequestDto editDto , MentoringResponseOutDto mentoringResponseOutDto)
     {
             return MentoringDomain.builder()

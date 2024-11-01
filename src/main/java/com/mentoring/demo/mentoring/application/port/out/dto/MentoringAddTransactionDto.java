@@ -53,6 +53,7 @@ public class MentoringAddTransactionDto {
                         .maxHeadCount(session.getMaxHeadCount())
                         .price(session.getPrice())
                         .isClosed(session.getIsClosed())
+                        .isDeleted(session.getIsDeleted())
                         .build())
                         .toList();
     }

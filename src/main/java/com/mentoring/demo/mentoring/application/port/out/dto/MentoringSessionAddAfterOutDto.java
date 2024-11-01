@@ -19,6 +19,7 @@ public class MentoringSessionAddAfterOutDto {
     private String sessionUuid;
 
     private String mentoringId;
+    private String mentoringUuid;
 
     private LocalDate startDate;
 

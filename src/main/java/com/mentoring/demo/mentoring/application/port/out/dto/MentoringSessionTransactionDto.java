@@ -1,15 +1,9 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
-import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
-import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Comment;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,7 +16,8 @@ public class MentoringSessionTransactionDto {
 
     private String uuid;
 
-    private Long mentoringId;
+    private String mentoringId;
+    private String mentoringUuid;
 
     private LocalDate startDate;
 
@@ -41,15 +36,18 @@ public class MentoringSessionTransactionDto {
     private Integer price;
 
     private Boolean isClosed;
+    private Boolean isDeleted;
 
     
     @Builder
-    public MentoringSessionTransactionDto(String uuid, Long mentoringId,
-                                          LocalDate startDate, LocalDate endDate,
-                                          LocalTime startTime, LocalTime endTime, LocalDateTime deadlineDatetime,
-                                          Integer minHeadCount, Integer maxHeadCount, Integer price, Boolean isClosed) {
+
+    public MentoringSessionTransactionDto(String uuid, String mentoringId, String mentoringUuid, LocalDate startDate,
+                                          LocalDate endDate, LocalTime startTime, LocalTime endTime,
+                                          LocalDateTime deadlineDatetime, Integer minHeadCount, Integer maxHeadCount,
+                                          Integer price, Boolean isClosed, Boolean isDeleted) {
         this.uuid = uuid;
         this.mentoringId = mentoringId;
+        this.mentoringUuid = mentoringUuid;
         this.startDate = startDate;
         this.endDate = endDate;
         this.startTime = startTime;
@@ -59,5 +57,6 @@ public class MentoringSessionTransactionDto {
         this.maxHeadCount = maxHeadCount;
         this.price = price;
         this.isClosed = isClosed;
+        this.isDeleted = isDeleted;
     }
 }

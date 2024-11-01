@@ -56,6 +56,7 @@ public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
                                         .sessionId(mentoringSessionEntity.getId().toString())
                                         .sessionUuid(mentoringSessionEntity.getUuid())
                                         .mentoringId(mentoringSessionEntity.getMentoringEntity().getId().toString())
+                                        .mentoringUuid(mentoringSessionEntity.getMentoringEntity().getMentoringUuid())
                                         .startDate(mentoringSessionEntity.getStartDate())
                                         .endDate(mentoringSessionEntity.getEndDate())
                                         .startTime(mentoringSessionEntity.getStartTime())

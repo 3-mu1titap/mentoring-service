@@ -31,7 +31,6 @@ public class MentoringDtoMapper {
 
     // MentoringSessionDomain -> MentoringSessionTransactionDto 변환
     public static List<MentoringSessionTransactionDto> toSessionTransactionDto(
-                                                                    MentoringDomain domain,
                                                                     List<MentoringSessionDomain> sessionDomain) {
         return sessionDomain.stream()
                 .map(session -> MentoringSessionTransactionDto.builder()
@@ -45,6 +44,7 @@ public class MentoringDtoMapper {
                         .maxHeadCount(session.getMaxHeadCount())
                         .price(session.getPrice())
                         .isClosed(session.getIsClosed())
+                        .isDeleted(session.getIsDeleted())
                         .build())
                 .toList();
     }
@@ -77,6 +77,9 @@ public class MentoringDtoMapper {
                                 .map(session -> MentoringSessionAddAfterDto.builder()
                                                     .sessionId(session.getSessionId())
                                                     .sessionUuid(session.getSessionUuid())
+                                                    // 멘토링 생성 후 id 할당
+                                                    .mentoringId(session.getMentoringId())
+                                                    .mentoringUuid(session.getMentoringUuid())
                                                     .startDate(session.getStartDate())
                                                     .endDate(session.getEndDate())
                                                     .startTime(session.getStartTime())

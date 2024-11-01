@@ -17,53 +17,33 @@ import org.springframework.stereotype.Service;
 public class KafkaProducer {
     //private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaTemplate<String, MentoringAddAfterDto> kafkaAddMentoringTemplate;
+    private final KafkaTemplate<String, MentoringEditRequestDto> kafkaEditMentoringTemplate;
     private final ObjectMapper mapper;
 
-//    public void sendOrderMessageObject(OrderDto orderDto) {
-//        try {
-//            orderKafkaTemplate.send(ORDER_OBJECT_TOPIC, orderDto);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
     /**
      * 멘토링 생성 이벤트 발생
      */
-//    public void sendCreateMentoring(String topic, MentoringAddAfterDto dto) {
-//        log.info("send dto :"+dto);
-//        String jsonInString = "";
-//        try {
-//            // Dto를 JSON 형식으로 변환
-//            jsonInString = mapper.writeValueAsString(dto);
-//            kafkaTemplate.send(topic, jsonInString);
-//            log.info("멘토링 생성 이벤트 jsonInString : " + jsonInString);
-//        } catch (JsonProcessingException ex) {
-//            log.error("Failed to convert MentoringAddRequestDto to JSON", ex);
-//        }
-//
-//    }
     public void sendCreateMentoring(String topic, MentoringAddAfterDto dto) {
-        log.info("send dto :"+dto);
-
-        kafkaAddMentoringTemplate.send(topic, dto);
-
+        try {
+            kafkaAddMentoringTemplate.send(topic, dto);
+        }
+        catch (Exception e) {
+            log.info("create mentoring event send 실패 : " + e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 멘토링 수정 이벤트 발생
      */
-//    public MentoringEditRequestDto sendUpdateMentoring(String topic, MentoringEditRequestDto dto) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        String jsonInString = "";
-//        try {
-//            jsonInString = mapper.writeValueAsString(dto);
-//        } catch(JsonProcessingException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        kafkaTemplate.send(topic, jsonInString);
-//
-//        return dto;
-//    }
+    public void sendUpdateMentoring(String topic, MentoringEditRequestDto dto) {
+        log.info("send update dto :"+dto);
+        try {
+            kafkaEditMentoringTemplate.send(topic, dto);
+        }
+        catch (Exception e) {
+            log.info("update mentoring event send 실패 : " + e);
+            throw new RuntimeException(e);
+        }
+    }
 }

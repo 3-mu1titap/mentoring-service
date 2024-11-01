@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.adaptor.in.kafka;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -17,18 +18,31 @@ import java.util.Map;
 @EnableKafka
 public class KafkaProducerConfig {
 
+    // 멘토링 생성 DTO
     @Bean
     public ProducerFactory<String, MentoringAddAfterDto> mentoringProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
         return new DefaultKafkaProducerFactory<>(configProps);
     }
-
     @Bean
     public KafkaTemplate<String, MentoringAddAfterDto> kafkaAddMentoringTemplate() {
         return new KafkaTemplate<>(mentoringProducerFactory());
     }
+    // 멘토링 수정 DTO
+    @Bean
+    public ProducerFactory<String, MentoringEditRequestDto> mentoringEditProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+    @Bean
+    public KafkaTemplate<String, MentoringEditRequestDto> kafkaEditMentoringTemplate() {
+        return new KafkaTemplate<>(mentoringEditProducerFactory());
+    }
+
 }

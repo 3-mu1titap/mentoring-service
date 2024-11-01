@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class MentoringSessionDomain {
 
-
     private String uuid;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -56,6 +55,7 @@ public class MentoringSessionDomain {
         return mentoringAddRequestDto.getSessionList().stream()
                 .map(timeDto -> MentoringSessionDomain.builder()
                         .uuid(UUID.randomUUID().toString()) // 멘토링 세션 UUID 생성
+                        //.mentoringId(mentoringAddRequestDto.getUuid())
                         .startDate(timeDto.getStartDate())
                         .endDate(timeDto.getEndDate())
                         .startTime(timeDto.getStartTime())
@@ -64,8 +64,6 @@ public class MentoringSessionDomain {
                         .price(timeDto.getPrice())
                         .minHeadCount(timeDto.getMinHeadCount())
                         .maxHeadCount(timeDto.getMaxHeadCount())
-                        //.createdAt(LocalDateTime.now())
-                        //.updatedAt(LocalDateTime.now())
                         .isClosed(false)
                         .isDeleted(false)
                         .build())

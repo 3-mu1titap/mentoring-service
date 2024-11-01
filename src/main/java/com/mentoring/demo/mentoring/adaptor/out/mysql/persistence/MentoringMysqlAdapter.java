@@ -26,15 +26,12 @@ public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
     @Override
     public MentoringAddAfterOutDto createMentoring(MentoringAddTransactionDto mentoringAddTransactionDto) {
         // 멘토링 저장
-        log.info("멘토링 저장 어댑터 : "+mentoringAddTransactionDto);
         MentoringEntity mentoring = mentoringJpaRepository.save(mentoringAddTransactionDto.toEntity());
 
-
         // 멘토링 세션 저장
-        List<MentoringSessionEntity> mentoringSessionEntities = mentoringSessionJpaRepository
-                .saveAll(
-                        mentoringAddTransactionDto.toSessionEntity(mentoringAddTransactionDto.getSessionList(), mentoring)
-                );
+        List<MentoringSessionEntity> mentoringSessionEntities =
+                mentoringSessionJpaRepository.saveAll(
+                        mentoringAddTransactionDto.toSessionEntity(mentoringAddTransactionDto.getSessionList(), mentoring));
         return mentoringEntityMapper.toMentoringAddAfterOutDto(mentoring, mentoringSessionEntities);
     }
 
