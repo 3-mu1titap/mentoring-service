@@ -5,12 +5,15 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEnt
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @ToString
-public class MentoringAddTransactionDto {
+public class  MentoringAddRequestOutDto {
     private String mentoringUuid;
     private String name;
     private String detail;
@@ -20,8 +23,11 @@ public class MentoringAddTransactionDto {
 
     private Boolean isDeleted;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     @Setter
-    private List<MentoringSessionTransactionDto> sessionList;
+    private List<MentoringSessionOutDto> sessionList;
 
     public MentoringEntity toEntity(){
         return MentoringEntity.builder()
@@ -36,7 +42,7 @@ public class MentoringAddTransactionDto {
     }
 
     public List<MentoringSessionEntity> toSessionEntity(
-                                                    List<MentoringSessionTransactionDto> sessionList,
+                                                    List<MentoringSessionOutDto> sessionList,
                                                     MentoringEntity mentoringEntity)
     {
         // stream 으로 변환
@@ -58,20 +64,5 @@ public class MentoringAddTransactionDto {
                         .toList();
     }
 
-    @Builder
-    public MentoringAddTransactionDto(String mentoringUuid, String name, String detail, String mentorUuid,
-                                   String thumbnailUrl, Boolean isReusable, Boolean isDeleted) {
-        this.mentoringUuid = mentoringUuid;
-        this.name = name;
-        this.detail = detail;
-        this.mentorUuid = mentorUuid;
-        this.thumbnailUrl = thumbnailUrl;
-        this.isReusable = isReusable;
-        this.isDeleted = isDeleted;
-    }
 
-    @Builder
-    public MentoringAddTransactionDto(List<MentoringSessionTransactionDto> sessionList) {
-        this.sessionList = sessionList;
-    }
 }

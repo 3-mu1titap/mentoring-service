@@ -1,11 +1,10 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddTransactionDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddRequestOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionTransactionDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,8 @@ import java.util.List;
 public class MentoringDtoMapper {
 
     // MentoringDomain -> MentoringTransactionDto 변환
-    public static MentoringAddTransactionDto toMentoringTransactionDto(MentoringDomain domain) {
-        return MentoringAddTransactionDto.builder()
+    public static MentoringAddRequestOutDto toMentoringTransactionDto(MentoringDomain domain) {
+        return MentoringAddRequestOutDto.builder()
                 .mentoringUuid(domain.getUuid())
                 .name(domain.getName())
                 .detail(domain.getDetail())
@@ -25,15 +24,14 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(domain.getThumbnailUrl())
                 .isReusable(domain.getIsReusable())
                 .isDeleted(domain.getIsDeleted())
-                //.sessionList()
                 .build();
     }
 
     // MentoringSessionDomain -> MentoringSessionTransactionDto 변환
-    public static List<MentoringSessionTransactionDto> toSessionTransactionDto(
+    public static List<MentoringSessionOutDto> toSessionOutDto(
                                                                     List<MentoringSessionDomain> sessionDomain) {
         return sessionDomain.stream()
-                .map(session -> MentoringSessionTransactionDto.builder()
+                .map(session -> MentoringSessionOutDto.builder()
                         .uuid(session.getUuid())
 
                         .mentoringId(session.getMentoringId())

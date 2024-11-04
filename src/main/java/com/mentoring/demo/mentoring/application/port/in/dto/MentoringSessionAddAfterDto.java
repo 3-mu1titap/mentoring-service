@@ -37,4 +37,9 @@ public class MentoringSessionAddAfterDto{
 
     private Boolean isClosed;
 
+    private Boolean isDeleted;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
 }

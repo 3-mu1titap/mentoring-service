@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @ToString
-public class MentoringSessionTransactionDto {
+public class MentoringSessionOutDto {
 
     private String uuid;
 
@@ -43,7 +43,7 @@ public class MentoringSessionTransactionDto {
 
     
     @Builder
-    public MentoringSessionTransactionDto(String uuid, String mentoringId, String mentoringUuid, LocalDate startDate,
+    public MentoringSessionOutDto(String uuid, String mentoringId, String mentoringUuid, LocalDate startDate,
                                           LocalDate endDate, LocalTime startTime, LocalTime endTime,
                                           LocalDateTime deadlineDatetime, Integer minHeadCount, Integer maxHeadCount,
                                           Integer price, Boolean isClosed, Boolean isDeleted) {
@@ -64,7 +64,7 @@ public class MentoringSessionTransactionDto {
 
     public static List<MentoringSessionEntity> toEntities(
             MentoringAddAfterOutDto mentoringAddAfterOutDto,
-            List<MentoringSessionTransactionDto> mentoringSessionTransactionDtoList) {
+            List<MentoringSessionOutDto> mentoringSessionTransactionDtoList) {
 
         MentoringEntity mentoringEntity = MentoringEntity.builder()
                 .id(Long.valueOf(mentoringAddAfterOutDto.getMentoringId()))

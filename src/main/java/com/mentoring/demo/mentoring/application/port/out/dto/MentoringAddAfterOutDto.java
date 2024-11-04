@@ -1,14 +1,17 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "mentoringSessionAddAfterOutDtoList")
 public class MentoringAddAfterOutDto {
     private String mentoringId;
 
@@ -26,5 +29,10 @@ public class MentoringAddAfterOutDto {
 
     private Boolean isDeleted;
 
-    //private List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterOutDtoList;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @Setter
+    private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterOutDtoList;
+
 }

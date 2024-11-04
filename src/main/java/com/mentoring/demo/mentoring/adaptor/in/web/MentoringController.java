@@ -1,11 +1,10 @@
 package com.mentoring.demo.mentoring.adaptor.in.web;
 
-import com.mentoring.demo.mentoring.adaptor.in.kafka.KafkaProducer;
+import com.mentoring.demo.mentoring.adaptor.out.kafka.KafkaProducer;
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.MentoringVoMapper;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringEditRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.common.entity.BaseResponse;
@@ -13,8 +12,6 @@ import com.mentoring.demo.mentoring.common.entity.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @Log4j2
@@ -27,16 +24,10 @@ public class MentoringController {
 
     @Operation(summary = "멘토링 생성" , description = "멘토링 기본 정보와 세션정보 받아서 멘토링 생성")
     @PostMapping("")
-    public BaseResponse<Void> createMentoring(@RequestBody MentoringAddRequestVo request) {
+    public BaseResponse<Void> createMentoringAndSession(@RequestBody MentoringAddRequestVo request) {
         MentoringAddRequestDto createMentoringDto = MentoringVoMapper.toCreateMentoringDto(request);
         // 멘토링 생성
-        mentoringUseCase.createMentoring(createMentoringDto);
-
-        // 멘토링 생성 이벤트 발생
-        //kafkaProducer.sendCreateMentoring("create-mentoring", mentoringAddAfterDto);
-
-
-        //todo kafka send가 서비스 쪽으로 들어가면 된다
+        mentoringUseCase.createMentoringWithSession(createMentoringDto);
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }

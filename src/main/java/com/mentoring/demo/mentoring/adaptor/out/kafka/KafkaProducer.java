@@ -1,29 +1,25 @@
-package com.mentoring.demo.mentoring.adaptor.in.kafka;
+package com.mentoring.demo.mentoring.adaptor.out.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class KafkaProducer {
-    //private final KafkaTemplate<String, String> kafkaTemplate;
-    private final KafkaTemplate<String, MentoringAddAfterDto> kafkaAddMentoringTemplate;
+    private final KafkaTemplate<String, MentoringAddAfterOutDto> kafkaAddMentoringTemplate;
     private final KafkaTemplate<String, MentoringEditRequestDto> kafkaEditMentoringTemplate;
-    private final ObjectMapper mapper;
 
     /**
      * 멘토링 생성 이벤트 발생
      */
-    public void sendCreateMentoring(String topic, MentoringAddAfterDto dto) {
+    public void sendCreateMentoring(String topic, MentoringAddAfterOutDto dto) {
         try {
             kafkaAddMentoringTemplate.send(topic, dto);
         }

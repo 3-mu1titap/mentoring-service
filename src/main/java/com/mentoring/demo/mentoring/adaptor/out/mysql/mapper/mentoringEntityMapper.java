@@ -2,10 +2,8 @@ package com.mentoring.demo.mentoring.adaptor.out.mysql.mapper;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -58,26 +56,34 @@ public class mentoringEntityMapper {
                 .thumbnailUrl(entity.getThumbnailUrl())
                 .isReusable(entity.getIsReusable())
                 .isDeleted(entity.getIsDeleted())
-//                .mentoringSessionAddAfterOutDtoList(
-//                        mentoringSessionEntities
-//                                .stream()
-//                                .map(mentoringSessionEntity -> MentoringSessionAddAfterOutDto.builder()
-//                                        .sessionId(mentoringSessionEntity.getId().toString())
-//                                        .sessionUuid(mentoringSessionEntity.getUuid())
-//                                        .mentoringId(mentoringSessionEntity.getMentoringEntity().getId().toString())
-//                                        .mentoringUuid(mentoringSessionEntity.getMentoringEntity().getMentoringUuid())
-//                                        .startDate(mentoringSessionEntity.getStartDate())
-//                                        .endDate(mentoringSessionEntity.getEndDate())
-//                                        .startTime(mentoringSessionEntity.getStartTime())
-//                                        .endTime(mentoringSessionEntity.getEndTime())
-//                                        .deadlineDatetime(mentoringSessionEntity.getDeadlineDatetime())
-//                                        .minHeadCount(mentoringSessionEntity.getMinHeadCount())
-//                                        .maxHeadCount(mentoringSessionEntity.getMaxHeadCount())
-//                                        .price(mentoringSessionEntity.getPrice())
-//                                        .isClosed(mentoringSessionEntity.getIsClosed())
-//                                        .build())
-//                                .toList()
-//                )
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .build();
     }
-}
+    public static List<MentoringSessionAddAfterDto> toMentoringSessionAddAfterDto(
+                                                     List<MentoringSessionEntity> mentoringSessionEntities
+    ) {
+        return mentoringSessionEntities.stream()
+                .map(session -> MentoringSessionAddAfterDto.builder()
+                        .sessionId(session.getId().toString())
+                        .sessionUuid(session.getUuid())
+                        .mentoringId(session.getMentoringEntity().getId().toString())
+                        .mentoringUuid(session.getMentoringEntity().getMentoringUuid())
+                        .startDate(session.getStartDate())
+                        .endDate(session.getEndDate())
+                        .startTime(session.getStartTime())
+                        .endTime(session.getEndTime())
+                        .deadlineDatetime(session.getDeadlineDatetime())
+                        .minHeadCount(session.getMinHeadCount())
+                        .maxHeadCount(session.getMaxHeadCount())
+                        .price(session.getPrice())
+                        .isClosed(session.getIsClosed())
+                        .isDeleted(session.getIsDeleted())
+                        .createdAt(session.getCreatedAt())
+                        .updatedAt(session.getUpdatedAt())
+                        .build())
+                .toList();
+
+    }
+
+ }

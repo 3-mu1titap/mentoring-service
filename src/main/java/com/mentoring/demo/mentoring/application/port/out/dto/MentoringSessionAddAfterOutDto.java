@@ -38,5 +38,6 @@ public class MentoringSessionAddAfterOutDto {
     private Integer price;
 
     private Boolean isClosed;
+    private Boolean isDeleted;
 }
 
