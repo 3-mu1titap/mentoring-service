@@ -4,6 +4,4 @@ import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestD
 
 public interface MentoringSessionUseCase {
 
-    // 멘토링 시간 생성
-    void createSession();
 }

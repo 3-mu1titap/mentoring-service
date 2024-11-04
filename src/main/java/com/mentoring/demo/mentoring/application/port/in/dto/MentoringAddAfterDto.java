@@ -2,15 +2,15 @@ package com.mentoring.demo.mentoring.application.port.in.dto;
 
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
-public class MentoringAddAfterDto implements Serializable {
+@ToString(exclude = "mentoringSessionAddAfterDtoList")
+//@ToString
+public class MentoringAddAfterDto {
     private String mentoringId;
 
     private String mentoringUuid;
@@ -27,7 +27,7 @@ public class MentoringAddAfterDto implements Serializable {
 
     private Boolean isDeleted;
 
+    @Setter
     private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtoList;
-
 
 }

@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class MentoringEditRequestDto {
+public class MentoringEditRequestDto{
 
     private String uuid;
     private String name;

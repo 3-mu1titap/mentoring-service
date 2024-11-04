@@ -60,15 +60,20 @@ public class MentoringSessionEntity extends BaseEntity {
     @Comment("볼트")
     private Integer price;
 
-    @Column(name = "isClosed" , nullable = false)
+    @Column(name = "is_closed" , nullable = false)
     @Comment("마감 여부")
     private Boolean isClosed;
+
+    @Column(name = "is_deleted" , nullable = false)
+    @Comment("삭제 여부")
+    private Boolean isDeleted;
 
     @Builder
     public MentoringSessionEntity(String uuid, MentoringEntity mentoringEntity,
                                   LocalDate startDate, LocalDate endDate,
                                   LocalTime startTime, LocalTime endTime, LocalDateTime deadlineDatetime,
-                                  Integer minHeadCount, Integer maxHeadCount, Integer price, Boolean isClosed) {
+                                  Integer minHeadCount, Integer maxHeadCount, Integer price,
+                                  Boolean isClosed, Boolean isDeleted) {
         this.uuid = uuid;
         this.mentoringEntity = mentoringEntity;
         this.startDate = startDate;
@@ -80,5 +85,6 @@ public class MentoringSessionEntity extends BaseEntity {
         this.maxHeadCount = maxHeadCount;
         this.price = price;
         this.isClosed = isClosed;
+        this.isDeleted = isDeleted;
     }
 }

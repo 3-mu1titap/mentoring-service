@@ -19,6 +19,7 @@ public class MentoringSessionAddAfterOutDto {
     private String sessionUuid;
 
     private String mentoringId;
+    private String mentoringUuid;
 
     private LocalDate startDate;
 
@@ -37,5 +38,6 @@ public class MentoringSessionAddAfterOutDto {
     private Integer price;
 
     private Boolean isClosed;
+    private Boolean isDeleted;
 }
 

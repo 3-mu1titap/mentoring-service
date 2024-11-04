@@ -2,20 +2,20 @@ package com.mentoring.demo.mentoring.application.service;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.application.mapper.MentoringDtoMapper;
+import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionTransactionDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.*;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,26 +23,36 @@ import java.util.UUID;
 @Log4j2
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MentoringService implements MentoringUseCase {
     private final MentoringRepositoryOutPort mentoringRepositoryOutPort;
+    private final SendMessageUseCase sendMessageUseCase;
 
     @Override
-    public MentoringAddAfterDto createMentoring(MentoringAddRequestDto mentoringAddRequestDto) {
+    public void createMentoringWithSession(MentoringAddRequestDto mentoringAddRequestDto) {
+        // 멘토링 도메인 생성
         MentoringDomain mentoring =
                 MentoringDomain.createMentoring(mentoringAddRequestDto, UUID.randomUUID().toString());
-        // 멘토링 도메인 -> 멘토링 트랜잭션 DTO 변환
-        MentoringAddTransactionDto mentoringAddTransactionDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
+        MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
+        MentoringAddAfterOutDto mentoringAddAfterOutDto =
+                mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto); // 멘토링 저장
 
-        // 멘토링 세션
+        // 멘토링 세션 도메인 생성
         List<MentoringSessionDomain> sessionDomain =
-                MentoringSessionDomain.createMentoringSession(mentoringAddRequestDto);
+                MentoringSessionDomain.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestDto.getSessionList());
+        List<MentoringSessionOutDto> sessionOutDto = MentoringDtoMapper.toSessionOutDto(sessionDomain);
+        mentoringAddRequestOutDto.setSessionList(sessionOutDto);
+        // 멘토링 세션 저장 (이미 저장된 멘토링을 인자로 넣음)
+        List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtos =
+                mentoringRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, sessionOutDto);
 
-        List<MentoringSessionTransactionDto> sessionTransactionDto =
-                MentoringDtoMapper.toSessionTransactionDto(mentoring, sessionDomain);
-        mentoringAddTransactionDto.setSessionList(sessionTransactionDto);
 
-        return MentoringDtoMapper
-                .toMentoringAddAfterDto(mentoringRepositoryOutPort.createMentoring(mentoringAddTransactionDto));
+        mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDtos);
+        log.info("mentoringAddAfterOutDto: {}", mentoringAddAfterOutDto);
+        // 메시지 전송
+        sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
+
+
     }
 
     @Override
@@ -52,7 +62,7 @@ public class MentoringService implements MentoringUseCase {
         log.info("mentoringResponseOutDto: {}", mentoringResponseOutDto);
 
         MentoringDomain mentoringDomain =
-                MentoringDomain.updateMentoring2(mentoringEditRequestDto, mentoringResponseOutDto);
+                MentoringDomain.updateMentoring(mentoringEditRequestDto, mentoringResponseOutDto);
         MentoringEditTransactionDto mentoringEditTransactionDto =
                 MentoringDtoMapper.toMentoringEditTransactionDto(mentoringDomain);
         mentoringRepositoryOutPort.updateMentoring(mentoringEditTransactionDto);

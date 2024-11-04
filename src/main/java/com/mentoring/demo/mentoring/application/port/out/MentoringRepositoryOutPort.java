@@ -1,13 +1,15 @@
 package com.mentoring.demo.mentoring.application.port.out;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.*;
+
+import java.util.List;
 
 public interface MentoringRepositoryOutPort {
-    MentoringAddAfterOutDto createMentoring(MentoringAddTransactionDto mentoringTransactionDto);
+    MentoringAddAfterOutDto createMentoring(MentoringAddRequestOutDto mentoringAddRequestOutDto);
+
+    List<MentoringSessionAddAfterDto> createMentoringSession(MentoringAddAfterOutDto mentoringAddAfterOutDto, List<MentoringSessionOutDto> sessionTransactionDto);
 
     void updateMentoring(MentoringEditTransactionDto mentoringEditTransactionDto);
 

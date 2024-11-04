@@ -1,11 +1,10 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddTransactionDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddRequestOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionTransactionDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,8 @@ import java.util.List;
 public class MentoringDtoMapper {
 
     // MentoringDomain -> MentoringTransactionDto 변환
-    public static MentoringAddTransactionDto toMentoringTransactionDto(MentoringDomain domain) {
-        return MentoringAddTransactionDto.builder()
+    public static MentoringAddRequestOutDto toMentoringTransactionDto(MentoringDomain domain) {
+        return MentoringAddRequestOutDto.builder()
                 .mentoringUuid(domain.getUuid())
                 .name(domain.getName())
                 .detail(domain.getDetail())
@@ -25,17 +24,19 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(domain.getThumbnailUrl())
                 .isReusable(domain.getIsReusable())
                 .isDeleted(domain.getIsDeleted())
-                //.sessionList()
                 .build();
     }
 
     // MentoringSessionDomain -> MentoringSessionTransactionDto 변환
-    public static List<MentoringSessionTransactionDto> toSessionTransactionDto(
-                                                                    MentoringDomain domain,
+    public static List<MentoringSessionOutDto> toSessionOutDto(
                                                                     List<MentoringSessionDomain> sessionDomain) {
         return sessionDomain.stream()
-                .map(session -> MentoringSessionTransactionDto.builder()
+                .map(session -> MentoringSessionOutDto.builder()
                         .uuid(session.getUuid())
+
+                        .mentoringId(session.getMentoringId())
+                        .mentoringUuid(session.getMentoringUuid())
+
                         .startDate(session.getStartDate())
                         .endDate(session.getEndDate())
                         .startTime(session.getStartTime())
@@ -45,6 +46,7 @@ public class MentoringDtoMapper {
                         .maxHeadCount(session.getMaxHeadCount())
                         .price(session.getPrice())
                         .isClosed(session.getIsClosed())
+                        .isDeleted(session.getIsDeleted())
                         .build())
                 .toList();
     }
@@ -72,23 +74,26 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(outDto.getThumbnailUrl())
                 .isReusable(outDto.getIsReusable())
                 .isDeleted(outDto.getIsDeleted())
-                .mentoringSessionAddAfterDtoList(
-                        outDto.getMentoringSessionAddAfterOutDtoList().stream()
-                                .map(session -> MentoringSessionAddAfterDto.builder()
-                                                    .sessionId(session.getSessionId())
-                                                    .sessionUuid(session.getSessionUuid())
-                                                    .startDate(session.getStartDate())
-                                                    .endDate(session.getEndDate())
-                                                    .startTime(session.getStartTime())
-                                                    .endTime(session.getEndTime())
-                                                    .deadlineDatetime(session.getDeadlineDatetime())
-                                                    .minHeadCount(session.getMinHeadCount())
-                                                    .maxHeadCount(session.getMaxHeadCount())
-                                                    .price(session.getPrice())
-                                                    .isClosed(session.getIsClosed())
-                                                    .build())
-                                .toList()
-                )
+//                .mentoringSessionAddAfterDtoList(
+//                        outDto.getMentoringSessionAddAfterOutDtoList().stream()
+//                                .map(session -> MentoringSessionAddAfterDto.builder()
+//                                                    .sessionId(session.getSessionId())
+//                                                    .sessionUuid(session.getSessionUuid())
+//                                                    // 멘토링 생성 후 id 할당
+//                                                    .mentoringId(session.getMentoringId())
+//                                                    .mentoringUuid(session.getMentoringUuid())
+//                                                    .startDate(session.getStartDate())
+//                                                    .endDate(session.getEndDate())
+//                                                    .startTime(session.getStartTime())
+//                                                    .endTime(session.getEndTime())
+//                                                    .deadlineDatetime(session.getDeadlineDatetime())
+//                                                    .minHeadCount(session.getMinHeadCount())
+//                                                    .maxHeadCount(session.getMaxHeadCount())
+//                                                    .price(session.getPrice())
+//                                                    .isClosed(session.getIsClosed())
+//                                                    .build())
+//                                .toList()
+//                )
                 .build();
     }
 

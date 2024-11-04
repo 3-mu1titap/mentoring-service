@@ -5,15 +5,12 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEnt
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.mentoringEntityMapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionJpaRepository;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,18 +21,23 @@ public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
     private final MentoringSessionJpaRepository mentoringSessionJpaRepository;
 
     @Override
-    public MentoringAddAfterOutDto createMentoring(MentoringAddTransactionDto mentoringAddTransactionDto) {
+    public MentoringAddAfterOutDto createMentoring(MentoringAddRequestOutDto mentoringAddRequestOutDto) {
         // 멘토링 저장
-        log.info("멘토링 저장 어댑터 : "+mentoringAddTransactionDto);
-        MentoringEntity mentoring = mentoringJpaRepository.save(mentoringAddTransactionDto.toEntity());
+        MentoringEntity mentoring = mentoringJpaRepository.save(mentoringAddRequestOutDto.toEntity());
 
+        return mentoringEntityMapper.toMentoringAddAfterOutDto(mentoring);
+    }
 
+    @Override
+    public List<MentoringSessionAddAfterDto> createMentoringSession(
+            MentoringAddAfterOutDto mentoringAddAfterOutDto,
+            List<MentoringSessionOutDto> sessionOutDto)
+    {
         // 멘토링 세션 저장
-        List<MentoringSessionEntity> mentoringSessionEntities = mentoringSessionJpaRepository
-                .saveAll(
-                        mentoringAddTransactionDto.toSessionEntity(mentoringAddTransactionDto.getSessionList(), mentoring)
-                );
-        return mentoringEntityMapper.toMentoringAddAfterOutDto(mentoring, mentoringSessionEntities);
+        List<MentoringSessionEntity> mentoringSessionEntities =
+                mentoringSessionJpaRepository.saveAll(MentoringSessionOutDto.toEntities(mentoringAddAfterOutDto, sessionOutDto));
+
+        return mentoringEntityMapper.toMentoringSessionAddAfterDto(mentoringSessionEntities);
     }
 
     @Override
