@@ -2,6 +2,7 @@ package com.mentoring.demo.mentoring.adaptor.out.kafka;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditRequestOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KafkaProducer {
     private final KafkaTemplate<String, MentoringAddAfterOutDto> kafkaAddMentoringTemplate;
-    private final KafkaTemplate<String, MentoringEditRequestDto> kafkaEditMentoringTemplate;
+    private final KafkaTemplate<String, MentoringEditRequestOutDto> kafkaEditMentoringTemplate;
 
     /**
      * 멘토링 생성 이벤트 발생
@@ -32,7 +33,7 @@ public class KafkaProducer {
     /**
      * 멘토링 수정 이벤트 발생
      */
-    public void sendUpdateMentoring(String topic, MentoringEditRequestDto dto) {
+    public void sendUpdateMentoring(String topic, MentoringEditRequestOutDto dto) {
         log.info("send update dto :"+dto);
         try {
             kafkaEditMentoringTemplate.send(topic, dto);

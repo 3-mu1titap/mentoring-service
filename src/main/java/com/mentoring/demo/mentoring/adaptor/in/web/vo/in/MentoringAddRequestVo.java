@@ -1,11 +1,7 @@
-package com.mentoring.demo.mentoring.adaptor.in.web.vo;
+package com.mentoring.demo.mentoring.adaptor.in.web.vo.in;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 
 import java.util.List;
 
@@ -23,6 +19,7 @@ public class MentoringAddRequestVo {
     private String thumbnailUrl;
 
     private List<MentoringTimeVo> sessionList;
+    private List<MentoringCategoryVo> categoryList;
 
 
 }

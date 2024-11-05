@@ -1,7 +1,10 @@
-package com.mentoring.demo.mentoring.adaptor.in.web.vo;
+package com.mentoring.demo.mentoring.adaptor.in.web.vo.in;
 
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class MentoringEditRequestVo {
@@ -17,5 +20,7 @@ public class MentoringEditRequestVo {
 
     @Schema(description = "변경할 멘토링 쌈네일 url", example = "https://google.com")
     private String thumbnailUrl;
+
+    private List<MentoringCategoryVo> categoryList;
 
 }

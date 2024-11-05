@@ -63,21 +63,20 @@ public class MentoringSessionOutDto {
     }
 
     public static List<MentoringSessionEntity> toEntities(
-            MentoringAddAfterOutDto mentoringAddAfterOutDto,
-            List<MentoringSessionOutDto> mentoringSessionTransactionDtoList) {
-
+            MentoringAddAfterOutDto afterOutDto, MentoringAddRequestOutDto outDto)
+    {
         MentoringEntity mentoringEntity = MentoringEntity.builder()
-                .id(Long.valueOf(mentoringAddAfterOutDto.getMentoringId()))
-                .mentoringUuid(mentoringAddAfterOutDto.getMentoringUuid())
-                .name(mentoringAddAfterOutDto.getName())
-                .detail(mentoringAddAfterOutDto.getDetail())
-                .mentorUuid(mentoringAddAfterOutDto.getMentorUuid())
-                .thumbnailUrl(mentoringAddAfterOutDto.getThumbnailUrl())
-                .isReusable(mentoringAddAfterOutDto.getIsReusable())
-                .isDeleted(mentoringAddAfterOutDto.getIsDeleted())
+                .id(Long.valueOf(afterOutDto.getMentoringId()))
+                .mentoringUuid(outDto.getMentoringUuid())
+                .name(outDto.getName())
+                .detail(outDto.getDetail())
+                .mentorUuid(outDto.getMentorUuid())
+                .thumbnailUrl(outDto.getThumbnailUrl())
+                .isReusable(outDto.getIsReusable())
+                .isDeleted(outDto.getIsDeleted())
                 .build();
 
-        return mentoringSessionTransactionDtoList.stream()
+        return outDto.getSessionList().stream()
                 .map(
                     mentoringSessionTransactionDto
                             -> MentoringSessionEntity.builder()

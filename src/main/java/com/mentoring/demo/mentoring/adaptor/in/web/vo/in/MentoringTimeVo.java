@@ -1,4 +1,4 @@
-package com.mentoring.demo.mentoring.adaptor.in.web.vo;
+package com.mentoring.demo.mentoring.adaptor.in.web.vo.in;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

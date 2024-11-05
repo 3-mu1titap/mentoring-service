@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = "mentoringSessionAddAfterOutDtoList")
+@ToString(exclude = {"mentoringSessionAddAfterOutDtoList", "mentoringCategoryOutDtoList"})
 public class MentoringAddAfterOutDto {
     private String mentoringId;
 
@@ -33,6 +34,9 @@ public class MentoringAddAfterOutDto {
     private LocalDateTime updatedAt;
 
     @Setter
-    private List<MentoringSessionAddAfterDto> mentoringSessionAddAfterOutDtoList;
+    private List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterOutDtoList;
+
+    @Setter
+    private List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtoList;
 
 }

@@ -1,7 +1,5 @@
 package com.mentoring.demo.mentoring.application.port.in;
 
-import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringAddRequestVo;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 

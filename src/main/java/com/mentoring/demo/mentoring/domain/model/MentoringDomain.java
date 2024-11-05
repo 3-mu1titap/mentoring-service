@@ -3,16 +3,17 @@ package com.mentoring.demo.mentoring.domain.model;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class MentoringDomain {
@@ -29,32 +30,67 @@ public class MentoringDomain {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private List<MentoringSessionDomain> mentoringSessions;
+    private List<MentoringCategoryDomain> mentoringCategories;
 
-    @Builder
-    public MentoringDomain(String id, String uuid, String name, String detail, String mentorUuid, String thumbnailUrl,
-                           Boolean isReusable, Boolean isDeleted,
-                           LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.uuid = uuid;
-        this.name = name;
-        this.detail = detail;
-        this.mentorUuid = mentorUuid;
-        this.thumbnailUrl = thumbnailUrl;
-        this.isReusable = isReusable;
-        this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+
+    // 도메인 카테고리 검사하는 도메인 로직
+    public void checkSessionAndCategory() {
+        if (this.mentoringCategories == null) {
+            throw new IllegalArgumentException("멘토링 카테고리가 존재하지 않습니다.");
+        }
+        if (this.mentoringSessions == null) {
+            throw new IllegalArgumentException("멘토링 세션이 존재하지 않습니다.");
+        }
+    }
+    // 업데이트 체크
+    public static void checkUpdateObject(MentoringResponseOutDto mentoringResponseOutDto) {
+        if(mentoringResponseOutDto == null){
+            throw new IllegalArgumentException("업데이트 하려는 멘토링이 존재하지 않습니다.");
+        }
     }
 
-    public static MentoringDomain createMentoring(MentoringAddRequestDto mentoringAddRequestDto, String uuid) {
+    public static MentoringDomain createMentoring(MentoringAddRequestDto dto, String uuid) {
         return MentoringDomain.builder()
                 .uuid(uuid) // 멘토링 UUID 생성
-                .name(mentoringAddRequestDto.getName())
-                .detail(mentoringAddRequestDto.getDetail())
-                .mentorUuid(mentoringAddRequestDto.getMentorUuid())
-                .thumbnailUrl(mentoringAddRequestDto.getThumbnailUrl())
-                .isReusable(mentoringAddRequestDto.getIsReusable())
+                .name(dto.getName())
+                .detail(dto.getDetail())
+                .mentorUuid(dto.getMentorUuid())
+                .thumbnailUrl(dto.getThumbnailUrl())
+                .isReusable(dto.getIsReusable())
                 .isDeleted(false)
+                .mentoringSessions( // 멘토링 세션
+                        dto.getSessionList().stream()
+                        .map(
+                                session -> MentoringSessionDomain.builder()
+                                            .uuid(UUID.randomUUID().toString())
+                                            //.mentoringId()
+                                            .mentoringUuid(uuid)
+                                            .startDate(session.getStartDate())
+                                            .endDate(session.getEndDate())
+                                            .startTime(session.getStartTime())
+                                            .endTime(session.getEndTime())
+                                            .deadlineDate(session.getDeadline_datetime())
+                                            .price(session.getPrice())
+                                            .minHeadCount(session.getMinHeadCount())
+                                            .maxHeadCount(session.getMaxHeadCount())
+                                            .isClosed(false)
+                                            .isDeleted(false)
+                                            .build()
+                        ).toList()
+                )
+                .mentoringCategories( // 멘토링 카테고리
+                        dto.getCategoryList().stream()
+                        .map(
+                                category -> MentoringCategoryDomain.builder()
+                                                .mentoringUuid(uuid)
+                                                .topCategoryCode(category.getTopCategoryCode())
+                                                .middleCategoryCode(category.getMiddleCategoryCode())
+                                                .bottomCategoryCode(category.getBottomCategoryCode())
+                                                .categoryName(category.getCategoryName())
+                                                .build()
+                        ).toList()
+                )
                 .build();
     }
 
@@ -71,6 +107,18 @@ public class MentoringDomain {
                 .thumbnailUrl(editDto.getThumbnailUrl())
                 .isReusable(editDto.getIsReusable())
                 .isDeleted(mentoringResponseOutDto.getIsDeleted())
+                .mentoringCategories( // 멘토링 카테고리
+                        editDto.getCategoryList().stream()
+                                .map(
+                                        category -> MentoringCategoryDomain.builder()
+                                                .mentoringUuid(mentoringResponseOutDto.getUuid())
+                                                .topCategoryCode(category.getTopCategoryCode())
+                                                .middleCategoryCode(category.getMiddleCategoryCode())
+                                                .bottomCategoryCode(category.getBottomCategoryCode())
+                                                .categoryName(category.getCategoryName())
+                                                .build()
+                                ).toList()
+                )
                 .build();
     }
 }

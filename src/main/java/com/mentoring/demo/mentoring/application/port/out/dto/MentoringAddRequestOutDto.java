@@ -1,5 +1,6 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
+import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionDto;
@@ -28,6 +29,8 @@ public class  MentoringAddRequestOutDto {
 
     @Setter
     private List<MentoringSessionOutDto> sessionList;
+    @Setter
+    private List<MentoringCategoryOutDto> categoryList;
 
     public MentoringEntity toEntity(){
         return MentoringEntity.builder()
@@ -64,5 +67,31 @@ public class  MentoringAddRequestOutDto {
                         .toList();
     }
 
+    public static List<MentoringCategoryEntity> toMentoringCategoryEntity(
+            MentoringAddAfterOutDto afterOutDto, List<MentoringCategoryOutDto> categoryOutList
+    )
+    {
+        MentoringEntity mentoringEntity = MentoringEntity.builder()
+                .id(Long.valueOf(afterOutDto.getMentoringId()))
+                .mentoringUuid(afterOutDto.getMentoringUuid())
+                .name(afterOutDto.getName())
+                .detail(afterOutDto.getDetail())
+                .mentorUuid(afterOutDto.getMentorUuid())
+                .thumbnailUrl(afterOutDto.getThumbnailUrl())
+                .isReusable(afterOutDto.getIsReusable())
+                .isDeleted(afterOutDto.getIsDeleted())
+                .build();
+
+        // stream 으로 변환
+        return categoryOutList.stream()
+                .map(category -> MentoringCategoryEntity.builder()
+                        .mentoringUuid(afterOutDto.getMentoringUuid())
+                        .topCategoryCode(category.getTopCategoryCode())
+                        .middleCategoryCode(category.getMiddleCategoryCode())
+                        .bottomCategoryCode(category.getBottomCategoryCode())
+                        .mentoringEntity(mentoringEntity)
+                        .build())
+                        .toList();
+    }
 
 }
