@@ -1,17 +1,13 @@
 package com.mentoring.demo.mentoring.application.service;
 
-import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.application.mapper.MentoringDtoMapper;
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.*;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
-import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,22 +29,25 @@ public class MentoringService implements MentoringUseCase {
         // 멘토링 도메인 생성
         MentoringDomain mentoring =
                 MentoringDomain.createMentoring(mentoringAddRequestDto, UUID.randomUUID().toString());
+        // 멘토링 세션+카테고리 null 검사
+        mentoring.checkSessionAndCategory();
+
         MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
+
+        // 멘토링 저장
         MentoringAddAfterOutDto mentoringAddAfterOutDto =
-                mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto); // 멘토링 저장
-
-        // 멘토링 세션 도메인 생성
-        List<MentoringSessionDomain> sessionDomain =
-                MentoringSessionDomain.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestDto.getSessionList());
-        List<MentoringSessionOutDto> sessionOutDto = MentoringDtoMapper.toSessionOutDto(sessionDomain);
-        mentoringAddRequestOutDto.setSessionList(sessionOutDto);
-        // 멘토링 세션 저장 (이미 저장된 멘토링을 인자로 넣음)
-        List<MentoringSessionAddAfterDto> mentoringSessionAddAfterDtos =
-                mentoringRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, sessionOutDto);
+                mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto);
+        // 멘토링 세션 저장
+        List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterDto =
+                mentoringRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
+        // 멘토링 카테고리 저장
+        List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
+                mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
 
 
-        mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDtos);
-        log.info("mentoringAddAfterOutDto: {}", mentoringAddAfterOutDto);
+        // 저장 이후 시점의 세션+카테고리를 mentoringAddAfterOutDto에 set
+        mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
+        mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
         // 메시지 전송
         sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
 
@@ -59,13 +58,27 @@ public class MentoringService implements MentoringUseCase {
     public void updateMentoring(MentoringEditRequestDto mentoringEditRequestDto) {
         MentoringResponseOutDto mentoringResponseOutDto =
                 mentoringRepositoryOutPort.findByMentoringUuid(mentoringEditRequestDto.getUuid());
-        log.info("mentoringResponseOutDto: {}", mentoringResponseOutDto);
-
+        // 업데이트 검사
+        MentoringDomain.checkUpdateObject(mentoringResponseOutDto);
+        // 멘토링 카테고리 삭제
+        if(null != mentoringEditRequestDto.getCategoryList()) {
+            mentoringRepositoryOutPort.deleteMentoringCategory(mentoringEditRequestDto.getUuid());
+        }
         MentoringDomain mentoringDomain =
                 MentoringDomain.updateMentoring(mentoringEditRequestDto, mentoringResponseOutDto);
-        MentoringEditTransactionDto mentoringEditTransactionDto =
-                MentoringDtoMapper.toMentoringEditTransactionDto(mentoringDomain);
-        mentoringRepositoryOutPort.updateMentoring(mentoringEditTransactionDto);
 
+        MentoringEditRequestOutDto mentoringEditRequestOutDto =
+                MentoringDtoMapper.toMentoringEditRequestOutDto(mentoringDomain);
+
+        // 멘토링 카테고리 저장
+        List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtos =
+                mentoringRepositoryOutPort.updateMentoring(mentoringEditRequestOutDto);
+
+        mentoringEditRequestOutDto.setCategoryList(mentoringCategoryAfterOutDtos);
+
+        //
+        log.info("업데이트 완료 mentoringEditRequestOutDto : "+mentoringEditRequestOutDto);
+        log.info("업데이트 완료 getCategoryList : "+mentoringEditRequestOutDto.getCategoryList());
+        sendMessageUseCase.sendUpdateMentoringMessage("update-mentoring", mentoringEditRequestOutDto);
     }
 }

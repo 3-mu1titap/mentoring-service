@@ -1,8 +1,10 @@
 package com.mentoring.demo.mentoring.adaptor.in.web.mapper;
 
-import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringAddRequestVo;
-import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringEditRequestVo;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringAddRequestVo;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringCategoryVo;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringEditRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionDto;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,18 @@ public class MentoringVoMapper {
                                 )
                                 .toList()
                 )
+                .categoryList(
+                        vo.getCategoryList().stream()
+                                .map(categoryVo ->
+                                            MentoringCategoryDto.builder()
+                                                .topCategoryCode(categoryVo.getTopCategoryCode())
+                                                .middleCategoryCode(categoryVo.getMiddleCategoryCode())
+                                                .bottomCategoryCode(categoryVo.getBottomCategoryCode())
+                                                .categoryName(categoryVo.getCategoryName())
+                                                .build()
+                                )
+                                .toList()
+                )
                 .build();
 
     }
@@ -42,6 +56,18 @@ public class MentoringVoMapper {
                 .detail(vo.getDetail())
                 .isReusable(vo.getIsReusable())
                 .thumbnailUrl(vo.getThumbnailUrl())
+                .categoryList(
+                        vo.getCategoryList().stream()
+                                .map(categoryVo ->
+                                        MentoringCategoryDto.builder()
+                                                .topCategoryCode(categoryVo.getTopCategoryCode())
+                                                .middleCategoryCode(categoryVo.getMiddleCategoryCode())
+                                                .bottomCategoryCode(categoryVo.getBottomCategoryCode())
+                                                .categoryName(categoryVo.getCategoryName())
+                                                .build()
+                                )
+                                .toList()
+                )
                 .build();
     }
 }

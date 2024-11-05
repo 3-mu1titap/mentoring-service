@@ -1,5 +1,6 @@
 package com.mentoring.demo.mentoring.adaptor.out.mysql.mapper;
 
+import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
@@ -7,6 +8,8 @@ import com.mentoring.demo.mentoring.application.port.out.dto.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class mentoringEntityMapper {
@@ -15,7 +18,7 @@ public class mentoringEntityMapper {
      */
 
     // MentoringEditTransactionDto -> MentoringEntity
-    public static MentoringEntity toMentoring( MentoringEditTransactionDto dto) {
+    public static MentoringEntity toMentoring( MentoringEditRequestOutDto dto) {
         return MentoringEntity.builder()
                 .id(Long.valueOf(dto.getId()))
                 .mentoringUuid(dto.getUuid())
@@ -60,11 +63,11 @@ public class mentoringEntityMapper {
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
-    public static List<MentoringSessionAddAfterDto> toMentoringSessionAddAfterDto(
+    public static List<MentoringSessionAddAfterOutDto> toMentoringSessionAddAfterDto(
                                                      List<MentoringSessionEntity> mentoringSessionEntities
     ) {
         return mentoringSessionEntities.stream()
-                .map(session -> MentoringSessionAddAfterDto.builder()
+                .map(session -> MentoringSessionAddAfterOutDto.builder()
                         .sessionId(session.getId().toString())
                         .sessionUuid(session.getUuid())
                         .mentoringId(session.getMentoringEntity().getId().toString())
@@ -83,7 +86,53 @@ public class mentoringEntityMapper {
                         .updatedAt(session.getUpdatedAt())
                         .build())
                 .toList();
+    }
+    public static List<MentoringCategoryAfterOutDto> toMentoringCategoryAfterOutDto(
+            List<MentoringCategoryEntity> categoryEntities,
+            List<MentoringCategoryOutDto> mentoringAddRequestOutDtos
+    ) {
+        return IntStream.range(0, categoryEntities.size())
+                .mapToObj(i -> {
+                    MentoringCategoryEntity categoryEntity = categoryEntities.get(i);
+                    MentoringCategoryOutDto requestDto = mentoringAddRequestOutDtos.get(i);
+
+                    return MentoringCategoryAfterOutDto.builder()
+                            .id(categoryEntity.getId().toString())
+                            .mentoringUuid(requestDto.getMentoringUuid())
+                            .topCategoryCode(requestDto.getTopCategoryCode())
+                            .middleCategoryCode(requestDto.getMiddleCategoryCode())
+                            .bottomCategoryCode(requestDto.getBottomCategoryCode())
+                            .categoryName(requestDto.getCategoryName())
+                            .createdAt(categoryEntity.getCreatedAt())
+                            .updatedAt(categoryEntity.getUpdatedAt())
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<MentoringCategoryAfterOutDto> toCategoryAfterOutDto(
+            List<MentoringCategoryEntity> entities, List<MentoringCategoryAfterOutDto> categoryAfterOutDtos
+    ) {
+        return IntStream.range(0, entities.size())
+                .mapToObj(i -> {
+                    MentoringCategoryEntity categoryEntity = entities.get(i);
+                    MentoringCategoryAfterOutDto afterOutDto = categoryAfterOutDtos.get(i);
+
+                    return MentoringCategoryAfterOutDto.builder()
+                            .id(categoryEntity.getId().toString())
+                            .mentoringUuid(afterOutDto.getMentoringUuid())
+                            .topCategoryCode(afterOutDto.getTopCategoryCode())
+                            .middleCategoryCode(afterOutDto.getMiddleCategoryCode())
+                            .bottomCategoryCode(afterOutDto.getBottomCategoryCode())
+                            .categoryName(afterOutDto.getCategoryName())
+                            .createdAt(categoryEntity.getCreatedAt())
+                            .updatedAt(categoryEntity.getUpdatedAt())
+                            .build();
+                })
+                .collect(Collectors.toList());
 
     }
 
- }
+
+
+}

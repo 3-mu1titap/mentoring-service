@@ -1,9 +1,6 @@
 package com.mentoring.demo.mentoring.application.port.out.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class MentoringSessionAddAfterOutDto {
     private String sessionId;
 
@@ -39,5 +37,10 @@ public class MentoringSessionAddAfterOutDto {
 
     private Boolean isClosed;
     private Boolean isDeleted;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+
 }
 

@@ -1,15 +1,15 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddRequestOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditTransactionDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.*;
+import com.mentoring.demo.mentoring.domain.model.MentoringCategoryDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collector;
+
 
 @Component
 public class MentoringDtoMapper {
@@ -24,19 +24,18 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(domain.getThumbnailUrl())
                 .isReusable(domain.getIsReusable())
                 .isDeleted(domain.getIsDeleted())
+                .sessionList(toSessionOutDto(domain)) // 세션 리스트 변환
+                .categoryList(mentoringCategoryOutDto(domain)) // 카테고리 리스트 변환
                 .build();
     }
 
     // MentoringSessionDomain -> MentoringSessionTransactionDto 변환
-    public static List<MentoringSessionOutDto> toSessionOutDto(
-                                                                    List<MentoringSessionDomain> sessionDomain) {
-        return sessionDomain.stream()
+    public static List<MentoringSessionOutDto> toSessionOutDto(MentoringDomain domain) {
+        return domain.getMentoringSessions().stream()
                 .map(session -> MentoringSessionOutDto.builder()
                         .uuid(session.getUuid())
-
                         .mentoringId(session.getMentoringId())
                         .mentoringUuid(session.getMentoringUuid())
-
                         .startDate(session.getStartDate())
                         .endDate(session.getEndDate())
                         .startTime(session.getStartTime())
@@ -50,9 +49,34 @@ public class MentoringDtoMapper {
                         .build())
                 .toList();
     }
+    public static List<MentoringCategoryOutDto> mentoringCategoryOutDto (MentoringDomain domain){
+        return domain.getMentoringCategories().stream()
+                .map(category -> MentoringCategoryOutDto.builder()
+                                    .mentoringUuid(category.getMentoringUuid())
+                                    .topCategoryCode(category.getTopCategoryCode())
+                                    .middleCategoryCode(category.getMiddleCategoryCode())
+                                    .bottomCategoryCode(category.getBottomCategoryCode())
+                                    .categoryName(category.getCategoryName())
+                                    .build())
+                .toList();
+    }
+    public static List<MentoringCategoryAfterOutDto> toMentoringCategoryAfterOutDto (MentoringDomain domain){
+        return domain.getMentoringCategories().stream()
+                .map(category -> MentoringCategoryAfterOutDto.builder()
+                                    .mentoringUuid(category.getMentoringUuid())
+                                    .topCategoryCode(category.getTopCategoryCode())
+                                    .middleCategoryCode(category.getMiddleCategoryCode())
+                                    .bottomCategoryCode(category.getBottomCategoryCode())
+                                    .categoryName(category.getCategoryName())
+                                    .build())
+                .toList();
+    }
+    
+    
+    
 
-    public  static MentoringEditTransactionDto toMentoringEditTransactionDto(MentoringDomain domain) {
-        return MentoringEditTransactionDto.builder()
+    public  static MentoringEditRequestOutDto toMentoringEditRequestOutDto(MentoringDomain domain) {
+        return MentoringEditRequestOutDto.builder()
                 .id(domain.getId())
                 .uuid(domain.getUuid())
                 .name(domain.getName())
@@ -61,6 +85,7 @@ public class MentoringDtoMapper {
                 .thumbnailUrl(domain.getThumbnailUrl())
                 .isReusable(domain.getIsReusable())
                 .isDeleted(domain.getIsDeleted())
+                .categoryList(toMentoringCategoryAfterOutDto(domain))
                 .build();
     }
 

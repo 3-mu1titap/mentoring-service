@@ -9,10 +9,15 @@ import java.util.List;
 public interface MentoringRepositoryOutPort {
     MentoringAddAfterOutDto createMentoring(MentoringAddRequestOutDto mentoringAddRequestOutDto);
 
-    List<MentoringSessionAddAfterDto> createMentoringSession(MentoringAddAfterOutDto mentoringAddAfterOutDto, List<MentoringSessionOutDto> sessionTransactionDto);
+    List<MentoringCategoryAfterOutDto> createMentoringCategory(MentoringAddAfterOutDto mentoringAddAfterOutDto,
+                                                               MentoringAddRequestOutDto mentoringAddRequestOutDto);
 
-    void updateMentoring(MentoringEditTransactionDto mentoringEditTransactionDto);
+    List<MentoringSessionAddAfterOutDto> createMentoringSession(MentoringAddAfterOutDto mentoringAddAfterOutDto,
+                                                             MentoringAddRequestOutDto  mentoringAddRequestOutDto);
+
+    List<MentoringCategoryAfterOutDto>  updateMentoring(MentoringEditRequestOutDto mentoringEditRequestOutDto);
 
     MentoringResponseOutDto findByMentoringUuid(String mentoringUuid);
 
+    void deleteMentoringCategory(String mentoringUuid);
 }

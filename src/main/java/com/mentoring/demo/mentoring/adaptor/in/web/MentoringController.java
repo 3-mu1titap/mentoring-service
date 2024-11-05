@@ -2,8 +2,8 @@ package com.mentoring.demo.mentoring.adaptor.in.web;
 
 import com.mentoring.demo.mentoring.adaptor.out.kafka.KafkaProducer;
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.MentoringVoMapper;
-import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringAddRequestVo;
-import com.mentoring.demo.mentoring.adaptor.in.web.vo.MentoringEditRequestVo;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringAddRequestVo;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringEditRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
@@ -38,7 +38,6 @@ public class MentoringController {
         MentoringEditRequestDto mentoringEditRequestDto = MentoringVoMapper.toUpdateMentoringDto(request);
         mentoringUseCase.updateMentoring(mentoringEditRequestDto);
 
-        kafkaProducer.sendUpdateMentoring("update-mentoring", mentoringEditRequestDto);
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }

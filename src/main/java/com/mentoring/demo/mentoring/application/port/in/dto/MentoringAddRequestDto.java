@@ -14,16 +14,20 @@ public class MentoringAddRequestDto{
     private String mentorUuid;
     private Boolean isReusable;
     private String thumbnailUrl;
+
     private List<MentoringSessionDto> sessionList;
+    private List<MentoringCategoryDto> categoryList;
 
     @Builder
     public MentoringAddRequestDto(String name, String detail, String mentorUuid, Boolean isReusable,
-                                  String thumbnailUrl, List<MentoringSessionDto> sessionList) {
+                                  String thumbnailUrl, List<MentoringSessionDto> sessionList,
+                                  List<MentoringCategoryDto> categoryList) {
         this.name = name;
         this.detail = detail;
         this.mentorUuid = mentorUuid;
         this.isReusable = isReusable;
         this.thumbnailUrl = thumbnailUrl;
         this.sessionList = sessionList;
+        this.categoryList = categoryList;
     }
 }
