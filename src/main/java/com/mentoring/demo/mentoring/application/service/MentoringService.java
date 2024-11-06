@@ -49,7 +49,7 @@ public class MentoringService implements MentoringUseCase {
         mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
         mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
         // 메시지 전송
-        sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
+        //sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
 
 
     }
