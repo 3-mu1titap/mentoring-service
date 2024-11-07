@@ -18,7 +18,9 @@ public class MentoringCategoryAfterOutDto {
     private String middleCategoryCode;
     private String bottomCategoryCode;
     // 카테고리명
-    private String categoryName;
+    private String topCategoryName;
+    private String middleCategoryName;
+    private String bottomCategoryName;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

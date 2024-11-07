@@ -2,13 +2,10 @@ package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.*;
-import com.mentoring.demo.mentoring.domain.model.MentoringCategoryDomain;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
-import com.mentoring.demo.mentoring.domain.model.MentoringSessionDomain;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collector;
 
 
 @Component
@@ -40,7 +37,7 @@ public class MentoringDtoMapper {
                         .endDate(session.getEndDate())
                         .startTime(session.getStartTime())
                         .endTime(session.getEndTime())
-                        .deadlineDatetime(session.getDeadlineDate())
+                        .deadlineDate(session.getDeadlineDate())
                         .minHeadCount(session.getMinHeadCount())
                         .maxHeadCount(session.getMaxHeadCount())
                         .price(session.getPrice())
@@ -56,7 +53,9 @@ public class MentoringDtoMapper {
                                     .topCategoryCode(category.getTopCategoryCode())
                                     .middleCategoryCode(category.getMiddleCategoryCode())
                                     .bottomCategoryCode(category.getBottomCategoryCode())
-                                    .categoryName(category.getCategoryName())
+                                    .topCategoryName(category.getTopCategoryName())
+                                    .middleCategoryName(category.getMiddleCategoryName())
+                                    .bottomCategoryName(category.getBottomCategoryName())
                                     .build())
                 .toList();
     }
@@ -67,13 +66,12 @@ public class MentoringDtoMapper {
                                     .topCategoryCode(category.getTopCategoryCode())
                                     .middleCategoryCode(category.getMiddleCategoryCode())
                                     .bottomCategoryCode(category.getBottomCategoryCode())
-                                    .categoryName(category.getCategoryName())
+                                    .topCategoryName(category.getTopCategoryName())
+                                    .middleCategoryName(category.getMiddleCategoryName())
+                                    .bottomCategoryName(category.getBottomCategoryName())
                                     .build())
                 .toList();
     }
-    
-    
-    
 
     public  static MentoringEditRequestOutDto toMentoringEditRequestOutDto(MentoringDomain domain) {
         return MentoringEditRequestOutDto.builder()
@@ -89,37 +87,5 @@ public class MentoringDtoMapper {
                 .build();
     }
 
-    public static MentoringAddAfterDto toMentoringAddAfterDto(MentoringAddAfterOutDto outDto) {
-        return MentoringAddAfterDto.builder()
-                .mentoringId(outDto.getMentoringId())
-                .mentoringUuid(outDto.getMentoringUuid())
-                .name(outDto.getName())
-                .detail(outDto.getDetail())
-                .mentorUuid(outDto.getMentorUuid())
-                .thumbnailUrl(outDto.getThumbnailUrl())
-                .isReusable(outDto.getIsReusable())
-                .isDeleted(outDto.getIsDeleted())
-//                .mentoringSessionAddAfterDtoList(
-//                        outDto.getMentoringSessionAddAfterOutDtoList().stream()
-//                                .map(session -> MentoringSessionAddAfterDto.builder()
-//                                                    .sessionId(session.getSessionId())
-//                                                    .sessionUuid(session.getSessionUuid())
-//                                                    // 멘토링 생성 후 id 할당
-//                                                    .mentoringId(session.getMentoringId())
-//                                                    .mentoringUuid(session.getMentoringUuid())
-//                                                    .startDate(session.getStartDate())
-//                                                    .endDate(session.getEndDate())
-//                                                    .startTime(session.getStartTime())
-//                                                    .endTime(session.getEndTime())
-//                                                    .deadlineDatetime(session.getDeadlineDatetime())
-//                                                    .minHeadCount(session.getMinHeadCount())
-//                                                    .maxHeadCount(session.getMaxHeadCount())
-//                                                    .price(session.getPrice())
-//                                                    .isClosed(session.getIsClosed())
-//                                                    .build())
-//                                .toList()
-//                )
-                .build();
-    }
 
 }

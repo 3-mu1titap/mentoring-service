@@ -58,7 +58,6 @@ public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
         MentoringEntity updatedMentoring = mentoringEntityMapper.toMentoring(mentoringEditRequestOutDto);
         // 멘토링 수정
         MentoringEntity mentoring = mentoringJpaRepository.save(updatedMentoring);
-
         List<MentoringCategoryEntity> mentoringCategoryEntity =
                 MentoringEditRequestOutDto.toMentoringCategoryEntity(mentoring, mentoringEditRequestOutDto.getCategoryList());
 

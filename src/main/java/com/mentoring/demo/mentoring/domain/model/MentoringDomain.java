@@ -33,7 +33,6 @@ public class MentoringDomain {
     private List<MentoringSessionDomain> mentoringSessions;
     private List<MentoringCategoryDomain> mentoringCategories;
 
-
     // 도메인 카테고리 검사하는 도메인 로직
     public void checkSessionAndCategory() {
         if (this.mentoringCategories == null) {
@@ -41,6 +40,15 @@ public class MentoringDomain {
         }
         if (this.mentoringSessions == null) {
             throw new IllegalArgumentException("멘토링 세션이 존재하지 않습니다.");
+        }
+    }
+    // 도메인 로직: 오늘 날짜에 시작하는 세션이 있는지 검증
+    public void checkForTodaySessions() {
+        LocalDate today = LocalDate.now();
+        for (MentoringSessionDomain session : mentoringSessions) {
+            if (session.getStartDate().equals(today)) {
+                throw new IllegalArgumentException("오늘 날짜에 시작하는 멘토링 세션이 있습니다.");
+            }
         }
     }
     // 업데이트 체크
@@ -70,7 +78,7 @@ public class MentoringDomain {
                                             .endDate(session.getEndDate())
                                             .startTime(session.getStartTime())
                                             .endTime(session.getEndTime())
-                                            .deadlineDate(session.getDeadline_datetime())
+                                            .deadlineDate(session.getDeadlineDate())
                                             .price(session.getPrice())
                                             .minHeadCount(session.getMinHeadCount())
                                             .maxHeadCount(session.getMaxHeadCount())
@@ -87,7 +95,9 @@ public class MentoringDomain {
                                                 .topCategoryCode(category.getTopCategoryCode())
                                                 .middleCategoryCode(category.getMiddleCategoryCode())
                                                 .bottomCategoryCode(category.getBottomCategoryCode())
-                                                .categoryName(category.getCategoryName())
+                                                .topCategoryName(category.getTopCategoryName())
+                                                .middleCategoryName(category.getMiddleCategoryName())
+                                                .bottomCategoryName(category.getBottomCategoryName())
                                                 .build()
                         ).toList()
                 )
@@ -115,7 +125,9 @@ public class MentoringDomain {
                                                 .topCategoryCode(category.getTopCategoryCode())
                                                 .middleCategoryCode(category.getMiddleCategoryCode())
                                                 .bottomCategoryCode(category.getBottomCategoryCode())
-                                                .categoryName(category.getCategoryName())
+                                                .topCategoryName(category.getTopCategoryName())
+                                                .middleCategoryName(category.getMiddleCategoryName())
+                                                .bottomCategoryName(category.getBottomCategoryName())
                                                 .build()
                                 ).toList()
                 )

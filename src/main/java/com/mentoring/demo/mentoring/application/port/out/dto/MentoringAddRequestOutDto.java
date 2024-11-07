@@ -57,7 +57,7 @@ public class  MentoringAddRequestOutDto {
                         .endDate(session.getEndDate())
                         .startTime(session.getStartTime())
                         .endTime(session.getEndTime())
-                        .deadlineDatetime(session.getDeadlineDatetime())
+                        .deadlineDate(session.getDeadlineDate())
                         .minHeadCount(session.getMinHeadCount())
                         .maxHeadCount(session.getMaxHeadCount())
                         .price(session.getPrice())

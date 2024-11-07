@@ -29,6 +29,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+**/SwaggerConfig.class
+**/SwaggerConfig.java
 
 ### NetBeans ###
 /nbproject/private/

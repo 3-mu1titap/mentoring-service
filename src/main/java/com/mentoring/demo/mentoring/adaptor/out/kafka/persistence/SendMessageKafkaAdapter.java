@@ -20,9 +20,6 @@ public class SendMessageKafkaAdapter implements SendMessageOutPort {
     @Override
     public void sendCreateMentoringMessage(String topic, MentoringAddAfterOutDto dto) {
         try {
-//            log.info("sendCreateMentoringMessage 성공 : " + dto);
-//            log.info("getMentoringSessionAddAfterOutDtoList 성공 : " + dto.getMentoringSessionAddAfterOutDtoList());
-//            log.info("getMentoringCategoryAfterOutDtoList 성공 : " + dto.getMentoringCategoryAfterOutDtoList());
             kafkaAddMentoringTemplate.send(topic, dto);
         }
         catch (Exception e) {

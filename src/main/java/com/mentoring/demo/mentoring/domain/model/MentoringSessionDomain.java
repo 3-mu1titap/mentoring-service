@@ -30,7 +30,7 @@ public class MentoringSessionDomain {
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private LocalDateTime deadlineDate;
+    private LocalDate deadlineDate;
 
     private Integer price;
     private Integer minHeadCount;
@@ -41,28 +41,5 @@ public class MentoringSessionDomain {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public static List<MentoringSessionDomain> createMentoringSession(
-            MentoringAddAfterOutDto mentoringAddAfterOutDto, List<MentoringSessionDto> sessionList) {
-        return sessionList.stream()
-                .map(timeDto -> MentoringSessionDomain.builder()
-                        .uuid(UUID.randomUUID().toString()) // 멘토링 세션 UUID 생성
-
-                        .mentoringId(mentoringAddAfterOutDto.getMentoringId())
-                        .mentoringUuid(mentoringAddAfterOutDto.getMentoringUuid())
-
-                        .startDate(timeDto.getStartDate())
-                        .endDate(timeDto.getEndDate())
-                        .startTime(timeDto.getStartTime())
-                        .endTime(timeDto.getEndTime())
-                        .deadlineDate((timeDto.getDeadline_datetime()))
-                        .price(timeDto.getPrice())
-                        .minHeadCount(timeDto.getMinHeadCount())
-                        .maxHeadCount(timeDto.getMaxHeadCount())
-                        .isClosed(false)
-                        .isDeleted(false)
-                        .build())
-                .collect(Collectors.toList());
-    }
 
 }

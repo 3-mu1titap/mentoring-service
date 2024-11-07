@@ -6,6 +6,7 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEnt
 import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,7 @@ public class MentoringEditRequestOutDto {
     private Boolean isReusable;
     private Boolean isDeleted;
     private String thumbnailUrl;
+    private LocalDateTime updatedAt;
 
     @Setter
     private List<MentoringCategoryAfterOutDto> categoryList;

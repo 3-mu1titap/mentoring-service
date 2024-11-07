@@ -15,7 +15,7 @@ public class MentoringSessionDto{
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private LocalDateTime deadline_datetime;
+    private LocalDate deadlineDate;
 
     private Integer minHeadCount;
     private Integer maxHeadCount;
@@ -23,12 +23,12 @@ public class MentoringSessionDto{
 
     @Builder
     public MentoringSessionDto(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime,
-                               LocalDateTime deadline_datetime, Integer minHeadCount, Integer maxHeadCount, Integer price) {
+                               LocalDate deadlineDate, Integer minHeadCount, Integer maxHeadCount, Integer price) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.deadline_datetime = deadline_datetime;
+        this.deadlineDate = deadlineDate;
         this.minHeadCount = minHeadCount;
         this.maxHeadCount = maxHeadCount;
         this.price = price;
