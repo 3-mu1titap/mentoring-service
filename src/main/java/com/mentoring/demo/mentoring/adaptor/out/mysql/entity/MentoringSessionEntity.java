@@ -44,9 +44,9 @@ public class MentoringSessionEntity extends BaseEntity {
     @Comment("종료 시간")
     private LocalTime endTime;
 
-    @Column(name = "deadline_datetime")
+    @Column(name = "deadline_date")
     @Comment("예약 마감 날짜")
-    private LocalDateTime deadlineDatetime;
+    private LocalDate deadlineDate;
 
     @Column(name = "min_head_count")
     @Comment("최소 인원")
@@ -71,7 +71,7 @@ public class MentoringSessionEntity extends BaseEntity {
     @Builder
     public MentoringSessionEntity(String uuid, MentoringEntity mentoringEntity,
                                   LocalDate startDate, LocalDate endDate,
-                                  LocalTime startTime, LocalTime endTime, LocalDateTime deadlineDatetime,
+                                  LocalTime startTime, LocalTime endTime, LocalDate deadlineDate,
                                   Integer minHeadCount, Integer maxHeadCount, Integer price,
                                   Boolean isClosed, Boolean isDeleted) {
         this.uuid = uuid;
@@ -80,7 +80,7 @@ public class MentoringSessionEntity extends BaseEntity {
         this.endDate = endDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.deadlineDatetime = deadlineDatetime;
+        this.deadlineDate = deadlineDate;
         this.minHeadCount = minHeadCount;
         this.maxHeadCount = maxHeadCount;
         this.price = price;

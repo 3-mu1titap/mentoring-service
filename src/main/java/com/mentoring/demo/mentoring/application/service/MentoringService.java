@@ -31,9 +31,10 @@ public class MentoringService implements MentoringUseCase {
                 MentoringDomain.createMentoring(mentoringAddRequestDto, UUID.randomUUID().toString());
         // 멘토링 세션+카테고리 null 검사
         mentoring.checkSessionAndCategory();
+        // 멘토링 시작날짜 검사 (오늘 날짜에 시작하는 세션이 있는지 검증)
+        mentoring.checkForTodaySessions();
 
         MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
-
         // 멘토링 저장
         MentoringAddAfterOutDto mentoringAddAfterOutDto =
                 mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto);
@@ -44,14 +45,11 @@ public class MentoringService implements MentoringUseCase {
         List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
                 mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
 
-
         // 저장 이후 시점의 세션+카테고리를 mentoringAddAfterOutDto에 set
         mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
         mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
-        // 메시지 전송
+
         sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
-
-
     }
 
     @Override
@@ -61,7 +59,7 @@ public class MentoringService implements MentoringUseCase {
         // 업데이트 검사
         MentoringDomain.checkUpdateObject(mentoringResponseOutDto);
         // 멘토링 카테고리 삭제
-        if(null != mentoringEditRequestDto.getCategoryList()) {
+        if (mentoringEditRequestDto.getCategoryList() != null) {
             mentoringRepositoryOutPort.deleteMentoringCategory(mentoringEditRequestDto.getUuid());
         }
         MentoringDomain mentoringDomain =
@@ -69,16 +67,10 @@ public class MentoringService implements MentoringUseCase {
 
         MentoringEditRequestOutDto mentoringEditRequestOutDto =
                 MentoringDtoMapper.toMentoringEditRequestOutDto(mentoringDomain);
-
-        // 멘토링 카테고리 저장
+        // 멘토링+카테고리 업데이트
         List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtos =
                 mentoringRepositoryOutPort.updateMentoring(mentoringEditRequestOutDto);
-
         mentoringEditRequestOutDto.setCategoryList(mentoringCategoryAfterOutDtos);
-
-        //
-        log.info("업데이트 완료 mentoringEditRequestOutDto : "+mentoringEditRequestOutDto);
-        log.info("업데이트 완료 getCategoryList : "+mentoringEditRequestOutDto.getCategoryList());
         sendMessageUseCase.sendUpdateMentoringMessage("update-mentoring", mentoringEditRequestOutDto);
     }
 }
