@@ -27,29 +27,28 @@ public class KafkaProducerConfig {
     public ProducerFactory<String, MentoringAddAfterOutDto> mentoringProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
 //        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:29092,kafka-2:39092,kafka-3:49092");
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:9092,kafka-2:9092,kafka-3:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
+
     @Bean
     public KafkaTemplate<String, MentoringAddAfterOutDto> kafkaAddMentoringTemplate() {
         return new KafkaTemplate<>(mentoringProducerFactory());
     }
-
-
-
 
     // 멘토링 수정 DTO
     @Bean
     public ProducerFactory<String, MentoringEditRequestOutDto> mentoringEditProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
 //        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:29092,kafka-2:39092,kafka-3:49092");
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:9092,kafka-2:9092,kafka-3:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
+
     @Bean
     public KafkaTemplate<String, MentoringEditRequestOutDto> kafkaEditMentoringTemplate() {
         return new KafkaTemplate<>(mentoringEditProducerFactory());
