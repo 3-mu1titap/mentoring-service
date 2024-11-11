@@ -27,7 +27,7 @@ public class KafkaProducerConfig {
     public ProducerFactory<String, MentoringAddAfterOutDto> mentoringProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
 //        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "discovery-service:29092,discovery-service:39092,discovery-service:49092");
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:29092,kafka-2:39092,kafka-3:49092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
@@ -45,7 +45,7 @@ public class KafkaProducerConfig {
     public ProducerFactory<String, MentoringEditRequestOutDto> mentoringEditProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
 //        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "discovery-service:29092,discovery-service:39092,discovery-service:49092");
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-1:29092,kafka-2:39092,kafka-3:49092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
