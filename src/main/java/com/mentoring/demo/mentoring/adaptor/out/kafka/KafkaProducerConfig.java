@@ -1,10 +1,7 @@
 package com.mentoring.demo.mentoring.adaptor.out.kafka;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditRequestOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringSessionOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +13,6 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 @Configuration
 @EnableKafka

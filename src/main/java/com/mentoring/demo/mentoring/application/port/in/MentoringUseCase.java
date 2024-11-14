@@ -1,7 +1,7 @@
 package com.mentoring.demo.mentoring.application.port.in;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequestDto;
 
 public interface MentoringUseCase {
     // 멘토링+세션 생성

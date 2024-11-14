@@ -1,4 +1,4 @@
-package com.mentoring.demo.mentoring.application.port.in.dto;
+package com.mentoring.demo.mentoring.application.port.in.dto.messagequeue;
 
 import lombok.*;
 

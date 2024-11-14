@@ -1,4 +1,4 @@
-package com.mentoring.demo.mentoring.application.port.out.dto;
+package com.mentoring.demo.mentoring.application.port.in.dto.messagequeue;
 
 import lombok.*;
 
@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class MentoringSessionAddAfterOutDto {
+public class MentoringSessionAddAfterDto{
     private String sessionId;
 
     private String sessionUuid;
@@ -27,7 +27,7 @@ public class MentoringSessionAddAfterOutDto {
 
     private LocalTime endTime;
 
-    private LocalDate deadlineDate;
+    private LocalDateTime deadlineDatetime;
 
     private Integer minHeadCount;
 
@@ -36,11 +36,10 @@ public class MentoringSessionAddAfterOutDto {
     private Integer price;
 
     private Boolean isClosed;
+
     private Boolean isDeleted;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
 }
-

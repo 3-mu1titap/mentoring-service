@@ -14,6 +14,11 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor
 @Entity(name = "mentoring_session")
+@Table(
+        indexes = {
+        @Index(columnList = "is_deleted, start_date, start_time, end_date, end_time"
+                , name= "idx_valid_session_time")
+})
 public class MentoringSessionEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

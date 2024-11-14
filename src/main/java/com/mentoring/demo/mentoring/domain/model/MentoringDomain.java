@@ -1,13 +1,12 @@
 package com.mentoring.demo.mentoring.domain.model;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringResponseOutDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringResponseOutDto;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +19,7 @@ public class MentoringDomain {
     private String id;
     private String uuid;
     private String name;
+    private String description;
     private String detail;
     private String mentorUuid;
     private String thumbnailUrl;
@@ -62,6 +62,7 @@ public class MentoringDomain {
         return MentoringDomain.builder()
                 .uuid(uuid) // 멘토링 UUID 생성
                 .name(dto.getName())
+                .description(dto.getDescription())
                 .detail(dto.getDetail())
                 .mentorUuid(dto.getMentorUuid())
                 .thumbnailUrl(dto.getThumbnailUrl())
@@ -113,6 +114,7 @@ public class MentoringDomain {
                 .uuid(mentoringResponseOutDto.getUuid())
                 .mentorUuid(mentoringResponseOutDto.getMentorUuid())
                 .name(editDto.getName())
+                .description(editDto.getDescription())
                 .detail(editDto.getDetail())
                 .thumbnailUrl(editDto.getThumbnailUrl())
                 .isReusable(editDto.getIsReusable())

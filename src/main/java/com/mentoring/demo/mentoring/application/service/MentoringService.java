@@ -2,11 +2,12 @@ package com.mentoring.demo.mentoring.application.service;
 
 import com.mentoring.demo.mentoring.application.mapper.MentoringDtoMapper;
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequestDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
-import com.mentoring.demo.mentoring.application.port.out.dto.*;
+import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,8 +23,9 @@ import java.util.UUID;
 @Transactional
 public class MentoringService implements MentoringUseCase {
     private final MentoringRepositoryOutPort mentoringRepositoryOutPort;
+    private final MentoringSessionRepositoryOutPort mentoringSessionRepositoryOutPort;
     private final SendMessageUseCase sendMessageUseCase;
-
+    
     @Override
     public void createMentoringWithSession(MentoringAddRequestDto mentoringAddRequestDto) {
         // 멘토링 도메인 생성
@@ -34,13 +36,13 @@ public class MentoringService implements MentoringUseCase {
         // 멘토링 시작날짜 검사 (오늘 날짜에 시작하는 세션이 있는지 검증)
         mentoring.checkForTodaySessions();
 
-        MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.toMentoringTransactionDto(mentoring);
+        MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.from(mentoring);
         // 멘토링 저장
         MentoringAddAfterOutDto mentoringAddAfterOutDto =
                 mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto);
         // 멘토링 세션 저장
         List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterDto =
-                mentoringRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
+                mentoringSessionRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
         // 멘토링 카테고리 저장
         List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
                 mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
@@ -65,8 +67,7 @@ public class MentoringService implements MentoringUseCase {
         MentoringDomain mentoringDomain =
                 MentoringDomain.updateMentoring(mentoringEditRequestDto, mentoringResponseOutDto);
 
-        MentoringEditRequestOutDto mentoringEditRequestOutDto =
-                MentoringDtoMapper.toMentoringEditRequestOutDto(mentoringDomain);
+        MentoringEditRequestOutDto mentoringEditRequestOutDto = MentoringEditRequestOutDto.from(mentoringDomain);
         // 멘토링+카테고리 업데이트
         List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtos =
                 mentoringRepositoryOutPort.updateMentoring(mentoringEditRequestOutDto);
