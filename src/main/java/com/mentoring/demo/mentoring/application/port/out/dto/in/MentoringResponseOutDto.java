@@ -1,4 +1,4 @@
-package com.mentoring.demo.mentoring.application.port.out.dto;
+package com.mentoring.demo.mentoring.application.port.out.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,7 @@ public class MentoringResponseOutDto {
 
     // 변경가능한 필드
     private String name;
+    private String description;
     private String detail;
     private Boolean isReusable;
     private String thumbnailUrl;

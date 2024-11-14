@@ -1,10 +1,8 @@
-package com.mentoring.demo.mentoring.application.port.in.dto;
+package com.mentoring.demo.mentoring.application.port.in.dto.in;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringCategoryDto;
 import lombok.*;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,6 +14,7 @@ public class MentoringEditRequestDto{
 
     private String uuid;
     private String name;
+    private String description;
     private String detail;
 
     private Boolean isReusable;

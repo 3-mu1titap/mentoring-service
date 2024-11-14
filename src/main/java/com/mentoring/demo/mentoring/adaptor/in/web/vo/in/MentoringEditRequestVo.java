@@ -1,6 +1,5 @@
 package com.mentoring.demo.mentoring.adaptor.in.web.vo.in;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -12,6 +11,8 @@ public class MentoringEditRequestVo {
     private String uuid;
     @Schema(description = "변경할 멘토링 이름", example = "변경된 멘토링 이름")
     private String name;
+    @Schema(description = "변경할 멘토링 설명", example = "변경된 멘토링 설명")
+    private String description;
     @Schema(description = "변경할 멘토링 상세정보", example = "변경된 멘토링 상세정보")
     private String detail;
 

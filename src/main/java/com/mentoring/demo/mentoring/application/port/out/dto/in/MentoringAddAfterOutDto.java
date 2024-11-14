@@ -1,8 +1,5 @@
-package com.mentoring.demo.mentoring.application.port.out.dto;
+package com.mentoring.demo.mentoring.application.port.out.dto.in;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringCategoryDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,6 +17,7 @@ public class MentoringAddAfterOutDto {
 
     private String name;
 
+    private String description;
     private String detail;
 
     private String mentorUuid;

@@ -1,9 +1,8 @@
-package com.mentoring.demo.mentoring.application.port.out.dto;
+package com.mentoring.demo.mentoring.application.port.out.dto.in;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +16,7 @@ import java.util.List;
 public class  MentoringAddRequestOutDto {
     private String mentoringUuid;
     private String name;
+    private String description;
     private String detail;
     private String mentorUuid;
     private String thumbnailUrl;
@@ -36,6 +36,7 @@ public class  MentoringAddRequestOutDto {
         return MentoringEntity.builder()
                 .mentoringUuid(this.mentoringUuid)
                 .name(this.name)
+                .description(this.description)
                 .detail(this.detail)
                 .mentorUuid(this.mentorUuid)
                 .thumbnailUrl(this.thumbnailUrl)

@@ -1,7 +1,9 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringCategoryAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringCategoryOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,11 @@ import java.util.List;
 public class MentoringDtoMapper {
 
     // MentoringDomain -> MentoringTransactionDto 변환
-    public static MentoringAddRequestOutDto toMentoringTransactionDto(MentoringDomain domain) {
+    public static MentoringAddRequestOutDto from(MentoringDomain domain) {
         return MentoringAddRequestOutDto.builder()
                 .mentoringUuid(domain.getUuid())
                 .name(domain.getName())
+                .description(domain.getDescription())
                 .detail(domain.getDetail())
                 .mentorUuid(domain.getMentorUuid())
                 .thumbnailUrl(domain.getThumbnailUrl())
@@ -73,19 +76,19 @@ public class MentoringDtoMapper {
                 .toList();
     }
 
-    public  static MentoringEditRequestOutDto toMentoringEditRequestOutDto(MentoringDomain domain) {
-        return MentoringEditRequestOutDto.builder()
-                .id(domain.getId())
-                .uuid(domain.getUuid())
-                .name(domain.getName())
-                .detail(domain.getDetail())
-                .mentorUuid(domain.getMentorUuid())
-                .thumbnailUrl(domain.getThumbnailUrl())
-                .isReusable(domain.getIsReusable())
-                .isDeleted(domain.getIsDeleted())
-                .categoryList(toMentoringCategoryAfterOutDto(domain))
-                .build();
-    }
+//    public  static MentoringEditRequestOutDto toMentoringEditRequestOutDto(MentoringDomain domain) {
+//        return MentoringEditRequestOutDto.builder()
+//                .id(domain.getId())
+//                .uuid(domain.getUuid())
+//                .name(domain.getName())
+//                .detail(domain.getDetail())
+//                .mentorUuid(domain.getMentorUuid())
+//                .thumbnailUrl(domain.getThumbnailUrl())
+//                .isReusable(domain.getIsReusable())
+//                .isDeleted(domain.getIsDeleted())
+//                .categoryList(toMentoringCategoryAfterOutDto(domain))
+//                .build();
+//    }
 
 
 }

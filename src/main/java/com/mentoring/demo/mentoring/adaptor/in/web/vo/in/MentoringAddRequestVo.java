@@ -9,6 +9,8 @@ import java.util.List;
 public class MentoringAddRequestVo {
     @Schema(description = "멘토링 이름", example = "멘토링 이름")
     private String name;
+    @Schema(description = "멘토링 설명", example = "멘토링 설명")
+    private String description;
     @Schema(description = "멘토링 상세", example = "멘토링 상세")
     private String detail;
     @Schema(description = "멘토 UUID", example = "멘토 UUID")

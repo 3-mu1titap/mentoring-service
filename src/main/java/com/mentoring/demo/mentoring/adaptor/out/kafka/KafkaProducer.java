@@ -1,14 +1,11 @@
 package com.mentoring.demo.mentoring.adaptor.out.kafka;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringEditRequestDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringAddAfterOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Log4j2

@@ -3,8 +3,7 @@ package com.mentoring.demo.mentoring.adaptor.out.mysql.mapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
-import com.mentoring.demo.mentoring.application.port.in.dto.MentoringSessionAddAfterDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,12 +17,13 @@ public class mentoringEntityMapper {
      */
 
     // MentoringEditTransactionDto -> MentoringEntity
-    public static MentoringEntity toMentoring( MentoringEditRequestOutDto dto) {
+    public static MentoringEntity from( MentoringEditRequestOutDto dto) {
         return MentoringEntity.builder()
                 .id(Long.valueOf(dto.getId()))
                 .mentoringUuid(dto.getUuid())
                 .mentorUuid(dto.getMentorUuid())
                 .name(dto.getName())
+                .description(dto.getDescription())
                 .detail(dto.getDetail())
                 .thumbnailUrl(dto.getThumbnailUrl())
                 .isReusable(dto.getIsReusable())
@@ -55,6 +55,7 @@ public class mentoringEntityMapper {
                 .mentoringUuid(entity.getMentoringUuid())
                 .mentorUuid(entity.getMentorUuid())
                 .name(entity.getName())
+                .description(entity.getDescription())
                 .detail(entity.getDetail())
                 .thumbnailUrl(entity.getThumbnailUrl())
                 .isReusable(entity.getIsReusable())
@@ -112,7 +113,7 @@ public class mentoringEntityMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<MentoringCategoryAfterOutDto> toCategoryAfterOutDto(
+    public static List<MentoringCategoryAfterOutDto> of(
             List<MentoringCategoryEntity> entities, List<MentoringCategoryAfterOutDto> categoryAfterOutDtos
     ) {
         return IntStream.range(0, entities.size())
@@ -134,7 +135,6 @@ public class mentoringEntityMapper {
                             .build();
                 })
                 .collect(Collectors.toList());
-
     }
 
 
