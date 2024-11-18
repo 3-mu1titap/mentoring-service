@@ -1,8 +1,9 @@
 package com.mentoring.demo.mentoring.adaptor.out.kafka.persistence;
 
 import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
-import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,6 +16,7 @@ public class SendMessageKafkaAdapter implements SendMessageOutPort {
 
     private final KafkaTemplate<String, MentoringAddAfterOutDto> kafkaAddMentoringTemplate;
     private final KafkaTemplate<String, MentoringEditRequestOutDto> kafkaEditMentoringTemplate;
+    private final KafkaTemplate<String, SessionCreatedAfterOutDto> kafkaSessionAddTemplate;
 
     @Override
     public void sendCreateMentoringMessage(String topic, MentoringAddAfterOutDto dto) {
@@ -36,6 +38,17 @@ public class SendMessageKafkaAdapter implements SendMessageOutPort {
         }
         catch (Exception e) {
             log.info("update mentoring event send 실패 : " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendAddSessionMessage(String topic, SessionCreatedAfterOutDto dto) {
+        try {
+            kafkaSessionAddTemplate.send(topic, dto);
+        }
+        catch (Exception e) {
+            log.info("add session event send 실패 : " + e);
             throw new RuntimeException(e);
         }
     }

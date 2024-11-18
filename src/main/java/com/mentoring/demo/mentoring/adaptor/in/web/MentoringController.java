@@ -23,8 +23,11 @@ public class MentoringController {
 
     @Operation(summary = "멘토링 생성" , description = "멘토링 기본 정보와 세션정보 받아서 멘토링 생성" ,tags = {"멘토링"})
     @PostMapping("")
-    public BaseResponse<Void> createMentoringAndSession(@RequestBody MentoringAddRequestVo request) {
-        MentoringAddRequestDto createMentoringDto = MentoringVoMapper.from(request);
+    public BaseResponse<Void> createMentoringAndSession(
+            @RequestHeader("userUuid") String userUuid,
+            @RequestBody MentoringAddRequestVo request
+    ) {
+        MentoringAddRequestDto createMentoringDto = MentoringVoMapper.of(userUuid, request);
         // 멘토링 생성
         mentoringUseCase.createMentoringWithSession(createMentoringDto);
 

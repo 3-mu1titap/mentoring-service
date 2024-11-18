@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.adaptor.in.web;
 
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.SessionVoMapper;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionValidationRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.MentoringSessionUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.SessionValidationRequestDto;
@@ -13,6 +14,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -37,15 +40,38 @@ public class SessionController {
     }
     @Operation(summary = "세션 닫힘 상태로 업데이트 (session-request-service 의 feign client 용 api)" ,
                 description = "세션 uuid 로 세션 닫힘 상태로 업데이트" ,tags = {"feign client"})
-    @PutMapping("/session/{uuid}")
-    public void updateSessionClosed(@PathVariable(name = "uuid") String uuid) {
+    @PutMapping("/session-close/{uuid}")
+    public void updateSessionClosedTrue(@PathVariable(name = "uuid") String uuid) {
         mentoringSessionUseCase.closeSession(uuid);
+        log.info("updateSessionClosed : {}", uuid);
+    }
+
+    @Operation(summary = "세션 열림 상태로 업데이트 (session-request-service 의 feign client 용 api)" ,
+            description = "세션 uuid 로 세션 열림 상태로 업데이트" ,tags = {"feign client"})
+    @PutMapping("/session-open/{uuid}")
+    public void updateSessionClosedFalse(@PathVariable(name = "uuid") String uuid) {
+        mentoringSessionUseCase.openSession(uuid);
+        log.info("updateSessionClosed : {}", uuid);
     }
 
     @Operation(summary = "멘토링 세션 시간 유효한지 검증" , description = "시작/종료 날짜 시간, 멘토 uuid 로 유효한지 검증"
             ,tags = {"멘토링 세션"} )
-    @GetMapping("/validate-session-time")
-    public BaseResponse<SessionValidationResponseDto> validateSessionTime(SessionValidationRequestVo requestVo) {
-        return new BaseResponse<>(mentoringSessionUseCase.validateSessionTime(SessionVoMapper.from(requestVo)));
+    @PostMapping("/validate-session-time")
+    public BaseResponse<SessionValidationResponseDto> validateSessionTime(
+            @RequestParam(name ="mentoringUuid", required = true) String mentoringUuid,
+            SessionValidationRequestVo requestVo
+    ) {
+        return new BaseResponse<>(mentoringSessionUseCase.validateSessionTime(SessionVoMapper.of(mentoringUuid,requestVo)));
+    }
+
+    @Operation(summary = "멘토링 세션 추가" , description = "멘토링 세션 추가"
+            ,tags = {"멘토링 세션"} )
+    @PostMapping("/session")
+    public BaseResponse<Void> createSession(
+            @RequestParam(name ="mentoringUuid", required = true) String mentoringUuid,
+            @RequestBody List<SessionAddRequestVo> sessionVoList
+    ) {
+        mentoringSessionUseCase.createSession(mentoringUuid,SessionVoMapper.from(sessionVoList));
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 }

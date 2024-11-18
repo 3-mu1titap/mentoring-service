@@ -8,6 +8,9 @@ import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequ
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,25 +34,25 @@ public class MentoringService implements MentoringUseCase {
         // 멘토링 도메인 생성
         MentoringDomain mentoring =
                 MentoringDomain.createMentoring(mentoringAddRequestDto, UUID.randomUUID().toString());
-        // 멘토링 세션+카테고리 null 검사
-        mentoring.checkSessionAndCategory();
         // 멘토링 시작날짜 검사 (오늘 날짜에 시작하는 세션이 있는지 검증)
-        mentoring.checkForTodaySessions();
+        mentoring.checkForTodayStartSessions();
 
         MentoringAddRequestOutDto mentoringAddRequestOutDto = MentoringDtoMapper.from(mentoring);
         // 멘토링 저장
         MentoringAddAfterOutDto mentoringAddAfterOutDto =
                 mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto);
         // 멘토링 세션 저장
-        List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterDto =
-                mentoringSessionRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
+        if(mentoringAddRequestDto.getSessionList() != null){
+            List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterDto =
+                    mentoringSessionRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
+            mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
+        }
         // 멘토링 카테고리 저장
-        List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
-                mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
-
-        // 저장 이후 시점의 세션+카테고리를 mentoringAddAfterOutDto에 set
-        mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
-        mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
+        if(mentoringAddAfterOutDto.getMentoringCategoryAfterOutDtoList() != null){
+            List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
+                    mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
+            mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
+        }
 
         sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
     }

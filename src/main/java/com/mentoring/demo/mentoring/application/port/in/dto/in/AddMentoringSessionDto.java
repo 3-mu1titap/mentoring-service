@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
-public class MentoringSessionDto{
+public class AddMentoringSessionDto{
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
@@ -22,7 +22,7 @@ public class MentoringSessionDto{
     private Integer price;
 
     @Builder
-    public MentoringSessionDto(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime,
+    public AddMentoringSessionDto(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime,
                                LocalDate deadlineDate, Integer minHeadCount, Integer maxHeadCount, Integer price) {
         this.startDate = startDate;
         this.endDate = endDate;

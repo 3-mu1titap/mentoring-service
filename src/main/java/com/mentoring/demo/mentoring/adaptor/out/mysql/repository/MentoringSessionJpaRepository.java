@@ -17,9 +17,13 @@ public interface MentoringSessionJpaRepository extends JpaRepository<MentoringSe
     // uuid로 isClosed 컬럼 true로 업데이트
     @Modifying
     @Transactional
-    //@Query("UPDATE MentoringSessionEntity s SET s.isClosed = true WHERE s.uuid = :uuid")
     @Query("UPDATE mentoring_session s SET s.isClosed = true WHERE s.uuid = :uuid")
-    void updateIsClosedByUuid(@Param("uuid") String uuid);
+    void updateIsClosedTrueByUuid(@Param("uuid") String uuid);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE mentoring_session s SET s.isClosed = false WHERE s.uuid = :uuid")
+    void updateIsClosedFalseByUuid(@Param("uuid") String uuid);
 
 
     @Query(value = "SELECT MS.*" +

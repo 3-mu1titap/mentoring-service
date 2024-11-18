@@ -1,4 +1,4 @@
-package com.mentoring.demo.mentoring.application.port.out.dto.in;
+package com.mentoring.demo.mentoring.application.port.out.dto.out;
 
 import lombok.*;
 
@@ -11,13 +11,9 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class MentoringSessionAddAfterOutDto {
+public class SessionAddAfterOutDto {
     private String sessionId;
-
     private String sessionUuid;
-
-    private String mentoringId;
-    private String mentoringUuid;
 
     private LocalDate startDate;
 
@@ -40,7 +36,4 @@ public class MentoringSessionAddAfterOutDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
 }
-
