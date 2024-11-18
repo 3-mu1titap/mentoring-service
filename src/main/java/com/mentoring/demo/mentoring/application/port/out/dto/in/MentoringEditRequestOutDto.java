@@ -2,6 +2,7 @@ package com.mentoring.demo.mentoring.application.port.out.dto.in;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import lombok.*;
 

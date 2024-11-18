@@ -1,7 +1,7 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddRequestOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringCategoryAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringCategoryOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
@@ -31,7 +31,7 @@ public class MentoringDtoMapper {
 
     // MentoringSessionDomain -> MentoringSessionTransactionDto 변환
     public static List<MentoringSessionOutDto> toSessionOutDto(MentoringDomain domain) {
-        return domain.getMentoringSessions().stream()
+        return domain.getMentoringSessions() != null ? domain.getMentoringSessions().stream()
                 .map(session -> MentoringSessionOutDto.builder()
                         .uuid(session.getUuid())
                         .mentoringId(session.getMentoringId())
@@ -47,10 +47,10 @@ public class MentoringDtoMapper {
                         .isClosed(session.getIsClosed())
                         .isDeleted(session.getIsDeleted())
                         .build())
-                .toList();
+                .toList() : null;
     }
     public static List<MentoringCategoryOutDto> mentoringCategoryOutDto (MentoringDomain domain){
-        return domain.getMentoringCategories().stream()
+        return domain.getMentoringCategories() != null ?domain.getMentoringCategories().stream()
                 .map(category -> MentoringCategoryOutDto.builder()
                                     .mentoringUuid(category.getMentoringUuid())
                                     .topCategoryCode(category.getTopCategoryCode())
@@ -60,7 +60,7 @@ public class MentoringDtoMapper {
                                     .middleCategoryName(category.getMiddleCategoryName())
                                     .bottomCategoryName(category.getBottomCategoryName())
                                     .build())
-                .toList();
+                .toList() : null;
     }
     public static List<MentoringCategoryAfterOutDto> toMentoringCategoryAfterOutDto (MentoringDomain domain){
         return domain.getMentoringCategories().stream()

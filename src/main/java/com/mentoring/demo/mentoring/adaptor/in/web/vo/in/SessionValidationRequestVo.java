@@ -20,6 +20,6 @@ public class SessionValidationRequestVo {
     private LocalTime startTime;
     @Schema(description = "멘토링 세션 종료시간", example = "14:00:00")
     private LocalTime endTime;
-    @Schema(description = "멘토 uuid")
-    private String mentorUuid;
+//    @Schema(description = "멘토 uuid")
+//    private String mentorUuid;
 }

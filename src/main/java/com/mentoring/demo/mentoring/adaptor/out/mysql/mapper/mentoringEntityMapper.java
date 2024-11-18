@@ -4,6 +4,9 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEn
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -64,7 +67,7 @@ public class mentoringEntityMapper {
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
-    public static List<MentoringSessionAddAfterOutDto> toMentoringSessionAddAfterDto(
+    public static List<MentoringSessionAddAfterOutDto> from(
                                                      List<MentoringSessionEntity> mentoringSessionEntities
     ) {
         return mentoringSessionEntities.stream()

@@ -3,6 +3,7 @@ package com.mentoring.demo.mentoring.application.port.out.dto.in;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import lombok.*;
 
 import java.time.LocalDateTime;

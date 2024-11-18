@@ -2,11 +2,13 @@ package com.mentoring.demo.mentoring.application.port.out.dto.in;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -15,7 +17,7 @@ import java.util.List;
 @ToString
 public class MentoringSessionOutDto {
 
-    private String uuid;
+    private String uuid; // 세션 uuid
 
     private String mentoringId;
     private String mentoringUuid;
@@ -72,4 +74,26 @@ public class MentoringSessionOutDto {
                                 .build()
                 ).toList();
     }
+    //
+
+    private List<MentoringSessionEntity> of (List<MentoringSessionOutDto> sessionOutDtos, MentoringEntity mentoringEntity) {
+        return sessionOutDtos.stream()
+                .map(dto -> MentoringSessionEntity.builder()
+                        .uuid(dto.getUuid())
+                        .mentoringEntity(mentoringEntity)
+                        .startDate(dto.getStartDate())
+                        .endDate(dto.getEndDate())
+                        .startTime(dto.getStartTime())
+                        .endTime(dto.getEndTime())
+                        .deadlineDate(dto.getDeadlineDate())
+                        .minHeadCount(dto.getMinHeadCount())
+                        .maxHeadCount(dto.getMaxHeadCount())
+                        .price(dto.getPrice())
+                        .isClosed(dto.getIsClosed())
+                        .isDeleted(dto.getIsDeleted())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
 }

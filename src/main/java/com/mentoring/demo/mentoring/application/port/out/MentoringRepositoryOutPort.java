@@ -1,6 +1,8 @@
 package com.mentoring.demo.mentoring.application.port.out;
 
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
 
 import java.util.List;
 

@@ -2,8 +2,9 @@ package com.mentoring.demo.mentoring.application.service;
 
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
 import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
-import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class SendMessageService implements SendMessageUseCase {
     @Override
     public void sendUpdateMentoringMessage(String topic, MentoringEditRequestOutDto mentoringEditRequestOutDto) {
         sendMessageOutPort.sendUpdateMentoringMessage(topic, mentoringEditRequestOutDto);
+    }
+
+    @Override
+    public void sendAddSessionMessage(String topic, SessionCreatedAfterOutDto sessionCreatedAfterOutDto) {
+        sendMessageOutPort.sendAddSessionMessage(topic, sessionCreatedAfterOutDto);
     }
 
 }

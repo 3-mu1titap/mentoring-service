@@ -4,11 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
-public class MentoringTimeVo {
+public class SessionAddRequestVo {
     @Schema(description = "멘토링 세션 시작날짜", example = "2024-10-01")
     private LocalDate startDate;
     @Schema(description = "멘토링 세션 종료날짜", example = "2024-10-01")

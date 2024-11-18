@@ -7,6 +7,8 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringCatego
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;

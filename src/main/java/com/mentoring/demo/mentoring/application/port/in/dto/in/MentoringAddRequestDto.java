@@ -19,6 +19,6 @@ public class MentoringAddRequestDto{
     private Boolean isReusable;
     private String thumbnailUrl;
 
-    private List<MentoringSessionDto> sessionList;
+    private List<AddMentoringSessionDto> sessionList;
     private List<MentoringCategoryDto> categoryList;
 }

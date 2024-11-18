@@ -33,23 +33,18 @@ public class MentoringDomain {
     private List<MentoringSessionDomain> mentoringSessions;
     private List<MentoringCategoryDomain> mentoringCategories;
 
-    // 도메인 카테고리 검사하는 도메인 로직
-    public void checkSessionAndCategory() {
-        if (this.mentoringCategories == null) {
-            throw new IllegalArgumentException("멘토링 카테고리가 존재하지 않습니다.");
-        }
-        if (this.mentoringSessions == null) {
-            throw new IllegalArgumentException("멘토링 세션이 존재하지 않습니다.");
-        }
-    }
+
     // 도메인 로직: 오늘 날짜에 시작하는 세션이 있는지 검증
-    public void checkForTodaySessions() {
+    public void checkForTodayStartSessions() {
         LocalDate today = LocalDate.now();
-        for (MentoringSessionDomain session : mentoringSessions) {
-            if (session.getStartDate().equals(today)) {
-                throw new IllegalArgumentException("오늘 날짜에 시작하는 멘토링 세션이 있습니다.");
+        if(mentoringSessions != null){
+            for (MentoringSessionDomain session : mentoringSessions) {
+                if (session.getStartDate().equals(today)) {
+                    throw new IllegalArgumentException("오늘 날짜에 시작하는 멘토링 세션이 있습니다.");
+                }
             }
         }
+
     }
     // 업데이트 체크
     public static void checkUpdateObject(MentoringResponseOutDto mentoringResponseOutDto) {
@@ -69,11 +64,10 @@ public class MentoringDomain {
                 .isReusable(dto.getIsReusable())
                 .isDeleted(false)
                 .mentoringSessions( // 멘토링 세션
-                        dto.getSessionList().stream()
+                        dto.getSessionList() != null ? dto.getSessionList().stream()
                         .map(
                                 session -> MentoringSessionDomain.builder()
                                             .uuid(UUID.randomUUID().toString())
-                                            //.mentoringId()
                                             .mentoringUuid(uuid)
                                             .startDate(session.getStartDate())
                                             .endDate(session.getEndDate())
@@ -86,10 +80,10 @@ public class MentoringDomain {
                                             .isClosed(false)
                                             .isDeleted(false)
                                             .build()
-                        ).toList()
+                        ).toList() : null
                 )
                 .mentoringCategories( // 멘토링 카테고리
-                        dto.getCategoryList().stream()
+                        dto.getCategoryList() != null ? dto.getCategoryList().stream()
                         .map(
                                 category -> MentoringCategoryDomain.builder()
                                                 .mentoringUuid(uuid)
@@ -100,7 +94,7 @@ public class MentoringDomain {
                                                 .middleCategoryName(category.getMiddleCategoryName())
                                                 .bottomCategoryName(category.getBottomCategoryName())
                                                 .build()
-                        ).toList()
+                        ).toList() : null
                 )
                 .build();
     }
