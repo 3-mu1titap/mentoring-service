@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,5 +73,10 @@ public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort {
 
         return oneValidSessionTime.map(SessionTimeResponseOutDto::from).orElse(null);
 
+    }
+
+    @Override
+    public List<DeadlinePastSessionResponseOutDto> getPastDeadlineSessions(LocalDate now) {
+        return mentoringSessionJpaRepository.findPastDeadlineSessions(now);
     }
 }

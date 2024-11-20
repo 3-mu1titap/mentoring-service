@@ -2,6 +2,7 @@ package com.mentoring.demo.mentoring.application.service;
 
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
 import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
@@ -30,5 +31,11 @@ public class SendMessageService implements SendMessageUseCase {
     public void sendAddSessionMessage(String topic, SessionCreatedAfterOutDto sessionCreatedAfterOutDto) {
         sendMessageOutPort.sendAddSessionMessage(topic, sessionCreatedAfterOutDto);
     }
+
+    @Override
+    public void sendDeadlinePastSession(String topic, DeadlinePastSessionResponseOutDto deadlinePastSessionResponseOutDto) {
+        sendMessageOutPort.sendDeadlinePastSessionMessage(topic, deadlinePastSessionResponseOutDto);
+    }
+
 
 }
