@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.adaptor.out.mysql.repository;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface MentoringSessionJpaRepository extends JpaRepository<MentoringSessionEntity,Long> {
@@ -44,5 +46,13 @@ public interface MentoringSessionJpaRepository extends JpaRepository<MentoringSe
                                                              @Param("endDate") LocalDate endDate,
                                                              @Param("endTime") LocalTime endTime,
                                                              @Param("mentorUuid") String mentorUuid);
+
+    @Query("SELECT new com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto(" +
+            "ms.id AS sessionId, ms.uuid AS sessionUuid, ms.minHeadCount, ms.maxHeadCount, ms.startDate) " +
+            "FROM mentoring_session ms " +
+            "WHERE ms.deadlineDate = :now " + // 오늘이 마감 날짜인 경우
+            "AND ms.isDeleted = false ")
+    List<DeadlinePastSessionResponseOutDto> findPastDeadlineSessions(@Param("now") LocalDate now);
+
 
 }
