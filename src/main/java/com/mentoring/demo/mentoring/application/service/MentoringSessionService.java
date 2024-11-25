@@ -7,6 +7,7 @@ import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.AddMentoringSessionDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.SessionValidationRequestDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
+import com.mentoring.demo.mentoring.application.port.out.SessionInquiryRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
@@ -28,17 +29,18 @@ import java.util.List;
 public class MentoringSessionService implements MentoringSessionUseCase {
 
     private final MentoringSessionRepositoryOutPort mentoringSessionRepositoryOutPort;
+    private final SessionInquiryRepositoryOutPort sessionInquiryRepositoryOutPort;
     private final SendMessageUseCase sendMessageUseCase;
 
     @Override
     public SessionResponseOutDto getSessionOutDtoByUuid(String uuid) {
-        return mentoringSessionRepositoryOutPort.getSessionResponseOutByUuid(uuid);
+        return sessionInquiryRepositoryOutPort.getSessionResponseOutByUuid(uuid);
 
     }
 
     @Override
     public SessionTimeResponseOutDto getSessionTimeOutDtoByUuid(String uuid) {
-        return mentoringSessionRepositoryOutPort.getSessionTimeOutDtoByUuid(uuid);
+        return sessionInquiryRepositoryOutPort.getSessionTimeOutDtoByUuid(uuid);
     }
 
     @Override

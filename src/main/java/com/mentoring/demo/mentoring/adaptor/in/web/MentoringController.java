@@ -1,6 +1,5 @@
 package com.mentoring.demo.mentoring.adaptor.in.web;
 
-import com.mentoring.demo.mentoring.adaptor.out.kafka.KafkaProducer;
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.MentoringVoMapper;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringEditRequestVo;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/mentoring-service")
 public class MentoringController {
     private final MentoringUseCase mentoringUseCase;
-    private final KafkaProducer kafkaProducer;
 
     @Operation(summary = "멘토링 생성" , description = "멘토링 기본 정보와 세션정보 받아서 멘토링 생성" ,tags = {"멘토링"})
     @PostMapping("")

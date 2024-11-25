@@ -23,7 +23,7 @@ public class SessionInquiryService implements SessionInquiryUseCase {
     @Override
     public List<DeadlinePastSessionResponseOutDto> getPastDeadlineSessions() {
         LocalDate now = LocalDate.now().minusDays(1);
-        return mentoringSessionRepositoryOutPort.getPastDeadlineSessions(now);
+        return sessionInquiryRepositoryOutPort.getDeadLinePastSessionList(now);
     }
 
     @Override

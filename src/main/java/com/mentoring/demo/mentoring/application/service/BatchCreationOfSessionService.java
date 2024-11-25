@@ -73,8 +73,6 @@ public class BatchCreationOfSessionService implements BatchCreationOfSessionUseC
         });
 
         if(!sessionCreatedAfterOutDto.getSessionAddAfterOutDtos().isEmpty()){
-            sessionCreatedAfterOutDto.getSessionAddAfterOutDtos().forEach(session ->
-                  log.info(session.getStartDate() + " :" + session.getStartTime()+" ~ "+ session.getEndDate()+ " : "+session.getEndTime())  );
             // 세션 생성 후 이벤트 발생
             sendMessageOutPort.sendAddSessionMessage("add-session", sessionCreatedAfterOutDto);
         }

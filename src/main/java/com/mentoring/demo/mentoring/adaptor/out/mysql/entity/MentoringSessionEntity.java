@@ -24,7 +24,7 @@ public class MentoringSessionEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "uuid")
+    @Column(name = "uuid", length = 50)
     @Comment("세션 UUID")
     private String uuid;
 

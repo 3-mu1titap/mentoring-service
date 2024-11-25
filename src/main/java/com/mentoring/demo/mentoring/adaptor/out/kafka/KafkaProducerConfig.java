@@ -29,8 +29,6 @@ public class KafkaProducerConfig {
     // 멘토링 생성 DTO
     @Bean
     public ProducerFactory<String, MentoringAddAfterOutDto> mentoringProducerFactory() {
-        log.info("kafkaClusterUri: " + kafkaClusterUri);
-
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaClusterUri);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
