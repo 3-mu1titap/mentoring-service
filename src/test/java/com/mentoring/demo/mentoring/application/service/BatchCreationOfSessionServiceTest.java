@@ -112,10 +112,4 @@ class BatchCreationOfSessionServiceTest {
         batchCreationOfSessionUseCase.batchCreationOfSession(batchCreationOfSessionDto);
     }
 
-    @Test
-    public void timeFormatTest() {
-        String timeString = "11:20:10";;
-        LocalTime time = LocalTime.parse(timeString);
-        log.info("time : "+time);
-    }
 }

@@ -15,7 +15,4 @@ public class DeadlinePastSessionResponseOutDto {
     private Integer minHeadCount;
     private Integer maxHeadCount;
     private LocalDate startDate;
-
-
-
 }
