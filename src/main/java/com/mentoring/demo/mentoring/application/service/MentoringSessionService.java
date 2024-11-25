@@ -48,7 +48,7 @@ public class MentoringSessionService implements MentoringSessionUseCase {
         List<MentoringSessionOutDto> sessionOutDtos = SessionDtoMapper.from(sessionDomains);
 
         SessionCreatedAfterOutDto session =
-                mentoringSessionRepositoryOutPort.createSession(mentoringUuid, sessionOutDtos);
+                mentoringSessionRepositoryOutPort.createSessions(mentoringUuid, sessionOutDtos);
         // 세션 생성 후 이벤트 발생
         sendMessageUseCase.sendAddSessionMessage("add-session", session);
     }

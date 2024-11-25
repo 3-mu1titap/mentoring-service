@@ -11,6 +11,7 @@ public class SessionDtoMapper {
     public static List<MentoringSessionOutDto> from(List<MentoringSessionDomain> sessionDomains) {
         return sessionDomains.stream()
                 .map(session -> MentoringSessionOutDto.builder()
+                        .mentoringUuid(session.getMentoringUuid() == null ? null : session.getMentoringUuid())
                         .uuid(session.getUuid())
                         .startDate(session.getStartDate())
                         .endDate(session.getEndDate())

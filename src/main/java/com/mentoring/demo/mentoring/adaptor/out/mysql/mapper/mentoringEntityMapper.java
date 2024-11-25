@@ -50,9 +50,7 @@ public class mentoringEntityMapper {
                 .build();
     }
 
-    public static MentoringAddAfterOutDto toMentoringAddAfterOutDto(
-            //MentoringEntity entity, List<MentoringSessionEntity> mentoringSessionEntities ) {
-            MentoringEntity entity) {
+    public static MentoringAddAfterOutDto from(MentoringEntity entity) {
         return MentoringAddAfterOutDto.builder()
                 .mentoringId(entity.getId().toString())
                 .mentoringUuid(entity.getMentoringUuid())

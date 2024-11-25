@@ -9,4 +9,6 @@ public interface MentoringUseCase {
 
     // 멘토링 정보 수정 (열어놓은 세션 수정 불가 X 멘토링 기본 정보만 변경)
     void updateMentoring(MentoringEditRequestDto mentoringEditRequestDto);
+
+
 }

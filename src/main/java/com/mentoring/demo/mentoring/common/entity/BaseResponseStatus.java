@@ -90,7 +90,24 @@ public enum BaseResponseStatus {
      * 6000: gpt-api error
      */
     // Media
-    NO_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 6001, "존재하지 않는 미디어입니다");
+    NO_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 6001, "존재하지 않는 미디어입니다"),
+
+
+    /**
+     * 멘토링
+     */
+    NO_EXIST_MENTORING(HttpStatus.NOT_FOUND, false, 404, "존재하지 않는 멘토링 입니다"),
+
+    /**
+     * 세션 , 세션 일괄 생성
+     */
+    SESSION_TIME_CONFLICT(HttpStatus.BAD_REQUEST, false, 400, "세션 시간대가 겹칩니다"),
+    INVALID_DAY_OF_WEEK(HttpStatus.BAD_REQUEST, false, 400, "요일이 중복되었습니다"),
+    DEADLINE_DATE_CONFLICT(HttpStatus.BAD_REQUEST, false, 400, "최대 90일까지 일괄생성 마감일을 지정 가능합니다"),
+    IS_NOT_NEXT_DAY(HttpStatus.BAD_REQUEST, false, 400, "다음 날로 넘어가는 시간대가 아닙니다");
+    // 요일 겹치는 경우 예외만들어
+
+
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

@@ -1,9 +1,12 @@
 package com.mentoring.demo.mentoring.adaptor.in.web;
 
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.SessionVoMapper;
+import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.BatchCreationOfSessionVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionValidationRequestVo;
+import com.mentoring.demo.mentoring.application.port.in.BatchCreationOfSessionUseCase;
 import com.mentoring.demo.mentoring.application.port.in.MentoringSessionUseCase;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.BatchCreationOfSessionDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.SessionValidationRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.out.SessionValidationResponseDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionResponseOutDto;
@@ -23,7 +26,7 @@ import java.util.List;
 @RequestMapping("/api/v1/mentoring-service")
 public class SessionController {
     private final MentoringSessionUseCase mentoringSessionUseCase;
-
+    private final BatchCreationOfSessionUseCase batchCreationOfSessionUseCase;
     @Operation(summary = "세션 정보 조회[최대정원수, 예약마감일] (session-request-service 의 feign client 용 api)"
             ,tags = {"feign client"} )
     @GetMapping("/session/{uuid}")
@@ -73,5 +76,14 @@ public class SessionController {
     ) {
         mentoringSessionUseCase.createSession(mentoringUuid,SessionVoMapper.from(sessionVoList));
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+    }
+
+    @Operation(summary = "멘토링 세션 일괄생성" , description = "멘토링 세션 일괄생성"
+            ,tags = {"멘토링 세션"} )
+    @PostMapping("/batch-session")
+    public BaseResponse<Integer> batchCreationOfSession(@RequestBody BatchCreationOfSessionVo request)
+    {
+
+        return new BaseResponse<>(batchCreationOfSessionUseCase.batchCreationOfSession(SessionVoMapper.from(request)));
     }
 }
