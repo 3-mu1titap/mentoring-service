@@ -18,6 +18,7 @@ public class SwaggerConfig {
     @Value("${swagger.uri}")
     private String swaggerUri;
     @Bean
+
     public OpenAPI openAPI() {
 
         String securityJwtName = "JWT";

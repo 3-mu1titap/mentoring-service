@@ -5,6 +5,7 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.mentoringEntityMapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringCategoryJpaRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
+import com.mentoring.demo.mentoring.application.port.out.MentoringInquiryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 @Component("MentoringMysqlAdapter")
-public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
+public class MentoringMysqlAdapter implements MentoringRepositoryOutPort , MentoringInquiryOutPort {
     private final MentoringJpaRepository mentoringJpaRepository;
 
     private final MentoringCategoryJpaRepository mentoringCategoryJpaRepository;
@@ -26,7 +27,7 @@ public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
     public MentoringAddAfterOutDto createMentoring(MentoringAddRequestOutDto mentoringAddRequestOutDto) {
         // 멘토링 저장
         MentoringEntity mentoring = mentoringJpaRepository.save(mentoringAddRequestOutDto.toEntity());
-        return mentoringEntityMapper.toMentoringAddAfterOutDto(mentoring);
+        return mentoringEntityMapper.from(mentoring);
     }
 
     @Override
@@ -62,6 +63,31 @@ public class MentoringMysqlAdapter implements MentoringRepositoryOutPort {
     @Override
     public void deleteMentoringCategory(String mentoringUuid) {
         mentoringCategoryJpaRepository.deleteByMentoringUuid(mentoringUuid);
+    }
+
+    /**
+     * MentoringInquiryOutPort
+     */
+    @Override
+    public String getMentoringIdByMentoringUuid(String mentoringUuid) {
+        return mentoringJpaRepository.getIdByMentoringUuid(mentoringUuid);
+    }
+
+    @Override
+    public MentoringResponseOutDto getMentoringResponseByMentoringUuid(String mentoringUuid) {
+        MentoringEntity mentoringEntity = mentoringJpaRepository.findByMentoringUuid(mentoringUuid);
+        return MentoringResponseOutDto.builder()
+                .id(mentoringEntity.getId().toString())
+                .uuid(mentoringEntity.getMentoringUuid())
+                .name(mentoringEntity.getName())
+                .description(mentoringEntity.getDescription())
+                .detail(mentoringEntity.getDetail())
+                .isReusable(mentoringEntity.getIsReusable())
+                .thumbnailUrl(mentoringEntity.getThumbnailUrl())
+                .mentorUuid(mentoringEntity.getMentorUuid())
+                .isDeleted(mentoringEntity.getIsDeleted())
+                .build();
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.domain.model;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.in.AddMentoringSessionDto;
+import com.mentoring.demo.mentoring.domain.vo.TimeRange;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -62,6 +64,32 @@ public class MentoringSessionDomain {
                     .build());
         }
         return mentoringSessionDomainList;
+    }
+
+    public static List<MentoringSessionDomain> createBatchSession(String mentoringUuid,
+                                                                  Map<LocalDate, List<TimeRange>> sessionListByDate) {
+        List<MentoringSessionDomain> result = new ArrayList<>();
+        for (LocalDate date : sessionListByDate.keySet()) {
+            for (TimeRange timeRange : sessionListByDate.get(date)) {
+                result.add(MentoringSessionDomain.builder()
+                        .uuid(UUID.randomUUID().toString()) // 세션 uuid 생성
+                        .mentoringUuid(mentoringUuid)
+                        .startDate(date)
+                        .endDate(timeRange.getIsNextDay() ? date.plusDays(1) : date)
+                        .startTime(timeRange.getStartTime())
+                        .endTime(timeRange.getEndTime())
+                        .deadlineDate(date.minusDays(1))
+                        .price(timeRange.getPrice())
+                        .minHeadCount(timeRange.getMinHeadCount())
+                        .maxHeadCount(timeRange.getMaxHeadCount())
+                        .isClosed(false)
+                        .isDeleted(false)
+                        .build());
+            }
+        }
+
+        return result;
+
     }
 
 }

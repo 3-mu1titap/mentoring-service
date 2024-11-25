@@ -5,24 +5,32 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEnt
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.SessionEntityMapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.mentoringEntityMapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
+import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionDslRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionJpaRepository;
 import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
+import com.mentoring.demo.mentoring.application.port.out.SessionInquiryRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.*;
+import com.mentoring.demo.mentoring.common.entity.BaseResponseStatus;
+import com.mentoring.demo.mentoring.common.exception.BaseException;
+import com.mentoring.demo.mentoring.domain.vo.TimeRange;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log4j2
 @Component("SessionMysqlAdapter")
-public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort {
+public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort, SessionInquiryRepositoryOutPort {
     private final MentoringSessionJpaRepository mentoringSessionJpaRepository;
     private final MentoringJpaRepository mentoringEntityRepository;
+    private final MentoringSessionDslRepository mentoringSessionDslRepository;
     @Override
     public List<MentoringSessionAddAfterOutDto>  createMentoringSession(MentoringAddAfterOutDto mentoringAddAfterOutDto,
                                                                        MentoringAddRequestOutDto mentoringAddRequestOutDto) {
@@ -56,7 +64,7 @@ public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort {
     }
 
     @Override
-    public SessionCreatedAfterOutDto createSession(String mentoringUuid, List<MentoringSessionOutDto> sessionOutDtos) {
+    public SessionCreatedAfterOutDto createSessions(String mentoringUuid, List<MentoringSessionOutDto> sessionOutDtos) {
         MentoringEntity mentoringEntity = mentoringEntityRepository.findByMentoringUuid(mentoringUuid);
         List<MentoringSessionEntity> mentoringSessionEntities =
                 mentoringSessionJpaRepository.saveAll(SessionEntityMapper.of(mentoringEntity, sessionOutDtos));
@@ -64,9 +72,14 @@ public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort {
     }
 
     @Override
-    public SessionTimeResponseOutDto validateSessionTime(
-            SessionValidationRequestOutDto dto
-    )
+    public SessionAddAfterOutDto createSession(MentoringResponseOutDto mentoringResponseOutDto, MentoringSessionOutDto sessionOutDto) {
+        MentoringSessionEntity sessionEntity =
+                mentoringSessionJpaRepository.save(SessionEntityMapper.of(mentoringResponseOutDto, sessionOutDto));
+        return SessionEntityMapper.of(sessionEntity);
+    }
+
+    @Override
+    public SessionTimeResponseOutDto validateSessionTime(SessionValidationRequestOutDto dto)
     {
         Optional<MentoringSessionEntity> oneValidSessionTime =
                 mentoringSessionJpaRepository.findOneValidSessionTime(dto.getStartDate(), dto.getStartTime(), dto.getEndDate(), dto.getEndTime(), dto.getMentorUuid());
@@ -78,5 +91,16 @@ public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort {
     @Override
     public List<DeadlinePastSessionResponseOutDto> getPastDeadlineSessions(LocalDate now) {
         return mentoringSessionJpaRepository.findPastDeadlineSessions(now);
+    }
+
+    @Override
+    public Map<LocalDate, List<TimeRange>> getSessionTimeUntilDeadline(String mentoringId, LocalDate deadLineDate) {
+        return mentoringSessionDslRepository.getSessionTimeUntilDeadline(mentoringId, deadLineDate);
+    }
+
+
+    @Override
+    public boolean existsMentoringSession(String mentoringId, MentoringSessionOutDto mentoringSessionOutDto) {
+        return mentoringSessionDslRepository.existsMentoringSession(mentoringId,mentoringSessionOutDto);
     }
 }

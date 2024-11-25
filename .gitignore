@@ -28,6 +28,8 @@ out/
 !**/src/test/**/out/
 **/SwaggerConfig.class
 **/SwaggerConfig.java
+# QueryDSL Q-files
+**/build/generated/**/Q*.java
 
 ### NetBeans ###
 /nbproject/private/

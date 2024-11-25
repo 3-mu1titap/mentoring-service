@@ -2,6 +2,7 @@ package com.mentoring.demo.mentoring.adaptor.out.mysql.mapper;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionAddAfterOutDto;
@@ -32,6 +33,36 @@ public class SessionEntityMapper {
                 .collect(Collectors.toList());
     }
 
+    // 제거
+    public static MentoringSessionEntity of(MentoringResponseOutDto mentoringResponseOutDto, MentoringSessionOutDto dto) {
+        return MentoringSessionEntity.builder()
+                        .uuid(dto.getUuid())
+                        .mentoringEntity(
+                                MentoringEntity.builder()
+                                        .id(Long.valueOf(mentoringResponseOutDto.getId()))
+                                        .mentoringUuid(mentoringResponseOutDto.getUuid())
+                                        .name(mentoringResponseOutDto.getName())
+                                        .description(mentoringResponseOutDto.getDescription())
+                                        .detail(mentoringResponseOutDto.getDetail())
+                                        .mentorUuid(mentoringResponseOutDto.getMentorUuid())
+                                        .thumbnailUrl(mentoringResponseOutDto.getThumbnailUrl())
+                                        .isReusable(mentoringResponseOutDto.getIsReusable())
+                                        .isDeleted(mentoringResponseOutDto.getIsDeleted())
+                                        .build()
+                        )
+                        .startDate(dto.getStartDate())
+                        .endDate(dto.getEndDate())
+                        .startTime(dto.getStartTime())
+                        .endTime(dto.getEndTime())
+                        .deadlineDate(dto.getDeadlineDate())
+                        .minHeadCount(dto.getMinHeadCount())
+                        .maxHeadCount(dto.getMaxHeadCount())
+                        .price(dto.getPrice())
+                        .isClosed(dto.getIsClosed())
+                        .isDeleted(dto.getIsDeleted())
+                        .build();
+    }
+
     public static SessionCreatedAfterOutDto of (List<MentoringSessionEntity> sessionEntities, MentoringEntity mentoringEntity) {
         return SessionCreatedAfterOutDto.builder()
                 .mentoringId(mentoringEntity.getId().toString())
@@ -59,5 +90,24 @@ public class SessionEntityMapper {
                                 .collect(Collectors.toList())
                 )
                 .build();
+    }
+    public static SessionAddAfterOutDto of (MentoringSessionEntity sessionEntity) {
+        return SessionAddAfterOutDto.builder()
+                    .sessionId(sessionEntity.getId().toString())
+                    .sessionUuid(sessionEntity.getUuid())
+                    .startDate(sessionEntity.getStartDate())
+                    .endDate(sessionEntity.getEndDate())
+                    .startTime(sessionEntity.getStartTime())
+                    .endTime(sessionEntity.getEndTime())
+                    .deadlineDate(sessionEntity.getDeadlineDate())
+                    .minHeadCount(sessionEntity.getMinHeadCount())
+                    .maxHeadCount(sessionEntity.getMaxHeadCount())
+                    .price(sessionEntity.getPrice())
+                    .isClosed(sessionEntity.getIsClosed())
+                    .isDeleted(sessionEntity.getIsDeleted())
+                    .createdAt(sessionEntity.getCreatedAt())
+                    .updatedAt(sessionEntity.getUpdatedAt())
+                    .build();
+
     }
 }
