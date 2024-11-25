@@ -30,7 +30,7 @@ out/
 **/SwaggerConfig.java
 # QueryDSL Q-files
 **/build/generated/**/Q*.java
-
+**/generated/**
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
