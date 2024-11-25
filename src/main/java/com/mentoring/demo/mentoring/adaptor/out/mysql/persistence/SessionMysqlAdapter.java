@@ -4,6 +4,7 @@ import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.SessionEntityMapper;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.mapper.mentoringEntityMapper;
+import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringDslRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionDslRepository;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionJpaRepository;
@@ -88,19 +89,21 @@ public class SessionMysqlAdapter implements MentoringSessionRepositoryOutPort, S
 
     }
 
-    @Override
-    public List<DeadlinePastSessionResponseOutDto> getPastDeadlineSessions(LocalDate now) {
-        return mentoringSessionJpaRepository.findPastDeadlineSessions(now);
-    }
+
 
     @Override
     public Map<LocalDate, List<TimeRange>> getSessionTimeUntilDeadline(String mentoringId, LocalDate deadLineDate) {
-        return mentoringSessionDslRepository.getSessionTimeUntilDeadline(mentoringId, deadLineDate);
+        return mentoringSessionDslRepository.getSessionTimeMapUntilDeadline(mentoringId, deadLineDate);
     }
 
 
     @Override
     public boolean existsMentoringSession(String mentoringId, MentoringSessionOutDto mentoringSessionOutDto) {
         return mentoringSessionDslRepository.existsMentoringSession(mentoringId,mentoringSessionOutDto);
+    }
+
+    @Override
+    public List<DeadlinePastSessionResponseOutDto> getDeadLinePastSessionList(LocalDate now) {
+        return mentoringSessionDslRepository.findPastDeadlineSessions(now);
     }
 }

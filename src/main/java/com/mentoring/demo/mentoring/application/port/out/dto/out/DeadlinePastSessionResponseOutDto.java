@@ -10,7 +10,9 @@ import java.time.LocalDate;
 @Builder
 @ToString
 public class DeadlinePastSessionResponseOutDto {
-    private Long sessionId;
+    private String mentoringId;
+    private String mentorUuid;
+    private String sessionId;
     private String sessionUuid;
     private Integer minHeadCount;
     private Integer maxHeadCount;

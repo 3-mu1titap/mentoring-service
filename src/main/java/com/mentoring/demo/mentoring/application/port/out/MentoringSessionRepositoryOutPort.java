@@ -11,9 +11,6 @@ import java.util.Map;
 public interface MentoringSessionRepositoryOutPort {
     List<MentoringSessionAddAfterOutDto> createMentoringSession(MentoringAddAfterOutDto mentoringAddAfterOutDto,
                                                                 MentoringAddRequestOutDto mentoringAddRequestOutDto);
-    SessionResponseOutDto getSessionResponseOutByUuid(String uuid);
-
-    SessionTimeResponseOutDto getSessionTimeOutDtoByUuid(String uuid);
 
     void closeSession(String uuid);
 
@@ -24,7 +21,5 @@ public interface MentoringSessionRepositoryOutPort {
 
     SessionTimeResponseOutDto validateSessionTime(SessionValidationRequestOutDto dto);
 
-    List<DeadlinePastSessionResponseOutDto> getPastDeadlineSessions(LocalDate now);
 
-    Map<LocalDate, List<TimeRange>>  getSessionTimeUntilDeadline(String mentoringId , LocalDate deadLineDate);
 }

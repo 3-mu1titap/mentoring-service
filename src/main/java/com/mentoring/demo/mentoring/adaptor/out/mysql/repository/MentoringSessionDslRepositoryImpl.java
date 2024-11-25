@@ -2,10 +2,12 @@ package com.mentoring.demo.mentoring.adaptor.out.mysql.repository;
 
 import com.mentoring.demo.mentoring.application.port.in.dto.in.TimeRangeDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionTimeDtoByDateDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.TimeRangeOutDto;
 import com.mentoring.demo.mentoring.domain.vo.TimeRange;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
@@ -31,7 +33,7 @@ public class MentoringSessionDslRepositoryImpl implements MentoringSessionDslRep
 
 
     @Override
-    public Map<LocalDate, List<TimeRange>>  getSessionTimeUntilDeadline(String mentoringId, LocalDate deadLineDate) {
+    public Map<LocalDate, List<TimeRange>>  getSessionTimeMapUntilDeadline(String mentoringId, LocalDate deadLineDate) {
         Long mentoringIdLong = Long.parseLong(mentoringId);
 
         LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -64,6 +66,25 @@ public class MentoringSessionDslRepositoryImpl implements MentoringSessionDslRep
                         )
                 ));
 
+    }
+
+    @Override
+    public List<DeadlinePastSessionResponseOutDto> findPastDeadlineSessions(LocalDate now) {
+        return queryFactory.select(Projections.constructor(DeadlinePastSessionResponseOutDto.class,
+                        mentoringSessionEntity.mentoringEntity.id.stringValue(),
+                        mentoringSessionEntity.mentoringEntity.mentorUuid,
+                        mentoringSessionEntity.id.stringValue(),
+                        mentoringSessionEntity.uuid,
+                        mentoringSessionEntity.minHeadCount,
+                        mentoringSessionEntity.maxHeadCount,
+                        mentoringSessionEntity.startDate
+                ))
+                .from(mentoringSessionEntity)
+                .where(
+                        mentoringSessionEntity.isDeleted.eq(false)
+                        .and(mentoringSessionEntity.deadlineDate.eq(now))
+                )
+                .fetch();
     }
 
     @Override

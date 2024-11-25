@@ -10,5 +10,6 @@ public interface SessionInquiryUseCase {
 
     List <DeadlinePastSessionResponseOutDto> getPastDeadlineSessions();
 
+
     boolean existsMentoringSession(String mentoringId, MentoringSessionOutDto mentoringSessionOutDto);
 }
