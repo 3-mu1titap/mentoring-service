@@ -48,7 +48,7 @@ public class MentoringService implements MentoringUseCase {
             mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
         }
         // 멘토링 카테고리 저장
-        if(mentoringAddAfterOutDto.getMentoringCategoryAfterOutDtoList() != null){
+        if(mentoringAddRequestDto.getCategoryList() != null){
             List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
                     mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
             mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
