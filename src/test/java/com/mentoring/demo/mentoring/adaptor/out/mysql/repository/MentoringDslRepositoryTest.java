@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,12 +23,16 @@ class MentoringDslRepositoryTest {
     void findPastDeadlineSessions(){
         LocalDate localDate = LocalDate.of(2024, 12, 2);
         List<DeadlinePastSessionResponseOutDto> pastDeadlineSessions = mentoringSessionDslRepository.findPastDeadlineSessions(localDate);
-        pastDeadlineSessions.forEach(log::info);
+        //pastDeadlineSessions.forEach(log::info);
 
 //        pastDeadlineSessions.forEach(session ->
 //                sendMessageOutPort.sendDeadlinePastSessionMessage("deadline-past-session", session)
 //        );
 
         //pastDeadlineSessions.forEach(log::info);
+    }
+
+    @Test
+    void showTimeZone(){
     }
 }
