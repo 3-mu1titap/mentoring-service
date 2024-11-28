@@ -24,41 +24,53 @@ public class SessionBatchCreationManagementVo {
     // 도메인 로직 : 요일 중복 체크, 같은 요일에 겹치는 시간 존재하는지 체크
 
 
-    public static void validateDeadlineDate(LocalDate deadlineDate) {
+    public static void validateDeadlineDate(LocalDate creationEndDate) {
         // 생성마감일은 오늘로부터 90일 뒤까지의 날짜만 가능
         LocalDate maxDeadlineDate = LocalDate.now().plusDays(90);
-        if (!deadlineDate.isAfter(LocalDate.now()) || deadlineDate.isAfter(maxDeadlineDate)) {
+        if (!creationEndDate.isAfter(LocalDate.now()) || creationEndDate.isAfter(maxDeadlineDate)) {
             throw new BaseException(BaseResponseStatus.DEADLINE_DATE_CONFLICT);
         }
     }
 
     public static Map<LocalDate, List<TimeRange>> convertSessionListByDateUntilDeadline(
-            List<TimeSlotDto> timeSlotList, LocalDate deadLineDate) {
+            List<TimeRangeDto> timeRanges, LocalDate creationStartDate, LocalDate creationEndDate)
+    {
         Map<LocalDate, List<TimeRange>> result = new TreeMap<>();
-        // 내일 날짜부터 시작
-        LocalDate dateCursor = LocalDate.now().plusDays(1);
 
-        // 생성 마감일까지 세션 생성
-        while (!dateCursor.isAfter(deadLineDate)) {
-            DayOfWeek todayWeek = dateCursor.getDayOfWeek(); // 현재 요일
-
-            for (TimeSlotDto timeSlot : timeSlotList) {
-                // 현재 요일이면
-                if (timeSlot.getDayOfWeek() == todayWeek) {
-                    // 해당 요일의 TimeRange 리스트 가져오기
-                    List<TimeRangeDto> timeRangeDtos = timeSlot.getTimeRanges();
-                    List<TimeRange> timeRanges = timeRangeDtos.stream()
-                            .map(TimeRangeDto::toTimeRange)
-                            .sorted(
-                                    Comparator.comparing(TimeRange::getIsNextDay).reversed() // 1순위: 다음날로 넘어가는 시간
-                                            .thenComparing(TimeRange::getStartTime) // 2순위: 시작 시간 순으로 정렬
-                            )
-                            .toList();
-                    result.computeIfAbsent(dateCursor, k -> new ArrayList<>()).addAll(timeRanges);
+        for (TimeRangeDto timeRangeDto : timeRanges) { // 시간대 순회
+            boolean isEveryDay = timeRangeDto.getDayOfWeekList() == null; // 요일 리스트 비면 매일 생성
+            LocalDate dateCursor = creationStartDate;
+            // creationEndDate 일까지
+            while (!dateCursor.isAfter(creationEndDate)) {
+                // 매일 생성이거나 해당 요일이면
+                if (isEveryDay || timeRangeDto.getDayOfWeekList().contains(dateCursor.getDayOfWeek())) {
+                    List<TimeRange> timeRangeList = result.getOrDefault(dateCursor, new ArrayList<>());
+                    timeRangeList.add(TimeRange.builder()
+                            .startDate(dateCursor)
+                            .startTime(timeRangeDto.getStartTime())
+                            .endDate(timeRangeDto.getStartTime().isAfter(timeRangeDto.getEndTime()) ?
+                                    dateCursor.plusDays(1) : dateCursor)
+                            .endTime(timeRangeDto.getEndTime())
+                            .minHeadCount(timeRangeDto.getMinHeadCount())
+                            .maxHeadCount(timeRangeDto.getMaxHeadCount())
+                            .price(timeRangeDto.getPrice())
+                            .build());
+                    result.put(dateCursor, timeRangeList);
+                }
+                dateCursor = dateCursor.plusDays(1);
+            }
+        }
+        // result 날짜별로 timeRange 출력
+        if(!result.isEmpty()){
+            log.info("=====================생성된 세션====================");
+            for (LocalDate date : result.keySet()) {
+                log.info(date + " (" + date.getDayOfWeek() + ")");
+                for (TimeRange timeRange : result.get(date)) {
+                    log.info(timeRange.getStartDate()+" => "+timeRange.getStartTime() + " ~ " +timeRange.getEndDate()+" => "+ timeRange.getEndTime() );
                 }
             }
-            dateCursor = dateCursor.plusDays(1);
         }
+
 
         return result;
     }
@@ -89,7 +101,7 @@ public class SessionBatchCreationManagementVo {
             for (LocalDate date : result.keySet()) {
                 log.info(date + " (" + date.getDayOfWeek() + ")");
                 for (TimeRange timeRange : result.get(date)) {
-                    log.info(timeRange.getStartTime() + " ~ " + timeRange.getEndTime() + " => " +timeRange.getIsNextDay());
+                    log.info(timeRange.getStartTime() + " ~ " + timeRange.getEndTime() + " => ");
                 }
             }
         }

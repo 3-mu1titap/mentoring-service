@@ -40,11 +40,11 @@ public class BatchCreationOfSessionService implements BatchCreationOfSessionUseC
          * 3. '요일 중복, 요일에 시간리스트 중복 되면 안됨
          */
         // 일괄생성 마감일 유효성 검사
-        SessionBatchCreationManagementVo.validateDeadlineDate(dto.getDeadLineDate());
+        SessionBatchCreationManagementVo.validateDeadlineDate(dto.getCreationEndDate());
         // todo : 요일 중복, 요일에 시간리스트 중복 체크 => 문제시 에러 발생
         // 날짜 : [ {13:00~14:00} , {14:00~15:00}... ] 형태로 변환(생성마감일 까지, List 형태임)
         Map<LocalDate, List<TimeRange>> SessionListByDateInputMap =
-                SessionBatchCreationManagementVo.convertSessionListByDateUntilDeadline(dto.getTimeSlotDtoList(), dto.getDeadLineDate());
+                SessionBatchCreationManagementVo.convertSessionListByDateUntilDeadline(dto.getTimeRanges(), dto.getCreationStartDate(), dto.getCreationEndDate());
 
         /**
          * insert 시 비교
@@ -69,6 +69,9 @@ public class BatchCreationOfSessionService implements BatchCreationOfSessionUseC
             if(!sessionInquiryRepositoryOutPort.existsMentoringSession(mentoringResponseOutDto.getId(),mentoringSessionOutDto)){
                 sessionCreatedAfterOutDto.getSessionAddAfterOutDtos()
                         .add(mentoringSessionRepositoryOutPort.createSession(mentoringResponseOutDto,mentoringSessionOutDto));
+            }
+            else{
+                log.info("====이미 존재하는 세션입니다==== : " + mentoringSessionOutDto);
             }
         });
 

@@ -42,25 +42,20 @@ public class SessionVoMapper {
     public static BatchCreationOfSessionDto from (BatchCreationOfSessionVo vo){
         return BatchCreationOfSessionDto.builder()
                 .mentoringUuid(vo.getMentoringUuid())
-                .deadLineDate(vo.getDeadLineDate())
-                .timeSlotDtoList(
-                        vo.getTimeSlotVoList().stream()
-                                .map(timeSlotVo -> TimeSlotDto.builder()
-                                                    .dayOfWeek(timeSlotVo.getDayOfWeek())
-                                                    .timeRanges(
-                                                            timeSlotVo.getTimeRangeVos().stream()
-                                                                    .map(timeRangeVo -> TimeRangeDto.builder()
-                                                                            .startTime(LocalTime.parse(timeRangeVo.getStartTime()))
-                                                                            .endTime(LocalTime.parse(timeRangeVo.getEndTime()))
-                                                                            .minHeadCount(timeRangeVo.getMinHeadCount())
-                                                                            .maxHeadCount(timeRangeVo.getMaxHeadCount())
-                                                                            .price(timeRangeVo.getPrice())
-                                                                            .build()
-                                                                    ).toList()
-                                                    )
-                                        .build())
-                                .toList()
-                )
+                .creationStartDate(vo.getCreationStartDate())
+                .creationEndDate(vo.getCreationEndDate())
+                .timeRanges(vo.getTimeRangeVos().stream().map(
+                        timeRangeVo -> TimeRangeDto.builder()
+                                .startTime(LocalTime.parse(timeRangeVo.getStartTime()))
+                                .endTime(LocalTime.parse(timeRangeVo.getEndTime()))
+                                .minHeadCount(timeRangeVo.getMinHeadCount())
+                                .maxHeadCount(timeRangeVo.getMaxHeadCount())
+                                .price(timeRangeVo.getPrice())
+                                .dayOfWeekList(timeRangeVo.getDayOfWeekList()!=null ?
+                                        timeRangeVo.getDayOfWeekList() : null)
+                                .build()
+                ).toList())
+
                 .build();
     }
 }
