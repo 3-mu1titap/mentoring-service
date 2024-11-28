@@ -10,9 +10,5 @@ import java.time.DayOfWeek;
 import java.util.List;
 @Getter
 public class TimeSlotVo {
-    private DayOfWeek dayOfWeek;
-
-
     private List<TimeRangeVo> timeRangeVos;
-    //private Map<DayOfWeek, List<TimeRangeVo>> timeSlots;
 }

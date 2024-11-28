@@ -78,7 +78,9 @@ public class SessionController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
-    @Operation(summary = "멘토링 세션 일괄생성" , description = "멘토링 세션 일괄생성"
+    @Operation(summary = "멘토링 세션 일괄생성" , description = "멘토링 세션 일괄생성 <br/>"+
+            "요일 리스트(dayOfWeekList) 입력 안들어오면 매일 생성. <br/>"+
+            "기존 세션과 겹치면 생성 안된다"
             ,tags = {"멘토링 세션"} )
     @PostMapping("/batch-session")
     public BaseResponse<Integer> batchCreationOfSession(@RequestBody BatchCreationOfSessionVo request)

@@ -26,90 +26,80 @@ import static org.junit.jupiter.api.Assertions.*;
 class BatchCreationOfSessionServiceTest {
     @Autowired
     BatchCreationOfSessionUseCase batchCreationOfSessionUseCase;
+
+
+    @Test
+    void convertSessionListByDateUntilDeadline(){
+
+        List<TimeRangeDto> timeRangeDtos = List.of(
+                TimeRangeDto.builder()
+                        .startTime(LocalTime.of(9, 0))
+                        .endTime(LocalTime.of(10, 0))
+                        .minHeadCount(1)
+                        .maxHeadCount(2)
+                        .price(1000)
+                        .dayOfWeekList(List.of(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY))
+                        .build(),
+                TimeRangeDto.builder()
+                        .startTime(LocalTime.of(23, 30))
+                        .endTime(LocalTime.of(1, 0))
+                        .minHeadCount(1)
+                        .maxHeadCount(2)
+                        .price(1000)
+                        .dayOfWeekList(List.of(DayOfWeek.THURSDAY, DayOfWeek.SUNDAY))
+                        .build(),
+                TimeRangeDto.builder()
+                        .startTime(LocalTime.of(11, 0))
+                        .endTime(LocalTime.of(11, 30))
+                        .minHeadCount(1)
+                        .maxHeadCount(2)
+                        .price(1000)
+                        .build()
+        );
+
+        LocalDate creationStartDate = LocalDate.now();
+        LocalDate creationEndDate = LocalDate.now().plusDays(30);
+
+        Map<LocalDate, List<TimeRange>> result = SessionBatchCreationManagementVo.convertSessionListByDateUntilDeadline(timeRangeDtos, creationStartDate, creationEndDate);
+    }
+
     @Test
     @Rollback
     @Transactional
     void batchCreationOfSession() {
         BatchCreationOfSessionDto batchCreationOfSessionDto = BatchCreationOfSessionDto.builder()
-                .mentoringUuid("5f3a302d-f07f-495c-b090-26c11a9e3d8d")
-                .deadLineDate(LocalDate.now().plusDays(14))
-                .timeSlotDtoList(
+                .mentoringUuid("60bd7d3f-a4c3-4861-ab66-e903963669cb")
+                .creationStartDate(LocalDate.now().plusDays(1))
+                .creationEndDate(LocalDate.now().plusDays(1))
+                .timeRanges(
                         List.of(
-                                TimeSlotDto.builder()
-                                        .dayOfWeek(DayOfWeek.MONDAY)
-                                        .timeRanges(List.of(
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(9, 0))
-                                                        .endTime(LocalTime.of(10, 0))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build(),
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(11, 0))
-                                                        .endTime(LocalTime.of(11, 30))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build(),
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(23, 30))
-                                                        .endTime(LocalTime.of(1, 0))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build()
-                                        ))
+                                TimeRangeDto.builder()
+                                        .startTime(LocalTime.of(9, 0))
+                                        .endTime(LocalTime.of(10, 0))
+                                        .minHeadCount(1)
+                                        .maxHeadCount(2)
+                                        .price(1000)
+                                        .dayOfWeekList(List.of(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY))
                                         .build(),
-
-                                TimeSlotDto.builder()
-                                        .dayOfWeek(DayOfWeek.TUESDAY)
-                                        .timeRanges(List.of(
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(12, 50))
-                                                        .endTime(LocalTime.of(13, 10))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build(),
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(16, 0))
-                                                        .endTime(LocalTime.of(16, 40))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build(),
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(23, 0))
-                                                        .endTime(LocalTime.of(2, 0))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build()
-                                        ))
+                                TimeRangeDto.builder()
+                                        .startTime(LocalTime.of(23, 30))
+                                        .endTime(LocalTime.of(1, 0))
+                                        .minHeadCount(1)
+                                        .maxHeadCount(2)
+                                        .price(1000)
+                                        .dayOfWeekList(List.of(DayOfWeek.THURSDAY, DayOfWeek.SUNDAY))
                                         .build(),
-
-                                TimeSlotDto.builder()
-                                        .dayOfWeek(DayOfWeek.THURSDAY)
-                                        .timeRanges(List.of(
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(13, 0))
-                                                        .endTime(LocalTime.of(14, 0))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build()
-                                        ))
-                                        .build(),
-
-                                TimeSlotDto.builder()
-                                        .dayOfWeek(DayOfWeek.FRIDAY)
-                                        .timeRanges(List.of(
-                                                TimeRangeDto.builder()
-                                                        .startTime(LocalTime.of(13, 0))
-                                                        .endTime(LocalTime.of(14, 0))
-                                                        .minHeadCount(1)
-                                                        .maxHeadCount(2)
-                                                        .price(1000).build()
-                                        ))
+                                TimeRangeDto.builder()
+                                        .startTime(LocalTime.of(11, 40))
+                                        .endTime(LocalTime.of(11, 59))
+                                        .minHeadCount(1)
+                                        .maxHeadCount(2)
+                                        .price(1000)
                                         .build()
-                        )
-                )
-                .build();
-        batchCreationOfSessionUseCase.batchCreationOfSession(batchCreationOfSessionDto);
+                                )
+                        ).build();
+
+        Integer res = batchCreationOfSessionUseCase.batchCreationOfSession(batchCreationOfSessionDto);
     }
 
 }

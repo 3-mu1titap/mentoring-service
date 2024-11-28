@@ -58,9 +58,9 @@ public class MentoringSessionDslRepositoryImpl implements MentoringSessionDslRep
                                 tuple -> TimeRange.builder()
                                         .startTime(tuple.get(mentoringSessionEntity.startTime))
                                         .endTime(tuple.get(mentoringSessionEntity.endTime))
-                                        .isNextDay(tuple.get(new CaseBuilder()
-                                                .when(mentoringSessionEntity.startTime.gt(mentoringSessionEntity.endTime)).then(true)
-                                                .otherwise(false)))
+//                                        .isNextDay(tuple.get(new CaseBuilder()
+//                                                .when(mentoringSessionEntity.startTime.gt(mentoringSessionEntity.endTime)).then(true)
+//                                                .otherwise(false)))
                                         .build(),
                                 Collectors.toList()
                         )

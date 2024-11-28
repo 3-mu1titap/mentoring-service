@@ -14,8 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class TimeSlotDto {
-    private DayOfWeek dayOfWeek;
+
     private List<TimeRangeDto> timeRanges;
-    //private Map<DayOfWeek, List<TimeRangeDto>> timeSlots;
 
 }

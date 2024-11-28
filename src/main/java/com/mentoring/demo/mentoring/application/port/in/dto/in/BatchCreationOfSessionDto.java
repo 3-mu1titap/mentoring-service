@@ -14,7 +14,9 @@ import java.util.List;
 @Builder
 public class BatchCreationOfSessionDto {
     private String mentoringUuid;
-
-    private LocalDate deadLineDate; // 일괄생성마감일
-    private List<TimeSlotDto> timeSlotDtoList;
+    //private String mentorUuid;
+    private LocalDate creationStartDate; // 일괄생성시작일
+    private LocalDate creationEndDate; // 일괄생성마감일
+    private List<TimeRangeDto> timeRanges;
+    //private TimeSlotDto timeSlot;
 }

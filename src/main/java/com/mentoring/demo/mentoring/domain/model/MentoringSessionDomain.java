@@ -75,7 +75,7 @@ public class MentoringSessionDomain {
                         .uuid(UUID.randomUUID().toString()) // 세션 uuid 생성
                         .mentoringUuid(mentoringUuid)
                         .startDate(date)
-                        .endDate(timeRange.getIsNextDay() ? date.plusDays(1) : date)
+                        .endDate(timeRange.getEndDate())
                         .startTime(timeRange.getStartTime())
                         .endTime(timeRange.getEndTime())
                         .deadlineDate(date.minusDays(1))

@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springdoc.core.annotations.ParameterObject;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
+
 @Getter
 @Setter
 @ParameterObject
@@ -25,4 +28,7 @@ public class TimeRangeVo {
 
     @Schema(description = "가격", example = "100")
     private Integer price;
+
+    @Schema(description = "요일 리스트 null이면 매일 생성", example = "[\"MONDAY\",\"TUESDAY\"]")
+    private List<DayOfWeek> dayOfWeekList;
 }
