@@ -23,5 +23,7 @@ public class MentoringAddRequestVo {
     private List<SessionAddRequestVo> sessionList;
     private List<MentoringCategoryVo> categoryList;
 
+    private List<MentoringHashTagVo> hashTagList;
+
 
 }

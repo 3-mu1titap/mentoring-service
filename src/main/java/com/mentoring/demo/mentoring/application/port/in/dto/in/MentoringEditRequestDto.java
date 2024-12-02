@@ -22,4 +22,6 @@ public class MentoringEditRequestDto{
 
     private List<MentoringCategoryDto> categoryList;
 
+    private List<MentoringHashTagDto> hashTagList;
+
 }

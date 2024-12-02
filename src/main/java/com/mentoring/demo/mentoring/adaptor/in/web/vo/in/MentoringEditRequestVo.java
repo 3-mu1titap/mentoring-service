@@ -24,4 +24,6 @@ public class MentoringEditRequestVo {
 
     private List<MentoringCategoryVo> categoryList;
 
+    private List <MentoringHashTagVo> hashTagList;
+
 }

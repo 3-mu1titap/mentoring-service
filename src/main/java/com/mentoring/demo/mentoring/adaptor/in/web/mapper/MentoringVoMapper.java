@@ -2,10 +2,7 @@ package com.mentoring.demo.mentoring.adaptor.in.web.mapper;
 
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringEditRequestVo;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.AddMentoringSessionDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringCategoryDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.in.dto.in.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -47,6 +44,15 @@ public class MentoringVoMapper {
                                 )
                                 .toList() : null
                 )
+                .hashTagList(
+                        vo.getHashTagList() != null ? vo.getHashTagList().stream()
+                                .map(hashTagVo -> MentoringHashTagDto.builder()
+                                        .hashtagId(hashTagVo.getHashtagId())
+                                        .hashtagName(hashTagVo.getHashtagName())
+                                        .build()
+                                )
+                                .toList() : null
+                )
                 .build();
 
     }
@@ -60,7 +66,7 @@ public class MentoringVoMapper {
                 .isReusable(vo.getIsReusable())
                 .thumbnailUrl(vo.getThumbnailUrl())
                 .categoryList(
-                        vo.getCategoryList().stream()
+                        vo.getCategoryList() != null ? vo.getCategoryList().stream()
                                 .map(categoryVo ->
                                         MentoringCategoryDto.builder()
                                                 .topCategoryCode(categoryVo.getTopCategoryCode())
@@ -71,7 +77,16 @@ public class MentoringVoMapper {
                                                 .bottomCategoryName(categoryVo.getBottomCategoryName())
                                                 .build()
                                 )
-                                .toList()
+                                .toList() : null
+                )
+                .hashTagList(
+                        vo.getHashTagList() != null ?vo.getHashTagList().stream()
+                                .map(hashTagVo -> MentoringHashTagDto.builder()
+                                        .hashtagId(hashTagVo.getHashtagId())
+                                        .hashtagName(hashTagVo.getHashtagName())
+                                        .build()
+                                )
+                                .toList() : null
                 )
                 .build();
     }

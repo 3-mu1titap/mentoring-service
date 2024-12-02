@@ -32,6 +32,8 @@ public class  MentoringAddRequestOutDto {
     private List<MentoringSessionOutDto> sessionList;
     @Setter
     private List<MentoringCategoryOutDto> categoryList;
+    @Setter
+    private List<MentoringHashtagOutDto> hashtagList;
 
     public MentoringEntity toEntity(){
         return MentoringEntity.builder()

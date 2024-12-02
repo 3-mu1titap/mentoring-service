@@ -1,6 +1,7 @@
 package com.mentoring.demo.mentoring.application.mapper;
 
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringAddRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringHashtagOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringCategoryOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
@@ -25,7 +26,8 @@ public class MentoringDtoMapper {
                 .isReusable(domain.getIsReusable())
                 .isDeleted(domain.getIsDeleted())
                 .sessionList(toSessionOutDto(domain)) // 세션 리스트 변환
-                .categoryList(mentoringCategoryOutDto(domain)) // 카테고리 리스트 변환
+                .categoryList(getMentoringCategoryOutDto(domain)) // 카테고리 리스트 변환
+                .hashtagList(getMentoringHashtagOutDto(domain)) // 해시태그 리스트 변환
                 .build();
     }
 
@@ -49,7 +51,7 @@ public class MentoringDtoMapper {
                         .build())
                 .toList() : null;
     }
-    public static List<MentoringCategoryOutDto> mentoringCategoryOutDto (MentoringDomain domain){
+    public static List<MentoringCategoryOutDto> getMentoringCategoryOutDto (MentoringDomain domain){
         return domain.getMentoringCategories() != null ?domain.getMentoringCategories().stream()
                 .map(category -> MentoringCategoryOutDto.builder()
                                     .mentoringUuid(category.getMentoringUuid())
@@ -60,6 +62,14 @@ public class MentoringDtoMapper {
                                     .middleCategoryName(category.getMiddleCategoryName())
                                     .bottomCategoryName(category.getBottomCategoryName())
                                     .build())
+                .toList() : null;
+    }
+    public static List<MentoringHashtagOutDto> getMentoringHashtagOutDto (MentoringDomain domain){
+        return domain.getMentoringHashtags() != null ? domain.getMentoringHashtags().stream()
+                .map(hashtag -> MentoringHashtagOutDto.builder()
+                        .hashtagId(hashtag.getHashtagId())
+                        .hashtagName(hashtag.getHashtagName())
+                        .build())
                 .toList() : null;
     }
     public static List<MentoringCategoryAfterOutDto> toMentoringCategoryAfterOutDto (MentoringDomain domain){

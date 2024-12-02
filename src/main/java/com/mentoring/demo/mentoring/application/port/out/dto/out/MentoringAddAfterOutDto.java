@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"mentoringSessionAddAfterOutDtoList", "mentoringCategoryAfterOutDtoList"})
+@ToString(exclude = {"mentoringSessionAddAfterOutDtoList", "mentoringCategoryAfterOutDtoList", "mentoringHashTagAfterOutDto"})
 public class MentoringAddAfterOutDto {
     private String mentoringId;
 
@@ -36,5 +36,8 @@ public class MentoringAddAfterOutDto {
 
     @Setter
     private List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtoList;
+
+    @Setter
+    private MentoringHashTagAfterOutDto mentoringHashTagAfterOutDto;
 
 }

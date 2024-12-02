@@ -2,6 +2,7 @@ package com.mentoring.demo.mentoring.adaptor.out.mysql.mapper;
 
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringCategoryEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringEntity;
+import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringHashTagEntity;
 import com.mentoring.demo.mentoring.adaptor.out.mysql.entity.MentoringSessionEntity;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
@@ -15,9 +16,6 @@ import java.util.stream.IntStream;
 
 @Component
 public class mentoringEntityMapper {
-    /**
-     * out port dto -> JPA entity 변환
-     */
 
     // MentoringEditTransactionDto -> MentoringEntity
     public static MentoringEntity from( MentoringEditRequestOutDto dto) {
@@ -89,6 +87,10 @@ public class mentoringEntityMapper {
                         .build())
                 .toList();
     }
+
+    /**
+     * 카테고리
+     */
     public static List<MentoringCategoryAfterOutDto> toMentoringCategoryAfterOutDto(
             List<MentoringCategoryEntity> categoryEntities,
             List<MentoringCategoryOutDto> mentoringAddRequestOutDtos
@@ -117,7 +119,7 @@ public class mentoringEntityMapper {
     public static List<MentoringCategoryAfterOutDto> of(
             List<MentoringCategoryEntity> entities, List<MentoringCategoryAfterOutDto> categoryAfterOutDtos
     ) {
-        return IntStream.range(0, entities.size())
+        return entities != null ? IntStream.range(0, entities.size())
                 .mapToObj(i -> {
                     MentoringCategoryEntity categoryEntity = entities.get(i);
                     MentoringCategoryAfterOutDto afterOutDto = categoryAfterOutDtos.get(i);
@@ -135,9 +137,8 @@ public class mentoringEntityMapper {
                             .updatedAt(categoryEntity.getUpdatedAt())
                             .build();
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) :  null;
     }
-
 
 
 }
