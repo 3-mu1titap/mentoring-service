@@ -5,11 +5,14 @@ import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringEditRequestDto;
+import com.mentoring.demo.mentoring.application.port.out.MentoringHashtagRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.MentoringRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
+import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.*;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringCategoryAfterOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringHashTagAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import com.mentoring.demo.mentoring.domain.model.MentoringDomain;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +29,9 @@ import java.util.UUID;
 @Transactional
 public class MentoringService implements MentoringUseCase {
     private final MentoringRepositoryOutPort mentoringRepositoryOutPort;
+    private final MentoringHashtagRepositoryOutPort mentoringHashtagRepositoryOutPort;
     private final MentoringSessionRepositoryOutPort mentoringSessionRepositoryOutPort;
-    private final SendMessageUseCase sendMessageUseCase;
+    private final SendMessageOutPort sendMessageOutPort;
     
     @Override
     public void createMentoringWithSession(MentoringAddRequestDto mentoringAddRequestDto) {
@@ -42,19 +46,26 @@ public class MentoringService implements MentoringUseCase {
         MentoringAddAfterOutDto mentoringAddAfterOutDto =
                 mentoringRepositoryOutPort.createMentoring(mentoringAddRequestOutDto);
         // 멘토링 세션 저장
-        if(mentoringAddRequestDto.getSessionList() != null){
+        if(mentoringAddRequestOutDto.getSessionList() != null){
             List<MentoringSessionAddAfterOutDto> mentoringSessionAddAfterDto =
                     mentoringSessionRepositoryOutPort.createMentoringSession(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
             mentoringAddAfterOutDto.setMentoringSessionAddAfterOutDtoList(mentoringSessionAddAfterDto);
         }
         // 멘토링 카테고리 저장
-        if(mentoringAddRequestDto.getCategoryList() != null){
+        if(mentoringAddRequestOutDto.getCategoryList() != null){
             List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDto =
                     mentoringRepositoryOutPort.createMentoringCategory(mentoringAddAfterOutDto, mentoringAddRequestOutDto);
             mentoringAddAfterOutDto.setMentoringCategoryAfterOutDtoList(mentoringCategoryAfterOutDto);
         }
+        // 멘토링 해시태그 저장
+        if(mentoringAddRequestOutDto.getHashtagList() != null){
+            MentoringHashTagAfterOutDto mentoringHashtag =
+                    mentoringHashtagRepositoryOutPort.createMentoringHashtag(mentoringAddAfterOutDto, mentoringAddRequestOutDto.getHashtagList());
+            mentoringAddAfterOutDto.setMentoringHashTagAfterOutDto(mentoringHashtag);
+        }
 
-        sendMessageUseCase.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
+        sendMessageOutPort.sendCreateMentoringMessage("create-mentoring", mentoringAddAfterOutDto);
+
     }
 
     @Override
@@ -65,17 +76,20 @@ public class MentoringService implements MentoringUseCase {
         MentoringDomain.checkUpdateObject(mentoringResponseOutDto);
         // 멘토링 카테고리 삭제
         if (mentoringEditRequestDto.getCategoryList() != null) {
-            mentoringRepositoryOutPort.deleteMentoringCategory(mentoringEditRequestDto.getUuid());
+            mentoringRepositoryOutPort.deleteMentoringCategory(mentoringResponseOutDto.getId());
+        }
+        // 멘토링 해시태그 삭제
+        if (mentoringEditRequestDto.getHashTagList() != null) {
+            mentoringHashtagRepositoryOutPort.deleteMentoringHashtag(mentoringResponseOutDto.getId());
         }
         MentoringDomain mentoringDomain =
                 MentoringDomain.updateMentoring(mentoringEditRequestDto, mentoringResponseOutDto);
 
         MentoringEditRequestOutDto mentoringEditRequestOutDto = MentoringEditRequestOutDto.from(mentoringDomain);
-        // 멘토링+카테고리 업데이트
-        List<MentoringCategoryAfterOutDto> mentoringCategoryAfterOutDtos =
-                mentoringRepositoryOutPort.updateMentoring(mentoringEditRequestOutDto);
-        mentoringEditRequestOutDto.setCategoryList(mentoringCategoryAfterOutDtos);
-        sendMessageUseCase.sendUpdateMentoringMessage("update-mentoring", mentoringEditRequestOutDto);
+        // 멘토링+카테고리+해시태그 업데이트
+        mentoringEditRequestOutDto.setCategoryList(mentoringRepositoryOutPort.updateMentoring(mentoringEditRequestOutDto));
+        // 멘토링 업데이트 메시지 발행
+        sendMessageOutPort.sendUpdateMentoringMessage("update-mentoring", mentoringEditRequestOutDto);
     }
 }
 

@@ -18,5 +18,5 @@ public interface MentoringRepositoryOutPort {
 
     MentoringResponseOutDto findByMentoringUuid(String mentoringUuid);
 
-    void deleteMentoringCategory(String mentoringUuid);
+    void deleteMentoringCategory(String mentoringId);
 }

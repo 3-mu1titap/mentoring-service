@@ -21,4 +21,5 @@ public class MentoringAddRequestDto{
 
     private List<AddMentoringSessionDto> sessionList;
     private List<MentoringCategoryDto> categoryList;
+    private List<MentoringHashTagDto> hashTagList;
 }

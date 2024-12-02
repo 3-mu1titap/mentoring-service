@@ -32,6 +32,7 @@ public class MentoringDomain {
 
     private List<MentoringSessionDomain> mentoringSessions;
     private List<MentoringCategoryDomain> mentoringCategories;
+    private List<MentoringHashtagDomain> mentoringHashtags;
 
 
     // 도메인 로직: 오늘 날짜에 시작하는 세션이 있는지 검증
@@ -96,6 +97,16 @@ public class MentoringDomain {
                                                 .build()
                         ).toList() : null
                 )
+                .mentoringHashtags( // 멘토링 해시태그
+                        dto.getHashTagList() != null ? dto.getHashTagList().stream()
+                        .map(
+                                hashtag -> MentoringHashtagDomain.builder()
+                                        .mentoringUuid(uuid)
+                                        .hashtagId(hashtag.getHashtagId())
+                                        .hashtagName(hashtag.getHashtagName())
+                                        .build()
+                        ).toList() : null
+                )
                 .build();
     }
 
@@ -114,19 +125,29 @@ public class MentoringDomain {
                 .isReusable(editDto.getIsReusable())
                 .isDeleted(mentoringResponseOutDto.getIsDeleted())
                 .mentoringCategories( // 멘토링 카테고리
-                        editDto.getCategoryList().stream()
+                        editDto.getCategoryList() != null ? editDto.getCategoryList().stream()
                                 .map(
                                         category -> MentoringCategoryDomain.builder()
                                                 .mentoringUuid(mentoringResponseOutDto.getUuid())
-                                                .topCategoryCode(category.getTopCategoryCode())
-                                                .middleCategoryCode(category.getMiddleCategoryCode())
-                                                .bottomCategoryCode(category.getBottomCategoryCode())
-                                                .topCategoryName(category.getTopCategoryName())
-                                                .middleCategoryName(category.getMiddleCategoryName())
-                                                .bottomCategoryName(category.getBottomCategoryName())
+                                                .topCategoryCode(category.getTopCategoryCode() != null ? category.getTopCategoryCode(): null)
+                                                .middleCategoryCode(category.getMiddleCategoryCode() != null ? category.getMiddleCategoryCode(): null)
+                                                .bottomCategoryCode(category.getBottomCategoryCode() != null ? category.getBottomCategoryCode(): null)
+                                                .topCategoryName(category.getTopCategoryName() != null ? category.getTopCategoryName(): null)
+                                                .middleCategoryName(category.getMiddleCategoryName() != null ? category.getMiddleCategoryName(): null)
+                                                .bottomCategoryName(category.getBottomCategoryName() != null ? category.getBottomCategoryName(): null)
                                                 .build()
-                                ).toList()
+                                ).toList() : null
                 )
+                    .mentoringHashtags( // 멘토링 해시태그
+                            editDto.getHashTagList() != null ? editDto.getHashTagList().stream()
+                                    .map(
+                                            hashtag -> MentoringHashtagDomain.builder()
+                                                    .mentoringUuid(mentoringResponseOutDto.getUuid())
+                                                    .hashtagId(hashtag.getHashtagId())
+                                                    .hashtagName(hashtag.getHashtagName())
+                                                    .build()
+                                    ).toList() : null
+                    )
                 .build();
     }
 }
