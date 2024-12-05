@@ -6,8 +6,6 @@ import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.SessionValidationRequestVo;
 import com.mentoring.demo.mentoring.application.port.in.BatchCreationOfSessionUseCase;
 import com.mentoring.demo.mentoring.application.port.in.MentoringSessionUseCase;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.BatchCreationOfSessionDto;
-import com.mentoring.demo.mentoring.application.port.in.dto.in.SessionValidationRequestDto;
 import com.mentoring.demo.mentoring.application.port.in.dto.out.SessionValidationResponseDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionTimeResponseOutDto;
