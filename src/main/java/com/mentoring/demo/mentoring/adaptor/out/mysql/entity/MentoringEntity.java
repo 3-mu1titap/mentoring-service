@@ -36,7 +36,7 @@ public class MentoringEntity extends BaseEntity {
     @Comment("멘토 Uuid")
     private String mentorUuid;
 
-    @Column(length = 200)
+    @Column(length = 500)
     @Comment("썸네일 url")
     private String thumbnailUrl;
 
