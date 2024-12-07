@@ -21,13 +21,13 @@ class MentoringDslRepositoryTest {
     @Autowired SendMessageOutPort sendMessageOutPort;
     @Test
     void findPastDeadlineSessions(){
-        LocalDate localDate = LocalDate.of(2024, 12, 2);
+        LocalDate localDate = LocalDate.of(2024, 12, 3);
         List<DeadlinePastSessionResponseOutDto> pastDeadlineSessions = mentoringSessionDslRepository.findPastDeadlineSessions(localDate);
         //pastDeadlineSessions.forEach(log::info);
 
-//        pastDeadlineSessions.forEach(session ->
-//                sendMessageOutPort.sendDeadlinePastSessionMessage("deadline-past-session", session)
-//        );
+        pastDeadlineSessions.forEach(session ->
+                sendMessageOutPort.sendDeadlinePastSessionMessage("deadline-past-session", session)
+        );
 
         //pastDeadlineSessions.forEach(log::info);
     }
