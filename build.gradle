@@ -45,6 +45,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor'org.projectlombok:lombok'
+
+	//csv
+	implementation 'org.apache.commons:commons-csv:1.11.0'
+
+
 }
 dependencyManagement {
 	imports {
