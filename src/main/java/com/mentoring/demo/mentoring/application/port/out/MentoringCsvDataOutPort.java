@@ -8,3 +8,4 @@ import java.util.List;
 public interface MentoringCsvDataOutPort {
     List<MentoringAddRequestDto> MentoringCsvDataParser(MultipartFile file);
 }
+
