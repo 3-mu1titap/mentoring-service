@@ -1,6 +1,5 @@
 package com.mentoring.demo.mentoring.application.service;
 
-import com.mentoring.demo.mentoring.application.mapper.MentoringDtoMapper;
 import com.mentoring.demo.mentoring.application.mapper.SessionDtoMapper;
 import com.mentoring.demo.mentoring.application.port.in.MentoringSessionUseCase;
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
@@ -9,7 +8,6 @@ import com.mentoring.demo.mentoring.application.port.in.dto.in.SessionValidation
 import com.mentoring.demo.mentoring.application.port.out.MentoringSessionRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.SessionInquiryRepositoryOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringSessionOutDto;
-import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringSessionAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionTimeResponseOutDto;

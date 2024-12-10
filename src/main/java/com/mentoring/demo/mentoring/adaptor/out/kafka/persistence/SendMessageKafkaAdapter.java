@@ -4,6 +4,7 @@ import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringDataDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +20,7 @@ public class SendMessageKafkaAdapter implements SendMessageOutPort {
     private final KafkaTemplate<String, MentoringEditRequestOutDto> kafkaEditMentoringTemplate;
     private final KafkaTemplate<String, SessionCreatedAfterOutDto> kafkaSessionAddTemplate;
     private final KafkaTemplate<String, DeadlinePastSessionResponseOutDto> kafkaDeadlinePastSessionTemplate;
+    private final KafkaTemplate<String, MentoringDataDto> kafkaMentoringDataTemplate;
 
     @Override
     public void sendCreateMentoringMessage(String topic, MentoringAddAfterOutDto dto) {
@@ -62,6 +64,17 @@ public class SendMessageKafkaAdapter implements SendMessageOutPort {
         }
         catch (Exception e) {
             log.info("deadline past session event send 실패 : " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sendMentoringData(String topic, MentoringDataDto mentoringDataDto) {
+        try {
+            kafkaMentoringDataTemplate.send(topic, mentoringDataDto);
+        }
+        catch (Exception e) {
+            log.info("mentoring data event send 실패 : " + e);
             throw new RuntimeException(e);
         }
     }

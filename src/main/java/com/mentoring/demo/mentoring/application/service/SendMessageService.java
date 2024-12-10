@@ -5,6 +5,7 @@ import com.mentoring.demo.mentoring.application.port.out.SendMessageOutPort;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringDataDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,6 +36,11 @@ public class SendMessageService implements SendMessageUseCase {
     @Override
     public void sendDeadlinePastSession(String topic, DeadlinePastSessionResponseOutDto deadlinePastSessionResponseOutDto) {
         sendMessageOutPort.sendDeadlinePastSessionMessage(topic, deadlinePastSessionResponseOutDto);
+    }
+
+    @Override
+    public void sendMentoringData(String topic, MentoringDataDto mentoringDataDto) {
+        sendMessageOutPort.sendMentoringData(topic,mentoringDataDto);
     }
 
 

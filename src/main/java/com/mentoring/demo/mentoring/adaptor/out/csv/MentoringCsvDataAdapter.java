@@ -1,9 +1,12 @@
 package com.mentoring.demo.mentoring.adaptor.out.csv;
 
+import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringJpaRepository;
+import com.mentoring.demo.mentoring.adaptor.out.mysql.repository.MentoringSessionJpaRepository;
 import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
 import com.mentoring.demo.mentoring.application.port.out.MentoringCsvDataOutPort;
 import com.mentoring.demo.mentoring.common.entity.BaseResponseStatus;
 import com.mentoring.demo.mentoring.common.exception.BaseException;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -18,8 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
 
+    private final MentoringJpaRepository mentoringJpaRepository;
     @Override
     public List<MentoringAddRequestDto> MentoringCsvDataParser(MultipartFile file) {
         List<MentoringAddRequestDto> mentoringAddRequestDtos = new ArrayList<>();

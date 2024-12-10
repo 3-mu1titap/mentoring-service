@@ -3,6 +3,7 @@ package com.mentoring.demo.mentoring.application.port.in;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringDataDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 
 public interface SendMessageUseCase {
@@ -17,4 +18,5 @@ public interface SendMessageUseCase {
 
     void sendDeadlinePastSession(String topic , DeadlinePastSessionResponseOutDto deadlinePastSessionResponseOutDto);
 
+    void sendMentoringData(String topic, MentoringDataDto mentoringDataDto);
 }

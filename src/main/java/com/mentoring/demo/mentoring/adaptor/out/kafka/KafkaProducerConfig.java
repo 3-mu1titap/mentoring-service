@@ -3,6 +3,7 @@ package com.mentoring.demo.mentoring.adaptor.out.kafka;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.DeadlinePastSessionResponseOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringAddAfterOutDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.in.MentoringEditRequestOutDto;
+import com.mentoring.demo.mentoring.application.port.out.dto.out.MentoringDataDto;
 import com.mentoring.demo.mentoring.application.port.out.dto.out.SessionCreatedAfterOutDto;
 import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -81,6 +82,21 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, DeadlinePastSessionResponseOutDto> kafkaDeadlinePastSessionTemplate() {
         return new KafkaTemplate<>(deadlinePastSessionProducerFactory());
+    }
+
+    // 멘토링 데이터
+    @Bean
+    public ProducerFactory<String, MentoringDataDto> mentoringDataProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaClusterUri);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.ACKS_CONFIG, "all"); // -1 과 같음
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+    @Bean
+    public KafkaTemplate<String, MentoringDataDto> kafkaMentoringDataPastSessionTemplate() {
+        return new KafkaTemplate<>(mentoringDataProducerFactory());
     }
 
 }
