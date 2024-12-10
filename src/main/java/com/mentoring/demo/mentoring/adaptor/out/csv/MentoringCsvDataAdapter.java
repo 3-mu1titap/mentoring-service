@@ -106,6 +106,9 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
                     availableHours.remove(Integer.valueOf(j));
                 }
 
+                // 가격을 10 단위로 랜덤 생성
+                int price = (random.nextInt(91) + 10) * 10; // 100 ~ 1000, 10 단위
+
                 AddMentoringSessionDto session = AddMentoringSessionDto.builder()
                         .startDate(currentDate)
                         .endDate(currentDate)
@@ -114,7 +117,7 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
                         .deadlineDate(currentDate.minusDays(1))
                         .minHeadCount(random.nextInt(3) + 1) // 1-3명
                         .maxHeadCount(Math.min(random.nextInt(7) + 4, 10)) // 4-10명
-                        .price(random.nextInt(901) + 100) // 100-1000
+                        .price(price)
                         .build();
 
                 sessions.add(session);
@@ -126,6 +129,7 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
 
         return sessions;
     }
+
 
     private static final Map<String, String> DOMAIN_CATEGORY_MAP = new HashMap<>() {{
         put("이력서", "TC-CD7877C0");
@@ -159,6 +163,7 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
         put("연구", "TC-2A97B0CF");
         put("연구원", "TC-2A97B0CF");
         put("제약", "TC-2A97B0CF");
+        put("제약회사", "TC-2A97B0CF");
         put("연구직", "TC-2A97B0CF");
         put("배터리", "TC-2A97B0CF");
         put("배터리회사", "TC-2A97B0CF");
