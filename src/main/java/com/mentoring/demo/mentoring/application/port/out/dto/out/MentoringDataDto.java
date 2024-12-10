@@ -1,6 +1,5 @@
 package com.mentoring.demo.mentoring.application.port.out.dto.out;
 
-import com.mentoring.demo.mentoring.application.port.in.dto.in.MentoringAddRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +10,20 @@ import java.util.List;
 @NoArgsConstructor
 public class MentoringDataDto {
 
-    List<MentoringD> mentoringAddRequestDtoList;
+    List<String> mentoringUuid;
+    List<String> sessionUuid;
 
     @Builder
-    public MentoringDataDto(List<MentoringAddRequestDto> mentoringAddRequestDtoList) {
-        this.mentoringAddRequestDtoList = mentoringAddRequestDtoList;
+    public MentoringDataDto(List<String> mentoringUuid, List<String> sessionUuid){
+        this.mentoringUuid = mentoringUuid;
+        this.sessionUuid = sessionUuid;
     }
 
-    public static MentoringDataDto of(List<MentoringAddRequestDto> mentoringAddRequestDtoList) {
+    public static MentoringDataDto of(List<String> mentoringUuid, List<String> sessionUuid){
         return MentoringDataDto.builder()
-               .mentoringAddRequestDtoList(mentoringAddRequestDtoList)
-               .build();
+                .mentoringUuid(mentoringUuid)
+                .sessionUuid(sessionUuid)
+                .build();
     }
 
 }

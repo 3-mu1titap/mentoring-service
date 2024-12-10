@@ -3,6 +3,7 @@ package com.mentoring.demo.mentoring.adaptor.in.web;
 import com.mentoring.demo.mentoring.adaptor.in.web.mapper.MentoringVoMapper;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringAddRequestVo;
 import com.mentoring.demo.mentoring.adaptor.in.web.vo.in.MentoringEditRequestVo;
+import com.mentoring.demo.mentoring.adaptor.out.csv.MentoringCsvDataAdapter;
 import com.mentoring.demo.mentoring.application.port.in.MentoringCsvDataUseCase;
 import com.mentoring.demo.mentoring.application.port.in.MentoringUseCase;
 import com.mentoring.demo.mentoring.application.port.in.SendMessageUseCase;
@@ -25,7 +26,7 @@ import java.util.List;
 public class MentoringController {
     private final MentoringUseCase mentoringUseCase;
     private final MentoringCsvDataUseCase mentoringCsvDataUseCase;
-    private final SendMessageUseCase sendMessageUseCase;
+    private final MentoringCsvDataAdapter mentoringCsvDataAdapter;
 
     @Operation(summary = "멘토링 생성", description = "멘토링 기본 정보와 세션정보 받아서 멘토링 생성", tags = {"멘토링"})
     @PostMapping("")
@@ -63,9 +64,8 @@ public class MentoringController {
             mentoringUseCase.createMentoringWithSession(mentoringAddRequestDto);
         }
 
+        mentoringCsvDataAdapter.sendMentoringDto();
 
-        // 카프카로 리뷰 서비스에 전송
-        sendMessageUseCase.sendMentoringData("mentoring-data", MentoringDataDto.of(mentoringAddRequestDtoList));
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 }
