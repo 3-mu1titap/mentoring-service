@@ -127,50 +127,85 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
         return sessions;
     }
 
-    private static final List<String> DOMAIN_CATEGORIES = Arrays.asList(
-            "TC-CD7877C0", // 이력서
-            "TC-8C93C5F5", // 자소서
-            "TC-0489394A", // 면접
-            "TC-8E506504"  // 포트폴리오
-    );
+    private static final Map<String, String> DOMAIN_CATEGORY_MAP = new HashMap<>() {{
+        put("이력서", "TC-CD7877C0");
+        put("자소서", "TC-8C93C5F5");
+        put("면접", "TC-0489394A");
+        put("포트폴리오", "TC-8E506504");
+    }};
+
+    private static final Map<String, String> JOB_CATEGORY_MAP = new HashMap<>() {{
+        put("개발", "TC-8ACBA7E8");
+        put("네카라쿠배", "TC-8ACBA7E8");
+        put("AI", "TC-8ACBA7E8");
+        put("IT", "TC-8ACBA7E8");
+        put("디자인", "TC-AC2476E1");
+        put("디자이너", "TC-AC2476E1");
+        put("UI", "TC-AC2476E1");
+        put("UX", "TC-AC2476E1");
+        put("마케팅", "TC-8B337FE8");
+        put("마케터", "TC-8B337FE8");
+        put("영업", "TC-FBC0B657");
+        put("인사", "TC-806F308B");
+        put("금융", "TC-A2C6F50B");
+        put("은행", "TC-A2C6F50B");
+        put("펀드", "TC-A2C6F50B");
+        put("교육", "TC-E9363961");
+        put("대학", "TC-E9363961");
+        put("논문", "TC-E9363961");
+        put("과제", "TC-E9363961");
+        put("의료", "TC-3837D5AC");
+        put("간호", "TC-3837D5AC");
+        put("연구", "TC-2A97B0CF");
+        put("연구원", "TC-2A97B0CF");
+        put("제약", "TC-2A97B0CF");
+        put("연구직", "TC-2A97B0CF");
+        put("배터리", "TC-2A97B0CF");
+        put("배터리회사", "TC-2A97B0CF");
+        put("반도체", "TC-2A97B0CF");
+        put("데이터", "TC-2A97B0CF");
+    }};
 
     private List<MentoringCategoryDto> generateCategoryList(String name) {
         List<MentoringCategoryDto> categoryList = new ArrayList<>();
-        Random random = new Random();
+        Set<String> addedCategories = new HashSet<>();
 
-        // 1. 도메인 카테고리 선택 (필수)
-        String domainCategory = DOMAIN_CATEGORIES.get(random.nextInt(DOMAIN_CATEGORIES.size()));
-        categoryList.add(createCategoryDto(domainCategory));
+        // 1. 도메인 카테고리 매칭
+        String domainCategoryCode = selectDomainCategory(name);
+        if (domainCategoryCode != null && addedCategories.add(domainCategoryCode)) {
+            categoryList.add(createCategoryDto(domainCategoryCode));
+        }
 
-        // 2. 직군 카테고리 선택
-        String jobCategory = selectJobCategory(name.toLowerCase());
-        if (jobCategory != null) {
-            categoryList.add(createCategoryDto(jobCategory));
+        // 2. 직군 카테고리 매칭
+        String jobCategoryCode = selectJobCategory(name.toLowerCase());
+        if (jobCategoryCode != null && addedCategories.add(jobCategoryCode)) {
+            categoryList.add(createCategoryDto(jobCategoryCode));
+        }
+
+        // 3. 기본값으로 "전체" 추가 (아무것도 매칭되지 않은 경우)
+        if (categoryList.size() < 2) {
+            categoryList.add(createCategoryDto("TC-B4CD8B59")); // "전체" 카테고리
         }
 
         return categoryList;
     }
 
-    private String selectJobCategory(String name) {
-        Map<String, String> jobKeywords = new HashMap<>();
-        jobKeywords.put("개발", "TC-8ACBA7E8");
-        jobKeywords.put("디자인", "TC-AC2476E1");
-        jobKeywords.put("마케팅", "TC-8B337FE8");
-        jobKeywords.put("영업", "TC-FBC0B657");
-        jobKeywords.put("인사", "TC-806F308B");
-        jobKeywords.put("금융", "TC-A2C6F50B");
-        jobKeywords.put("교육", "TC-E9363961");
-        jobKeywords.put("의료", "TC-3837D5AC");
-        jobKeywords.put("연구", "TC-2A97B0CF");
-
-
-        for (Map.Entry<String, String> entry : jobKeywords.entrySet()) {
+    private String selectDomainCategory(String name) {
+        for (Map.Entry<String, String> entry : DOMAIN_CATEGORY_MAP.entrySet()) {
             if (name.contains(entry.getKey())) {
                 return entry.getValue();
             }
         }
+        return null; // 매칭되는 도메인 카테고리가 없는 경우 null 반환
+    }
 
-        return "TC-B4CD8B59"; // 매칭되는 키워드가 없을 경우 "전체" 카테고리
+    private String selectJobCategory(String name) {
+        for (Map.Entry<String, String> entry : JOB_CATEGORY_MAP.entrySet()) {
+            if (name.contains(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return null; // 매칭되는 직군 카테고리가 없는 경우 null 반환
     }
 
     private MentoringCategoryDto createCategoryDto(String categoryCode) {
@@ -183,7 +218,6 @@ public class MentoringCsvDataAdapter implements MentoringCsvDataOutPort {
         categoryNames.put("TC-AC2476E1", "디자인");
         categoryNames.put("TC-8B337FE8", "마케팅·홍보·조사");
         categoryNames.put("TC-B4CD8B59", "전체");
-
 
         return MentoringCategoryDto.builder()
                 .topCategoryCode(categoryCode)
