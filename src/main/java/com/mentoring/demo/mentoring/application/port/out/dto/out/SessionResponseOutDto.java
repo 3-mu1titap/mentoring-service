@@ -17,11 +17,11 @@ public class SessionResponseOutDto {
     private LocalDate startDate; // 세션 참가 신청 쉬소 시 , 캘린더 read data 업데이트에 필요
 
     public static SessionResponseOutDto from(MentoringSessionEntity entity){
-        return SessionResponseOutDto.builder()
+        return entity!=null ? SessionResponseOutDto.builder()
                 .maxHeadCount(entity.getMaxHeadCount())
                 .deadlineDate(entity.getDeadlineDate())
                 .isClosed(entity.getIsClosed())
                 .startDate(entity.getStartDate())
-                .build();
+                .build() : null;
     }
 }
