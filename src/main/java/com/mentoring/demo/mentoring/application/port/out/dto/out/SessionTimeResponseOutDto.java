@@ -19,11 +19,11 @@ public class SessionTimeResponseOutDto {
     private LocalTime endTime;
 
     public static SessionTimeResponseOutDto from(MentoringSessionEntity entity) {
-        return SessionTimeResponseOutDto.builder()
+        return entity != null ?SessionTimeResponseOutDto.builder()
                 .startDate(entity.getStartDate())
                 .startTime(entity.getStartTime())
                 .endDate(entity.getEndDate())
                 .endTime(entity.getEndTime())
-                .build();
+                .build() : null;
     }
 }
