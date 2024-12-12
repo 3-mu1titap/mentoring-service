@@ -72,6 +72,7 @@ public class MentoringSessionDslRepositoryImpl implements MentoringSessionDslRep
     public List<DeadlinePastSessionResponseOutDto> findPastDeadlineSessions(LocalDate now) {
         return queryFactory.select(Projections.constructor(DeadlinePastSessionResponseOutDto.class,
                         mentoringSessionEntity.mentoringEntity.id.stringValue(),
+                        mentoringSessionEntity.mentoringEntity.name,
                         mentoringSessionEntity.mentoringEntity.mentorUuid,
                         mentoringSessionEntity.id.stringValue(),
                         mentoringSessionEntity.uuid,
